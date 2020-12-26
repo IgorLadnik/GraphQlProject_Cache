@@ -1,0 +1,46 @@
+
+mutation AddSubMenu($submenu: SubMenuInputType) {
+  subMenuMutation {
+    createSubMenu(subMenu: $submenu) {
+      id
+      name
+      menuId
+    }
+  }
+}
+
+// QUERY VARIABLES
+{
+  "submenu": {
+    "name": "Hot Chocolate",
+    "description": "Hot Chocolate withor without sugar",
+    "imageUrl": "hotchocolate.png",
+    "menuId": 2,
+    "price": 21
+  }
+}
+
+----------------------------------------------------------
+
+
+query {
+  menuQuery {
+    menus {
+      id
+      submenus {
+        name
+      }
+    }
+  }
+}
+
+----------------------------------------------------------
+
+query {
+  reservationQuery {
+      reservations {
+        id
+        name     
+      }
+  }
+}
