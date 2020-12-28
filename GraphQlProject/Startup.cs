@@ -10,15 +10,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using GraphQlProject.Interfaces;
-using GraphQlProject.Services;
+//using GraphQlProject.Interfaces;
+//using GraphQlProject.Services;
 using GraphQlProject.Type;
 using GraphQlProject.Query;
 using GraphQlProject.Schema;
 using GraphQL.Types;
 using GraphQL.Server;
 using GraphiQl;
-using GraphQlProject.Mutation;
+//using GraphQlProject.Mutation;
 using GraphQlProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -41,26 +41,20 @@ namespace GraphQlProject
         {
             services.AddDbContext<GraphQLDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+            //var dbContext = services.BuildServiceProvider(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))).GetService<GraphQLDbContext>();
+
             services.AddControllers();
 
-            services.AddTransient<IMenu, MenuService>();
-            services.AddTransient<ISubMenu, SubMenuService>();
-            services.AddTransient<IReservation, ReservationService>();
-            services.AddTransient<MenuType>();
-            services.AddTransient<SubMenuType>();
-            services.AddTransient<ReservationType>();
-            services.AddTransient<MenuQuery>();
-            services.AddTransient<SubMenuQuery>();
-            services.AddTransient<ReservationQuery>();
+            services.AddTransient<AffiliationType>();
+            services.AddTransient<OrganizationType>();
+            services.AddTransient<RelationType>();
+            services.AddTransient<PersonType>();
+            services.AddTransient<RoleType>();
+            services.AddTransient<UserType>();
+            services.AddTransient<PersonQuery>();
+            services.AddTransient<OrganizationQuery>();
             services.AddTransient<RootQuery>();
-            services.AddTransient<MenuInputType>();
-            services.AddTransient<SubMenuInputType>();
-            services.AddTransient<ReservationInputType>();
-            services.AddTransient<MenuMutation>();
-            services.AddTransient<SubMenuMutation>();
-            services.AddTransient<ReservationMutation>();
-            services.AddTransient<RootMutation>();
             services.AddSingleton<ISchema, RootSchema>();
 
             services.AddGraphQL(options => 

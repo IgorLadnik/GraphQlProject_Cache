@@ -10,9 +10,8 @@ namespace GraphQlProject.Query
     {
         public RootQuery()
         {
-            Field<MenuQuery>("menuQuery", resolve: contect => new { });
-            Field<SubMenuQuery>("subMenuQuery", resolve: contect => new { });
-            Field<ReservationQuery>("reservationQuery", resolve: contect => new { });
+            Field<PersonQuery>("personQuery", resolve: context => new { });
+            Field<OrganizationQuery>("organizationQuery", resolve: context => new { });
         }
     }
 }
