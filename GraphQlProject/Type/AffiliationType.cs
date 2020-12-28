@@ -16,12 +16,14 @@ namespace GraphQlProject.Type
             Field(a => a.Id);
             Field(a => a.StrId);
             Field(a => a.Since);
+
             Field<OrganizationType>("organization", resolve: context =>
             {
                 var affiliations = dbContext.Affiliations;
                 var organizationId = affiliations.Where(a => a.Id == context.Source.Id).First().OrganizationId;
                 return dbContext.Organizations.Where(o => o.Id == organizationId).First();
             });
+            
             Field<RoleType>("role", resolve: context =>
             {
                 var affiliations = dbContext.Affiliations;

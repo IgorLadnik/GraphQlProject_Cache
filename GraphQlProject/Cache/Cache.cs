@@ -10,7 +10,7 @@ namespace GraphQlProject
 {
     public class Cache
     {
-        public int CurrentNumber { get; set; }
+        public bool IsFirstCall { get; set; } = true;
         public object Payload { get; set; }
     }
 

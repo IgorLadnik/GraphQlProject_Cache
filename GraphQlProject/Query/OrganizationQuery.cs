@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 using GraphQL.Types;
 //using GraphQlProject.Interfaces;
 using GraphQlProject.Type;
@@ -14,14 +16,27 @@ namespace GraphQlProject.Query
     {
         public OrganizationQuery(GraphQLDbContext dbContext)
         {
-            const string name = "organizations";
-
-            Field<ListGraphType<OrganizationType>>(name, resolve: context =>
+            Field<ListGraphType<OrganizationType>>("organizations", resolve: context =>
             {
                 var organizations = dbContext.Organizations;
-                context.SetCache(name, new Cache { Payload = organizations.Select(o => o.Id).ToArray() });
+                //context.SetCache("organizations", new Cache { Payload = organizations.Select(o => o.Id).ToList() });
+                context.SetCache("organizations", new Cache { Payload = organizations.ToList() });
                 return organizations;
             });
         }
     }
 }
+
+/*
+query {
+  organizationQuery {
+    organizations {
+      name
+      parent {
+        name
+      }
+    }
+  }
+}
+
+*/

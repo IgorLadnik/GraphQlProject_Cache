@@ -14,12 +14,12 @@ namespace GraphQlProject.Query
     {
         public PersonQuery(GraphQLDbContext dbContext)
         {
-            const string name = "persons";
-
-            Field<ListGraphType<PersonType>>(name, resolve: context =>
+            Field<ListGraphType<PersonType>>("persons", resolve: context =>
             {
                 var persons = dbContext.Persons;
-                context.SetCache(name, new Cache { Payload = persons.Select(p => p.Id).ToArray() });
+                var payload = persons.Select(p => p.Id).ToList();
+                context.SetCache("personsInAffiliations", new Cache { Payload = payload });
+                context.SetCache("personsInRelations", new Cache { Payload = payload });
                 return persons;
             });
         }
