@@ -33,16 +33,3 @@ namespace GraphQlProject.Type
     }
 }
 
-/*
-query {
-  organizationQuery {
-    organizations {
-      name
-      parent {
-        name
-      }
-    }
-  }
-}
-
-*/

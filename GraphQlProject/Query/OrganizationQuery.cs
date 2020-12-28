@@ -19,7 +19,6 @@ namespace GraphQlProject.Query
             Field<ListGraphType<OrganizationType>>("organizations", resolve: context =>
             {
                 var organizations = dbContext.Organizations;
-                //context.SetCache("organizations", new Cache { Payload = organizations.Select(o => o.Id).ToList() });
                 context.SetCache("organizations", new Cache { Payload = organizations.ToList() });
                 return organizations;
             });

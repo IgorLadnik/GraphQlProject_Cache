@@ -18,8 +18,8 @@ namespace GraphQlProject.Query
             {
                 var persons = dbContext.Persons;
                 var payload = persons.Select(p => p.Id).ToList();
-                context.SetCache("personsInAffiliations", new Cache { Payload = payload });
-                context.SetCache("personsInRelations", new Cache { Payload = payload });
+                context.SetCache("personIdsInAffiliations", new Cache { Payload = payload });
+                context.SetCache("personIdsInRelations", new Cache { Payload = payload });
                 return persons;
             });
         }

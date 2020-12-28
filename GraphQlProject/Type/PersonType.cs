@@ -25,7 +25,7 @@ namespace GraphQlProject.Type
 
             Field<ListGraphType<AffiliationType>>("affiliations", resolve: context =>
             {
-                var cache = context.GetCache("personsInAffiliations");
+                var cache = context.GetCache("personIdsInAffiliations");
                 if (cache.IsFirstCall)
                 {
                     cache.IsFirstCall = false;
@@ -34,30 +34,30 @@ namespace GraphQlProject.Type
                     var personIds = (IList<int>)cache.Payload;
 
                     // Cache all data for the entire level
-                    context.SetCache("affiliations",
+                    context.SetCache("affiliationsInPersons",
                         // Fetch data from database for the entire level
                         new Cache { Payload = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId))?.ToList() });
                 }
 
                 // Get entities from cache
-                var affiliationsFromCache = (IList<Affiliation>)context.GetCache("affiliations").Payload;
+                var affiliationsFromCache = (IList<Affiliation>)context.GetCache("affiliationsInPersons").Payload;
 
                 return affiliationsFromCache.Where(a => a.PersonId == context.Source.Id);
             });
 
             Field<ListGraphType<RelationType>>("relations", resolve: context =>
             {
-                var cache = context.GetCache("personsInRelations");
+                var cache = context.GetCache("personIdsInRelations");
                 if (cache.IsFirstCall)
                 {
                     cache.IsFirstCall = false;
 
                     var personIds = (IList<int>)cache.Payload;
-                    context.SetCache("relations",
+                    context.SetCache("relationsInPersons",
                         new Cache { Payload = dbContext.Relations.Where(r => personIds.Contains(r.P2Id))?.ToList() });
                 }
 
-                var relationsFromCache = (IList<Relation>)context.GetCache("relations").Payload;
+                var relationsFromCache = (IList<Relation>)context.GetCache("relationsInPersons").Payload;
 
                 return relationsFromCache.Where(r => r.P1Id == context.Source.Id);
             });

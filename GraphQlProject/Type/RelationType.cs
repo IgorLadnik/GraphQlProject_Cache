@@ -18,6 +18,7 @@ namespace GraphQlProject.Type
             Field(r => r.Since);
             Field(r => r.Kind);
             Field(r => r.Notes);
+
             Field<PersonType>("p2", resolve: context =>
             {
                 var relations = dbContext.Relations;
