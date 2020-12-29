@@ -1,5 +1,4 @@
 ﻿using System;
-using GraphQlProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlProject.Data
