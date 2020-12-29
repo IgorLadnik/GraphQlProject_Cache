@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using GraphQL.Execution;
-using GraphQlProject.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlProject
 {
     public class Cache
     {
-        public bool IsFirstCall { get; set; } = true;
         public object Payload { get; set; }
+        public bool IsFilled { get => Payload != null; }
     }
 
     public static class IProvideUserContextEx 
     {
         public const string strCache = "cache";
         public const string strCacheName = "cache-name";
-
-        //public static string GetCurrentCacheName(this IProvideUserContext context) => (string)context.UserContext[strCacheName];
-        //public static void SetCurrentCacheName(this IProvideUserContext context, string cacheName) => context.UserContext[strCacheName] = cacheName;
 
         public static Dictionary<string, Cache> GetCacheDictionary(this IProvideUserContext context) => 
             context.UserContext.TryGetValue(strCache, out object obj)
@@ -45,5 +37,7 @@ namespace GraphQlProject
 
             IProvideUserContextEx.GetCacheDictionary(context)[key] = cache;
         }
+
+        public static bool IsFilled(this Cache cache) => cache != null && cache.IsFilled;
     }
 }

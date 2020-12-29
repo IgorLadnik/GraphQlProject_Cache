@@ -21,11 +21,11 @@ namespace GraphQlProject.Type
 
             Field<OrganizationType>("parent", resolve: context =>
             {
-                var cache = context.GetCache("organizations");
-                if (cache == null)
-                    context.SetCache("organizations", new Cache { Payload = dbContext.Organizations.ToList() });
+                const string cacheName = "parentOrganizations";
+                if (context.GetCache(cacheName) == null)
+                    context.SetCache(cacheName, new Cache { Payload = dbContext.Organizations.ToList() });
 
-                var organizations = (IList<Organization>)context.GetCache("organizations").Payload;
+                var organizations = (IList<Organization>)context.GetCache(cacheName).Payload;
                 var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
                 return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
             });

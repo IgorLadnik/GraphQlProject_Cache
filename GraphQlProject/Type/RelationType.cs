@@ -6,6 +6,7 @@ using GraphQL.Types;
 using GraphQlProject.Models;
 using GraphQlProject.Data;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace GraphQlProject.Type
 {
@@ -21,9 +22,16 @@ namespace GraphQlProject.Type
 
             Field<PersonType>("p2", resolve: context =>
             {
-                var relations = dbContext.Relations;
-                var personId = relations.Where(r => r.Id == context.Source.Id).First().P2Id;
-                return dbContext.Persons.Where(p => p.Id == personId).First();
+                var relations = (IList<Relation>)context.GetCache("relations").Payload;
+                if (context.GetCache("personsInRelations") == null) 
+                {
+                    var pIds = relations.Select(r => r.P2Id).ToList();
+                    context.SetCache("personsInRelations", new Cache { Payload = dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList() });
+                }
+
+                var persons = (IList<Person>)context.GetCache("personsInRelations").Payload;
+                var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
+                return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
             });
         }
     }

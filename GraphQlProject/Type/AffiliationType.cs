@@ -20,42 +20,46 @@ namespace GraphQlProject.Type
 
             Field<OrganizationType>("organization", resolve: context =>
             {
-                var cachePersonIds = context.GetCache("personIdsInAffiliations");
-                var cache = context.GetCache("organizations");
-                if (cachePersonIds != null && cache == null)
+                IList<Affiliation> affiliations;
+                if (context.GetCache("affiliations") == null)
                 {
-                    var personIds = (IList<int>)cachePersonIds.Payload;
-                    var organizationIds = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).Select(a => a.OrganizationId).Distinct().ToList();
-                    context.SetCache("organizations", new Cache 
-                    { 
-                        Payload = dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList(), 
-                        IsFirstCall = false 
-                    });
+                    var personIds = (IList<int>)context.GetCache("persons").Payload;
+                    affiliations = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList();
+                    context.SetCache("affiliations", new Cache { Payload = affiliations });
+                }
+
+                affiliations = (IList<Affiliation>)context.GetCache("affiliations").Payload;
+                if (context.GetCache("roles") == null)
+                {
+                    var organizationIds = affiliations.Select(a => a.OrganizationId).Distinct().ToList();
+                    context.SetCache("organizations", new Cache { Payload = dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList() });
                 }
 
                 var organizations = (IList<Organization>)context.GetCache("organizations").Payload;
-
-                return organizations.Where(o => o.Id == context.Source.Id).FirstOrDefault();
+                var organizationId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault().OrganizationId;
+                return organizations.Where(o => o.Id == organizationId).FirstOrDefault();
             });
 
             Field<RoleType>("role", resolve: context =>
             {
-                var cachePersonIds = context.GetCache("personIdsInAffiliations");
-                var cache = context.GetCache("roles");
-                if (cachePersonIds != null && cache == null)
+                IList<Affiliation> affiliations;
+                if (context.GetCache("affiliations") == null)
                 {
-                    var personIds = (IList<int>)cachePersonIds.Payload;
-                    var roleIds = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).Select(a => a.RoleId).Distinct().ToList();
-                    context.SetCache("roles", new Cache
-                    {
-                        Payload = dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList(),
-                        IsFirstCall = false
-                    });
+                    var personIds = (IList<int>)context.GetCache("persons").Payload;
+                    affiliations = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList();
+                    context.SetCache("affiliations", new Cache { Payload = affiliations });
+                }
+
+                affiliations = (IList<Affiliation>)context.GetCache("affiliations").Payload;
+                if (context.GetCache("roles") == null)
+                {
+                    var roleIds = affiliations.Select(a => a.RoleId).Distinct().ToList();
+                    context.SetCache("roles", new Cache { Payload = dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList() });
                 }
 
                 var roles = (IList<Role>)context.GetCache("roles").Payload;
-
-                return roles.Where(r => r.Id == context.Source.Id).FirstOrDefault();
+                var roleId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault().RoleId;
+                return roles.Where(r => r.Id == roleId).FirstOrDefault();
             });
         }
     }

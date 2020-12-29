@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GraphQlProject.Models;
+﻿using GraphQlProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlProject.Data
@@ -63,7 +59,7 @@ namespace GraphQlProject.Data
                 new Relation { Id = 4, StrId = "r_04", Since = 2016, Kind = "superior",  Notes = "",                    P1Id = 4, P2Id = 5 },
                 new Relation { Id = 5, StrId = "r_05", Since = 2019, Kind = "superior",  Notes = "a",                   P1Id = 6, P2Id = 3 },
                 new Relation { Id = 6, StrId = "r_06", Since = 2019, Kind = "friends",   Notes = "the closest friends", P1Id = 6, P2Id = 4 },
-                new Relation { Id = 7, StrId = "r_07", Since = 2017, Kind = "superior",  Notes = "",                    P1Id = 7, P2Id = 1 },
+                new Relation { Id = 7, StrId = "r_07", Since = 2017, Kind = "friends",   Notes = "",                    P1Id = 7, P2Id = 1 },
                 new Relation { Id = 8, StrId = "r_08", Since = 2017, Kind = "superior",  Notes = "",                    P1Id = 7, P2Id = 2 }
             );
 

@@ -1,29 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-//using GraphQlProject.Interfaces;
-//using GraphQlProject.Services;
 using GraphQlProject.Type;
 using GraphQlProject.Query;
 using GraphQlProject.Schema;
 using GraphQL.Types;
 using GraphQL.Server;
 using GraphiQl;
-//using GraphQlProject.Mutation;
 using GraphQlProject.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace GraphQlProject
 {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using GraphQL.Types;
-//using GraphQlProject.Interfaces;
 using GraphQlProject.Type;
-using GraphQL.Language.AST;
 using GraphQlProject.Data;
 
 namespace GraphQlProject.Query
@@ -18,8 +13,7 @@ namespace GraphQlProject.Query
             {
                 var persons = dbContext.Persons;
                 var payload = persons.Select(p => p.Id).ToList();
-                context.SetCache("personIdsInAffiliations", new Cache { Payload = payload });
-                context.SetCache("personIdsInRelations", new Cache { Payload = payload });
+                context.SetCache("persons", new Cache { Payload = payload });
                 return persons;
             });
         }
@@ -32,8 +26,8 @@ query
     personQuery {
         persons {
             givenName
-          surname
-       affiliations {
+            surname
+            affiliations {
                 organization {
                     name
                     parent {
