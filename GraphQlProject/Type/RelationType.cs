@@ -7,12 +7,16 @@ using GraphQlProject.Models;
 using GraphQlProject.Data;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GraphQlProject.Type
 {
     public class RelationType : ObjectGraphType<Relation>
     {
-        public RelationType(GraphQLDbContext dbContext)
+        private AutoResetEvent _ev;
+
+        public RelationType(DbContextFactory dbContextFactory)
         {
             Field(r => r.Id);
             Field(r => r.StrId);
@@ -20,19 +24,26 @@ namespace GraphQlProject.Type
             Field(r => r.Kind);
             Field(r => r.Notes);
 
-            Field<PersonType>("p2", resolve: context =>
-            {
-                var relations = (IList<Relation>)context.GetCache("relations");
-                if (context.GetCache("personsInRelations") == null) 
-                {
-                    var pIds = relations.Select(r => r.P2Id).ToList();
-                    context.SetCache("personsInRelations", dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
-                }
+            _ev = new AutoResetEvent(true);
 
-                var persons = (IList<Person>)context.GetCache("personsInRelations");
-                var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
-                return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
-            });
+            FieldAsync<PersonType>("p2", resolve: async context =>
+                await Task.Run(() =>
+                {
+                    var relations = (IList<Relation>)context.GetCache("relations");
+
+                    _ev.WaitOne();
+                    if (context.GetCache("personsInRelations") == null) 
+                    {
+                        var pIds = relations.Select(r => r.P2Id).ToList();
+                        using (var dbContext = dbContextFactory.Create())
+                            context.SetCache("personsInRelations", dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
+                    }
+                    _ev.Set();
+
+                    var persons = (IList<Person>)context.GetCache("personsInRelations");
+                    var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
+                    return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
+                }));
         }
     }
 }

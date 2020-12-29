@@ -1,34 +1,43 @@
-using System;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Collections.Generic;
 using GraphQL.Types;
 using GraphQlProject.Models;
 using GraphQlProject.Data;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GraphQlProject.Type
 {
     public class OrganizationType : ObjectGraphType<Organization>
     {
-        public OrganizationType(GraphQLDbContext dbContext)
+        private AutoResetEvent _ev;
+
+        public OrganizationType(DbContextFactory dbContextFactory)
         {
             Field(o => o.Id);
             Field(o => o.StrId);
             Field(o => o.Name);
             Field(o => o.Address);
 
-            Field<OrganizationType>("parent", resolve: context =>
-            {
-                const string cacheName = "parentOrganizations";
-                if (context.GetCache(cacheName) == null)
-                    context.SetCache(cacheName, dbContext.Organizations.ToList());
+            _ev = new AutoResetEvent(true);
 
-                var organizations = (IList<Organization>)context.GetCache(cacheName);
-                var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
-                return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
-            });
+            FieldAsync<OrganizationType>("parent", resolve: async context =>
+                await Task.Run(() =>
+                {
+                    const string cacheName = "parentOrganizations";
+
+                    _ev.WaitOne();
+                    if (context.GetCache(cacheName) == null)
+                    {
+                        using (var dbContext = dbContextFactory.Create())
+                            context.SetCache(cacheName, dbContext.Organizations.ToList());
+                    }
+                    _ev.Set();
+
+                    var organizations = (IList<Organization>)context.GetCache(cacheName);
+                    var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
+                    return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
+                }));
         }
     }
 }

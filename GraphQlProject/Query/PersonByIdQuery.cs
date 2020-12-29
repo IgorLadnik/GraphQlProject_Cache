@@ -4,21 +4,23 @@ using GraphQlProject.Type;
 using GraphQlProject.Data;
 using System.Collections.Generic;
 using GraphQL;
-using GraphQL.Types;
-using GraphQlProject.Type;
+using GraphQlProject.Models;
 
 namespace GraphQlProject.Query
 {
     public class PersonByIdQuery : ObjectGraphType
     {
-        public PersonByIdQuery(GraphQLDbContext dbContext)
+        public PersonByIdQuery(DbContextFactory dbContextFactory)
         {
             Field<PersonType>("personById",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    var person = dbContext.Persons.Where(p => p.Id == id).FirstOrDefault();
+                    Person person;
+                    using (var dbContext = dbContextFactory.Create())
+                        person = dbContext.Persons.Where(p => p.Id == id).FirstOrDefault();
+
                     if (person != null)
                         context.SetCache("personIds", new List<int> { person.Id });
                     return person;

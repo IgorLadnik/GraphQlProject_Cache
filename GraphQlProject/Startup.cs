@@ -10,7 +10,6 @@ using GraphQL.Types;
 using GraphQL.Server;
 using GraphiQl;
 using GraphQlProject.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlProject
 {
@@ -26,13 +25,14 @@ namespace GraphQlProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<GraphQLDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<GraphQLDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //var dbContext = services.BuildServiceProvider(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))).GetService<GraphQLDbContext>();
 
             services.AddControllers();
 
+            services.AddSingleton<DbContextFactory>(new DbContextFactory(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<AffiliationType>();
             services.AddTransient<OrganizationType>();
             services.AddTransient<RelationType>();

@@ -1,18 +1,19 @@
 using System;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Collections.Generic;
 using GraphQL.Types;
 using GraphQlProject.Models;
 using GraphQlProject.Data;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace GraphQlProject.Type
 {
     public class PersonType : ObjectGraphType<Person>
     {
-        public PersonType(GraphQLDbContext dbContext)
+        private AutoResetEvent _ev;
+
+        public PersonType(DbContextFactory dbContextFactory)
         {       
             Field(p => p.Id);
             Field(p => p.StrId);
@@ -23,33 +24,57 @@ namespace GraphQlProject.Type
             Field(p => p.Email);
             Field(p => p.Address);
 
-            Field<ListGraphType<AffiliationType>>("affiliations", resolve: context =>
-            {
-                IList<Affiliation> affiliations;
-                if (context.GetCache("affiliations") == null)
+            _ev = new AutoResetEvent(true);
+
+            FieldAsync<ListGraphType<AffiliationType>>("affiliations",  resolve: async context =>
+                await Task.Run(() =>
                 {
-                    var personIds = (IList<int>)context.GetCache("personIds");
-                    affiliations = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList();
-                    context.SetCache("affiliations", affiliations);
-                }
+                    IList<Affiliation> affiliations;
 
-                affiliations = (IList<Affiliation>)context.GetCache("affiliations");
-                return affiliations.Where(a => a.PersonId == context.Source.Id);
-            });
+                    Console.WriteLine("before 1");
 
-            Field<ListGraphType<RelationType>>("relations", resolve: context =>
-            {
-                IList<Relation> relations;
-                if (context.GetCache("relations") == null)
+                    _ev.WaitOne();
+                    if (context.GetCache("affiliations") == null)
+                    {
+                        Console.WriteLine("** fetch 1");
+
+                        var personIds = (IList<int>)context.GetCache("personIds");
+                        using (var dbContext = dbContextFactory.Create())
+                            affiliations = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList();
+                        context.SetCache("affiliations", affiliations);
+                    }
+                    _ev.Set();
+
+                    Console.WriteLine("after 1");
+
+                    affiliations = (IList<Affiliation>)context.GetCache("affiliations");
+                    return affiliations.Where(a => a.PersonId == context.Source.Id);
+                }));
+
+            FieldAsync<ListGraphType<RelationType>>("relations", resolve: async context =>
+                await Task.Run(() =>
                 {
-                    var personIds = (IList<int>)context.GetCache("personIds");
-                    relations = dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList();
-                    context.SetCache("relations", relations);
-                }
+                    IList<Relation> relations;
 
-                relations = (IList<Relation>)context.GetCache("relations");
-                return relations.Where(r => r.P1Id == context.Source.Id);
-            });
+                    Console.WriteLine("before 2");
+
+                    _ev.WaitOne();
+                    if (context.GetCache("relations") == null)
+                    {
+                        Console.WriteLine("** fetch 2");
+
+                        var personIds = (IList<int>)context.GetCache("personIds");
+                        using (var dbContext = dbContextFactory.Create())
+                            relations = dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList();
+                        context.SetCache("relations", relations);
+                    }
+                    _ev.Set();
+
+                    Console.WriteLine("after 2");
+
+                    relations = (IList<Relation>)context.GetCache("relations");
+                    return relations.Where(r => r.P1Id == context.Source.Id);
+                }));
         }
     }
 }
