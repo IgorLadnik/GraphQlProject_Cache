@@ -25,13 +25,13 @@ namespace GraphQlProject.Type
                 await Task.Run(() =>
                 {
                     IList<Affiliation> affiliations;
+                    IList<Organization> organizations;
 
                     _ev.WaitOne();
                     if (context.GetCache("affiliations") == null)
                     {
                         var personIds = (IList<int>)context.GetCache("personIds");
-                        using (var dbContext = dbContextFactory.Create())
-                            affiliations = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList();
+                        affiliations = dbContextFactory.FetchFromDb<IList<Affiliation>>(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                         context.SetCache("affiliations", affiliations);
                     }
 
@@ -39,12 +39,12 @@ namespace GraphQlProject.Type
                     if (context.GetCache("roles") == null)
                     {
                         var organizationIds = affiliations.Select(a => a.OrganizationId).Distinct().ToList();
-                        using (var dbContext = dbContextFactory.Create())
-                            context.SetCache("organizations", dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
+                        organizations = dbContextFactory.FetchFromDb<IList<Organization>>(dbContext => dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
+                        context.SetCache("organizations", organizations);
                     }
                     _ev.Set();
 
-                    var organizations = (IList<Organization>)context.GetCache("organizations");
+                    organizations = (IList<Organization>)context.GetCache("organizations");
                     var organizationId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault().OrganizationId;
                     return organizations.Where(o => o.Id == organizationId).FirstOrDefault();
                 }));

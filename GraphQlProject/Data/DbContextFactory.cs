@@ -1,4 +1,5 @@
-﻿using GraphQlProject.Models;
+﻿using System;
+using GraphQlProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlProject.Data
@@ -19,6 +20,15 @@ namespace GraphQlProject.Data
                 .Options;
 
             return new GraphQLDbContext(options);
+        }
+    }
+
+    public static class DbContextFactoryEx 
+    {
+        public static T FetchFromDb<T>(this DbContextFactory factory, Func<GraphQLDbContext, T> func) 
+        {
+            using (var dbContext = factory.Create())
+                return func(dbContext);
         }
     }
 }

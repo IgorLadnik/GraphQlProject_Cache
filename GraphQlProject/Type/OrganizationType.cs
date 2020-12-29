@@ -25,16 +25,17 @@ namespace GraphQlProject.Type
                 await Task.Run(() =>
                 {
                     const string cacheName = "parentOrganizations";
+                    IList<Organization> organizations;
 
                     _ev.WaitOne();
                     if (context.GetCache(cacheName) == null)
                     {
-                        using (var dbContext = dbContextFactory.Create())
-                            context.SetCache(cacheName, dbContext.Organizations.ToList());
+                        organizations = dbContextFactory.FetchFromDb<IList<Organization>>(dbContext => dbContext.Organizations.ToList());
+                        context.SetCache(cacheName, organizations);
                     }
                     _ev.Set();
 
-                    var organizations = (IList<Organization>)context.GetCache(cacheName);
+                    organizations = (IList<Organization>)context.GetCache(cacheName);
                     var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
                     return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
                 }));

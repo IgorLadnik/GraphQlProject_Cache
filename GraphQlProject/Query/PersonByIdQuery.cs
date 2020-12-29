@@ -17,10 +17,7 @@ namespace GraphQlProject.Query
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    Person person;
-                    using (var dbContext = dbContextFactory.Create())
-                        person = dbContext.Persons.Where(p => p.Id == id).FirstOrDefault();
-
+                    var person = dbContextFactory.FetchFromDb<Person>(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
                     if (person != null)
                         context.SetCache("personIds", new List<int> { person.Id });
                     return person;

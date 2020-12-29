@@ -13,10 +13,7 @@ namespace GraphQlProject.Query
         {
             Field<ListGraphType<PersonType>>("persons", resolve: context =>
             {
-                IList<Person> persons;
-                using (var dbContext = dbContextFactory.Create())
-                    persons = dbContext.Persons.ToList();
-
+                var persons = dbContextFactory.FetchFromDb<IList<Person>>(dbContext => dbContext.Persons.ToList());
                 context.SetCache("personIds", persons.Select(p => p.Id).ToList());
                 return persons;
             });

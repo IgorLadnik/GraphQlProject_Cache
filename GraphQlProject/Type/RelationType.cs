@@ -1,7 +1,3 @@
-using System;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using GraphQL.Types;
 using GraphQlProject.Models;
 using GraphQlProject.Data;
