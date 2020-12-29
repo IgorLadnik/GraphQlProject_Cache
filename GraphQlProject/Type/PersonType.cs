@@ -28,12 +28,12 @@ namespace GraphQlProject.Type
                 IList<Affiliation> affiliations;
                 if (context.GetCache("affiliations") == null)
                 {
-                    var personIds = (IList<int>)context.GetCache("persons").Payload;
+                    var personIds = (IList<int>)context.GetCache("personIds");
                     affiliations = dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList();
-                    context.SetCache("affiliations", new Cache { Payload = affiliations });
+                    context.SetCache("affiliations", affiliations);
                 }
 
-                affiliations = (IList<Affiliation>)context.GetCache("affiliations").Payload;
+                affiliations = (IList<Affiliation>)context.GetCache("affiliations");
                 return affiliations.Where(a => a.PersonId == context.Source.Id);
             });
 
@@ -42,12 +42,12 @@ namespace GraphQlProject.Type
                 IList<Relation> relations;
                 if (context.GetCache("relations") == null)
                 {
-                    var personIds = (IList<int>)context.GetCache("persons").Payload;
+                    var personIds = (IList<int>)context.GetCache("personIds");
                     relations = dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList();
-                    context.SetCache("relations", new Cache { Payload = relations });
+                    context.SetCache("relations", relations);
                 }
 
-                relations = (IList<Relation>)context.GetCache("relations").Payload;
+                relations = (IList<Relation>)context.GetCache("relations");
                 return relations.Where(r => r.P1Id == context.Source.Id);
             });
         }

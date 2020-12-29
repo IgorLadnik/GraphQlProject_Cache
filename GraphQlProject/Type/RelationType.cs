@@ -22,14 +22,14 @@ namespace GraphQlProject.Type
 
             Field<PersonType>("p2", resolve: context =>
             {
-                var relations = (IList<Relation>)context.GetCache("relations").Payload;
+                var relations = (IList<Relation>)context.GetCache("relations");
                 if (context.GetCache("personsInRelations") == null) 
                 {
                     var pIds = relations.Select(r => r.P2Id).ToList();
-                    context.SetCache("personsInRelations", new Cache { Payload = dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList() });
+                    context.SetCache("personsInRelations", dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
                 }
 
-                var persons = (IList<Person>)context.GetCache("personsInRelations").Payload;
+                var persons = (IList<Person>)context.GetCache("personsInRelations");
                 var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
                 return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
             });

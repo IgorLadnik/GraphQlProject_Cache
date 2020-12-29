@@ -12,8 +12,7 @@ namespace GraphQlProject.Query
             Field<ListGraphType<PersonType>>("persons", resolve: context =>
             {
                 var persons = dbContext.Persons;
-                var payload = persons.Select(p => p.Id).ToList();
-                context.SetCache("persons", new Cache { Payload = payload });
+                context.SetCache("personIds", persons.Select(p => p.Id).ToList());
                 return persons;
             });
         }

@@ -23,9 +23,9 @@ namespace GraphQlProject.Type
             {
                 const string cacheName = "parentOrganizations";
                 if (context.GetCache(cacheName) == null)
-                    context.SetCache(cacheName, new Cache { Payload = dbContext.Organizations.ToList() });
+                    context.SetCache(cacheName, dbContext.Organizations.ToList());
 
-                var organizations = (IList<Organization>)context.GetCache(cacheName).Payload;
+                var organizations = (IList<Organization>)context.GetCache(cacheName);
                 var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
                 return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
             });

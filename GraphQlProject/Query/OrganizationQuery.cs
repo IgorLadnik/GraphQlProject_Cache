@@ -12,7 +12,7 @@ namespace GraphQlProject.Query
             Field<ListGraphType<OrganizationType>>("organizations", resolve: context =>
             {
                 var organizations = dbContext.Organizations;
-                context.SetCache("organizations", new Cache { Payload = organizations.ToList() });
+                context.SetCache("organizations", organizations.ToList());
                 return organizations;
             });
         }
