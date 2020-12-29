@@ -7,6 +7,7 @@ namespace GraphQlProject.Query
         public RootQuery()
         {
             Field<PersonQuery>("personQuery", resolve: context => new { });
+            Field<PersonByIdQuery>("personByIdQuery", resolve: context => new { });
             Field<OrganizationQuery>("organizationQuery", resolve: context => new { });
         }
     }

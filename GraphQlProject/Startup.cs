@@ -40,6 +40,7 @@ namespace GraphQlProject
             services.AddTransient<RoleType>();
             services.AddTransient<UserType>();
             services.AddTransient<PersonQuery>();
+            services.AddTransient<PersonByIdQuery>();
             services.AddTransient<OrganizationQuery>();
             services.AddTransient<RootQuery>();
             services.AddSingleton<ISchema, RootSchema>();
