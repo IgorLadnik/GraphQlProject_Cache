@@ -5,21 +5,18 @@ using GraphQlProject.Models;
 using GraphQlProject.Data;
 using System.Threading;
 using System.Threading.Tasks;
+using GraphQlHelperLib;
 
 namespace GraphQlProject.Type
 {
-    public class OrganizationType : ObjectGraphType<Organization>
+    public class OrganizationType : ObjectGraphTypeCached<Organization>
     {
-        private AutoResetEvent _ev;
-
-        public OrganizationType(DbContextFactory dbContextFactory)
+        public OrganizationType(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field(o => o.Id);
             Field(o => o.StrId);
             Field(o => o.Name);
             Field(o => o.Address);
-
-            _ev = new AutoResetEvent(true);
 
             FieldAsync<OrganizationType>("parent", resolve: async context =>
                 await Task.Run(() =>
@@ -27,15 +24,16 @@ namespace GraphQlProject.Type
                     const string cacheName = "parentOrganizations";
                     IList<Organization> organizations;
 
-                    _ev.WaitOne();
-                    if (context.GetCache(cacheName) == null)
+                    FirstCall(() =>
                     {
-                        organizations = dbContextFactory.FetchFromDb<IList<Organization>>(dbContext => dbContext.Organizations.ToList());
-                        context.SetCache(cacheName, organizations);
-                    }
-                    _ev.Set();
+                        if (!context.DoesCacheExist(cacheName))
+                        {
+                            organizations = dbProvider.Fetch<IList<Organization>>(dbContext => dbContext.Organizations.ToList());
+                            context.SetCache(cacheName, organizations);
+                        }
+                    });
 
-                    organizations = (IList<Organization>)context.GetCache(cacheName);
+                    organizations = context.GetCache<IList<Organization>>(cacheName);
                     var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
                     return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
                 }));

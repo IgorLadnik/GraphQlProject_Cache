@@ -6,14 +6,13 @@ using GraphQlProject.Models;
 using GraphQlProject.Data;
 using System.Threading.Tasks;
 using System.Threading;
+using GraphQlHelperLib;
 
 namespace GraphQlProject.Type
 {
-    public class PersonType : ObjectGraphType<Person>
+    public class PersonType : ObjectGraphTypeCached<Person>
     {
-        private AutoResetEvent _ev;
-
-        public PersonType(DbContextFactory dbContextFactory)
+        public PersonType(DbProvider<GraphQLDbContext> dbProvider)
         {       
             Field(p => p.Id);
             Field(p => p.StrId);
@@ -24,8 +23,6 @@ namespace GraphQlProject.Type
             Field(p => p.Email);
             Field(p => p.Address);
 
-            _ev = new AutoResetEvent(true);
-
             FieldAsync<ListGraphType<AffiliationType>>("affiliations",  resolve: async context =>
                 await Task.Run(() =>
                 {
@@ -33,20 +30,21 @@ namespace GraphQlProject.Type
 
                     Console.WriteLine("before 1");
 
-                    _ev.WaitOne();
-                    if (context.GetCache("affiliations") == null)
+                    FirstCall(() =>
                     {
-                        Console.WriteLine("** fetch 1");
+                        if (!context.DoesCacheExist("affiliations"))
+                        {
+                            Console.WriteLine("** fetch 1");
 
-                        var personIds = (IList<int>)context.GetCache("personIds");
-                        affiliations = dbContextFactory.FetchFromDb<IList<Affiliation>>(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
-                        context.SetCache("affiliations", affiliations);
-                    }
-                    _ev.Set();
+                            var personIds = context.GetCache<IList<int>>("personIds");
+                            affiliations = dbProvider.Fetch<IList<Affiliation>>(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            context.SetCache("affiliations", affiliations);
+                        }
+                    });
 
                     Console.WriteLine("after 1");
 
-                    affiliations = (IList<Affiliation>)context.GetCache("affiliations");
+                    affiliations = context.GetCache<IList<Affiliation>>("affiliations");
                     return affiliations.Where(a => a.PersonId == context.Source.Id);
                 }));
 
@@ -57,20 +55,21 @@ namespace GraphQlProject.Type
 
                     Console.WriteLine("before 2");
 
-                    _ev.WaitOne();
-                    if (context.GetCache("relations") == null)
+                    FirstCall(() =>
                     {
-                        Console.WriteLine("** fetch 2");
+                        if (!context.DoesCacheExist("relations"))
+                        {
+                            Console.WriteLine("** fetch 2");
 
-                        var personIds = (IList<int>)context.GetCache("personIds");
-                        relations = dbContextFactory.FetchFromDb<IList<Relation>>(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
-                        context.SetCache("relations", relations);
-                    }
-                    _ev.Set();
+                            var personIds = context.GetCache<IList<int>>("personIds");
+                            relations = dbProvider.Fetch<IList<Relation>>(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
+                            context.SetCache("relations", relations);
+                        }
+                    });
 
                     Console.WriteLine("after 2");
 
-                    relations = (IList<Relation>)context.GetCache("relations");
+                    relations = context.GetCache<IList<Relation>>("relations");
                     return relations.Where(r => r.P1Id == context.Source.Id);
                 }));
         }

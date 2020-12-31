@@ -4,16 +4,17 @@ using GraphQlProject.Type;
 using GraphQlProject.Data;
 using GraphQlProject.Models;
 using System.Collections.Generic;
+using GraphQlHelperLib;
 
 namespace GraphQlProject.Query
 {
     public class OrganizationQuery : ObjectGraphType
     {
-        public OrganizationQuery(DbContextFactory dbContextFactory)
+        public OrganizationQuery(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field<ListGraphType<OrganizationType>>("organizations", resolve: context =>
             {
-                var organizations = dbContextFactory.FetchFromDb<IList<Organization>>(dbContext => dbContext.Organizations.ToList());
+                var organizations = dbProvider.Fetch<IList<Organization>>(dbContext => dbContext.Organizations.ToList());
                 context.SetCache("organizations", organizations.ToList());
                 return organizations;
             });

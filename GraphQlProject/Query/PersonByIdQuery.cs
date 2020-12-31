@@ -5,19 +5,20 @@ using GraphQlProject.Data;
 using System.Collections.Generic;
 using GraphQL;
 using GraphQlProject.Models;
+using GraphQlHelperLib;
 
 namespace GraphQlProject.Query
 {
     public class PersonByIdQuery : ObjectGraphType
     {
-        public PersonByIdQuery(DbContextFactory dbContextFactory)
+        public PersonByIdQuery(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field<PersonType>("personById",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
-                    var person = dbContextFactory.FetchFromDb<Person>(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
+                    var person = dbProvider.Fetch<Person>(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
                     if (person != null)
                         context.SetCache("personIds", new List<int> { person.Id });
                     return person;

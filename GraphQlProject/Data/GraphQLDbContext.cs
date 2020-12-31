@@ -5,8 +5,9 @@ namespace GraphQlProject.Data
 {
     public class GraphQLDbContext : DbContext
     {
-        public GraphQLDbContext(DbContextOptions<GraphQLDbContext> options)
-            : base(options)
+        public static string ConnectionString { private get; set; }
+
+        public GraphQLDbContext()
         {
             Database.EnsureCreated();
         }
@@ -18,14 +19,18 @@ namespace GraphQlProject.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
 
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        {
+            optionsBuilder.UseSqlServer(ConnectionString);
+        }
+                
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Affiliation>().HasData(
                 new Affiliation { Id =  1, StrId = "a_01", Since = 2018, OrganizationId = 3, RoleId = 1, PersonId = 1 },
                 new Affiliation { Id =  2, StrId = "a_02", Since = 2015, OrganizationId = 3, RoleId = 2, PersonId = 2 },
                 new Affiliation { Id =  3, StrId = "a_03", Since = 2017, OrganizationId = 1, RoleId = 3, PersonId = 2 },
-                new Affiliation { Id =  4, StrId = "a_04", Since = 2014, OrganizationId = 4, RoleId = 2, PersonId = 3 },
+                new Affiliation { Id =  4, StrId = "a_04", Since = 2014, OrganizationId = 5, RoleId = 2, PersonId = 3 },
                 new Affiliation { Id =  5, StrId = "a_05", Since = 2018, OrganizationId = 4, RoleId = 1, PersonId = 1 },
                 new Affiliation { Id =  6, StrId = "a_06", Since = 2018, OrganizationId = 5, RoleId = 1, PersonId = 4 },
                 new Affiliation { Id =  7, StrId = "a_07", Since = 2018, OrganizationId = 5, RoleId = 2, PersonId = 5 },
@@ -55,7 +60,7 @@ namespace GraphQlProject.Data
             modelBuilder.Entity<Relation>().HasData(
                 new Relation { Id = 1, StrId = "r_01", Since = 2020, Kind = "committee", Notes = "",                    P1Id = 2, P2Id = 5 },
                 new Relation { Id = 2, StrId = "r_02", Since = 2016, Kind = "superior",  Notes = "",                    P1Id = 1, P2Id = 2 },
-                new Relation { Id = 3, StrId = "r_03", Since = 2016, Kind = "superior",  Notes = "",                    P1Id = 3, P2Id = 2 },
+                new Relation { Id = 3, StrId = "r_03", Since = 2016, Kind = "superior",  Notes = "",                    P1Id = 3, P2Id = 5 },
                 new Relation { Id = 4, StrId = "r_04", Since = 2016, Kind = "superior",  Notes = "",                    P1Id = 4, P2Id = 5 },
                 new Relation { Id = 5, StrId = "r_05", Since = 2019, Kind = "superior",  Notes = "a",                   P1Id = 6, P2Id = 3 },
                 new Relation { Id = 6, StrId = "r_06", Since = 2019, Kind = "friends",   Notes = "the closest friends", P1Id = 6, P2Id = 4 },

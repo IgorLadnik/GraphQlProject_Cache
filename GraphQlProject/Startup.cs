@@ -10,6 +10,8 @@ using GraphQL.Types;
 using GraphQL.Server;
 using GraphiQl;
 using GraphQlProject.Data;
+using Microsoft.EntityFrameworkCore;
+using GraphQlHelperLib;
 
 namespace GraphQlProject
 {
@@ -30,9 +32,10 @@ namespace GraphQlProject
             //var dbContext = services.BuildServiceProvider(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))).GetService<GraphQLDbContext>();
 
-            services.AddControllers();
+            GraphQLDbContext.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddSingleton<DbContextFactory>(new DbContextFactory(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddControllers();
+            services.AddSingleton<DbProvider<GraphQLDbContext>>();
             services.AddTransient<AffiliationType>();
             services.AddTransient<OrganizationType>();
             services.AddTransient<RelationType>();

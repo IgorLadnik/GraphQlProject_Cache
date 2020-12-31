@@ -5,14 +5,13 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using GraphQlHelperLib;
 
 namespace GraphQlProject.Type
 {
-    public class RelationType : ObjectGraphType<Relation>
+    public class RelationType : ObjectGraphTypeCached<Relation>
     {
-        private AutoResetEvent _ev;
-
-        public RelationType(DbContextFactory dbContextFactory)
+        public RelationType(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field(r => r.Id);
             Field(r => r.StrId);
@@ -20,23 +19,20 @@ namespace GraphQlProject.Type
             Field(r => r.Kind);
             Field(r => r.Notes);
 
-            _ev = new AutoResetEvent(true);
-
             FieldAsync<PersonType>("p2", resolve: async context =>
                 await Task.Run(() =>
                 {
-                    var relations = (IList<Relation>)context.GetCache("relations");
+                    var relations = context.GetCache<IList<Relation>>("relations");
+                    IList<Person> persons;
 
-                    _ev.WaitOne();
-                    if (context.GetCache("personsInRelations") == null) 
+                    FirstCall(() =>
                     {
                         var pIds = relations.Select(r => r.P2Id).ToList();
-                        using (var dbContext = dbContextFactory.Create())
-                            context.SetCache("personsInRelations", dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
-                    }
-                    _ev.Set();
+                        persons = dbProvider.Fetch<IList<Person>>(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
+                        context.SetCache("personsInRelations", persons);
+                    });
 
-                    var persons = (IList<Person>)context.GetCache("personsInRelations");
+                    persons = context.GetCache<IList<Person>>("personsInRelations");
                     var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
                     return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
                 }));

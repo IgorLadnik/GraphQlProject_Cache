@@ -4,16 +4,17 @@ using GraphQlProject.Type;
 using GraphQlProject.Data;
 using GraphQlProject.Models;
 using System.Collections.Generic;
+using GraphQlHelperLib;
 
 namespace GraphQlProject.Query
 {
     public class PersonQuery : ObjectGraphType
     {
-        public PersonQuery(DbContextFactory dbContextFactory)
+        public PersonQuery(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field<ListGraphType<PersonType>>("persons", resolve: context =>
             {
-                var persons = dbContextFactory.FetchFromDb<IList<Person>>(dbContext => dbContext.Persons.ToList());
+                var persons = dbProvider.Fetch<IList<Person>>(dbContext => dbContext.Persons.ToList());
                 context.SetCache("personIds", persons.Select(p => p.Id).ToList());
                 return persons;
             });
