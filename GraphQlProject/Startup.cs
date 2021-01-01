@@ -73,7 +73,7 @@ namespace GraphQlProject
 
             //dbContext.Database.EnsureCreated();
 
-            app.UseGraphiQl("/graphql");
+            app.UseGraphiQl("/gqli");
             app.UseGraphQL<ISchema>();
 
             app.UseHttpsRedirection();
