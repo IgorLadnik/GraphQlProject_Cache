@@ -1,10 +1,8 @@
+using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
-using GraphQL.Types;
 using GraphQlProject.Models;
 using GraphQlProject.Data;
-using System.Threading;
-using System.Threading.Tasks;
 using GraphQlHelperLib;
 
 namespace GraphQlProject.Type
@@ -14,7 +12,7 @@ namespace GraphQlProject.Type
         public OrganizationType(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field(o => o.Id);
-            Field(o => o.StrId);
+            //Field(o => o.StrId);
             Field(o => o.Name);
             Field(o => o.Address);
 

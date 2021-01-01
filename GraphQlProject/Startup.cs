@@ -12,6 +12,7 @@ using GraphiQl;
 using GraphQlProject.Data;
 using Microsoft.EntityFrameworkCore;
 using GraphQlHelperLib;
+using GraphQlProject.Mutation;
 
 namespace GraphQlProject
 {
@@ -46,6 +47,13 @@ namespace GraphQlProject
             services.AddTransient<PersonByIdQuery>();
             services.AddTransient<OrganizationQuery>();
             services.AddTransient<RootQuery>();
+            services.AddTransient<PersonInputType>();
+            services.AddTransient<PersonOutputType>();
+            services.AddTransient<AffiliationInputType>();
+            services.AddTransient<RelationInputType>();
+            services.AddTransient<RoleInputType>();
+            services.AddTransient<PersonMutation>();
+            services.AddTransient<RootMutation>();
             services.AddSingleton<ISchema, RootSchema>();
 
             services.AddGraphQL(options => 

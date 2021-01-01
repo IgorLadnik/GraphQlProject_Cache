@@ -1,10 +1,8 @@
-using GraphQL.Types;
-using GraphQlProject.Models;
-using GraphQlProject.Data;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Threading;
+using GraphQlProject.Models;
+using GraphQlProject.Data;
 using GraphQlHelperLib;
 
 namespace GraphQlProject.Type
@@ -14,7 +12,7 @@ namespace GraphQlProject.Type
         public AffiliationType(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field(a => a.Id);
-            Field(a => a.StrId);
+            //Field(a => a.StrId);
             Field(a => a.Since);
 
             FieldAsync<OrganizationType>("organization", resolve: async context =>

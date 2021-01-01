@@ -1,10 +1,8 @@
-using GraphQL.Types;
-using GraphQlProject.Models;
-using GraphQlProject.Data;
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
+using GraphQlProject.Models;
+using GraphQlProject.Data;
 using GraphQlHelperLib;
 
 namespace GraphQlProject.Type
@@ -14,7 +12,7 @@ namespace GraphQlProject.Type
         public RelationType(DbProvider<GraphQLDbContext> dbProvider)
         {
             Field(r => r.Id);
-            Field(r => r.StrId);
+            //Field(r => r.StrId);
             Field(r => r.Since);
             Field(r => r.Kind);
             Field(r => r.Notes);

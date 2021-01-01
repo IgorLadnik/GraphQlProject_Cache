@@ -5,7 +5,6 @@ using GraphQL.Types;
 using GraphQlProject.Models;
 using GraphQlProject.Data;
 using System.Threading.Tasks;
-using System.Threading;
 using GraphQlHelperLib;
 
 namespace GraphQlProject.Type
@@ -15,7 +14,7 @@ namespace GraphQlProject.Type
         public PersonType(DbProvider<GraphQLDbContext> dbProvider)
         {       
             Field(p => p.Id);
-            Field(p => p.StrId);
+            //Field(p => p.StrId);
             Field(p => p.GivenName);
             Field(p => p.Surname);
             Field(p => p.Born);
