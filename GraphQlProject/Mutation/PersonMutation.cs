@@ -4,14 +4,19 @@ using GraphQL.Types;
 using GraphQlHelperLib;
 using GraphQlProject.Data;
 using GraphQlProject.Models;
+using GraphQlProject.Subscription;
 using GraphQlProject.Type;
 
 namespace GraphQlProject.Mutation
 {
     public class PersonMutation : ObjectGraphType
     {
-        public PersonMutation(DbProvider<GraphQLDbContext> dbProvider)
+        private readonly IPerson _person;
+
+        public PersonMutation(DbProvider<GraphQLDbContext> dbProvider, IPerson person)
         {
+            _person = person;
+
             Field<PersonOutputType>("createPersons",
                 arguments: new QueryArguments(new QueryArgument<ListGraphType<PersonInputType>> { Name = "personsInput" }),
                 resolve: context =>
@@ -99,6 +104,12 @@ namespace GraphQlProject.Mutation
                             dbContext.Affiliations.AddRange(affiliations);
                             dbContext.Relations.AddRange(relations);
                         });
+
+                    // For subscription
+                    Message message = new();
+                    message.Id = persons[0].Id;
+                    message.Name = persons[0].Surname;
+                    _person.AddPerson(message);
 
                     return mutationResponse;
                 });

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using GraphQlProject.Query;
 using GraphQlProject.Mutation;
+using GraphQlProject.Subscription;
 
 namespace GraphQlProject.Schema
 {
@@ -11,6 +12,7 @@ namespace GraphQlProject.Schema
         {
             Query = serviceProvider.GetRequiredService<RootQuery>();
             Mutation = serviceProvider.GetRequiredService<RootMutation>();
+            Subscription = serviceProvider.GetRequiredService<PersonSubscription>();
         }
     }
 }

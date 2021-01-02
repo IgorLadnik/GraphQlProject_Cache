@@ -13,6 +13,8 @@ using GraphQlProject.Data;
 using Microsoft.EntityFrameworkCore;
 using GraphQlHelperLib;
 using GraphQlProject.Mutation;
+using GraphQlProject.Subscription;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace GraphQlProject
 {
@@ -28,6 +30,15 @@ namespace GraphQlProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             //services.AddDbContext<GraphQLDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //var dbContext = services.BuildServiceProvider(options =>
@@ -54,6 +65,10 @@ namespace GraphQlProject
             services.AddTransient<RoleInputType>();
             services.AddTransient<PersonMutation>();
             services.AddTransient<RootMutation>();
+            services.AddTransient<MessageType>();
+            services.AddTransient<PersonSubscription>();
+            services.AddSingleton<IPerson, PersonDetails>();
+            //services.AddTransient<RootSubscription>();
             services.AddSingleton<ISchema, RootSchema>();
 
             services.AddGraphQL(options => 
@@ -72,6 +87,8 @@ namespace GraphQlProject
             }
 
             //dbContext.Database.EnsureCreated();
+
+            app.UseWebSockets();
 
             app.UseGraphiQl("/gqli");
             app.UseGraphQL<ISchema>();
