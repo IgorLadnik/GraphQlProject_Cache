@@ -11,4 +11,8 @@
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="4.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AsyncLockLib\AsyncLockLib.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -7,6 +7,7 @@ using GraphQL;
 using GraphQlProject.Models;
 using GraphQlHelperLib;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace GraphQlProject.Query
 {
@@ -15,17 +16,18 @@ namespace GraphQlProject.Query
     {      
         public PersonByIdQuery(DbProvider<GraphQLDbContext> dbProvider)
         {
-            Field<PersonType>("personById",
+            FieldAsync<PersonType>("personById",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
-                resolve: context =>
-                {
-                    var user = context.GetUser();
-                    var id = context.GetArgument<int>("id");
-                    var person = dbProvider.Fetch(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
-                    if (person != null)
-                        context.SetCache("personIds", new List<int> { person.Id });
-                    return person;
-                });
+                resolve: async context =>
+                    await Task.Run(async () =>
+                    {
+                        var user = context.GetUser();
+                        var id = context.GetArgument<int>("id");
+                        var person = await dbProvider.Fetch(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
+                        if (person != null)
+                            context.SetCache("personIds", new List<int> { person.Id });
+                        return person;
+                    }));
         }
     }
 }

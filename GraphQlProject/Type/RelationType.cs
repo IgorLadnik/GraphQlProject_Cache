@@ -18,15 +18,15 @@ namespace GraphQlProject.Type
             Field(r => r.Notes);
 
             FieldAsync<PersonType>("p2", resolve: async context =>
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     var relations = context.GetCache<IList<Relation>>("relations");
                     IList<Person> persons;
 
-                    FirstCall(() =>
+                    await FirstCall(async () =>
                     {
                         var pIds = relations.Select(r => r.P2Id).ToList();
-                        persons = dbProvider.Fetch(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
+                        persons = await dbProvider.Fetch(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
                         context.SetCache("personsInRelations", persons);
                     });
 

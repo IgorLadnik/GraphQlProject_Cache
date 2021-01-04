@@ -5,6 +5,7 @@ using GraphQlProject.Data;
 using GraphQlProject.Models;
 using System.Collections.Generic;
 using GraphQlHelperLib;
+using System.Threading.Tasks;
 
 namespace GraphQlProject.Query
 {
@@ -12,12 +13,13 @@ namespace GraphQlProject.Query
     {
         public OrganizationQuery(DbProvider<GraphQLDbContext> dbProvider)
         {
-            Field<ListGraphType<OrganizationType>>("organizations", resolve: context =>
-            {
-                var organizations = dbProvider.Fetch(dbContext => dbContext.Organizations.ToList());
-                context.SetCache("organizations", organizations.ToList());
-                return organizations;
-            });
+            FieldAsync<ListGraphType<OrganizationType>>("organizations", resolve: async context =>
+                await Task.Run(async () =>
+                {
+                    var organizations = await dbProvider.Fetch(dbContext => dbContext.Organizations.ToList());
+                    context.SetCache("organizations", organizations.ToList());
+                    return organizations;
+                }));
         }
     }
 }

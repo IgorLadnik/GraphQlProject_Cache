@@ -26,11 +26,11 @@ namespace GraphQlProject.Controllers
         //[ProducesResponseType(typeof(string), 200)]
         //[ProducesResponseType(401)]
         [AllowAnonymous]
-        public IActionResult PostAsync(string userName, string password)
+        public async Task<IActionResult> PostAsync(string userName, string password)
         {
             try
             {
-                var jwt = _authService.Login(new UserDTO { UserName = userName, Password = password });
+                var jwt = await _authService.Login(new UserDTO { UserName = userName, Password = password });
                 return Ok(jwt);
             }
             //catch (UserNotFoundException e)

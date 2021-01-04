@@ -16,17 +16,17 @@ namespace GraphQlProject.Type
             Field(a => a.Since);
 
             FieldAsync<OrganizationType>("organization", resolve: async context =>
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     IList<Affiliation> affiliations = null;
                     IList<Organization> organizations;
 
-                    FirstCall(() =>
+                    await FirstCall(async () =>
                     {
                         if (!context.DoesCacheExist("affiliations"))
                         {
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = dbProvider.Fetch(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            affiliations = await dbProvider.Fetch(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                             context.SetCache("affiliations", affiliations);
                         }
 
@@ -34,7 +34,7 @@ namespace GraphQlProject.Type
                         if (!context.DoesCacheExist("organizations"))
                         {
                             var organizationIds = affiliations.Select(a => a.OrganizationId).Distinct().ToList();
-                            organizations = dbProvider.Fetch(dbContext => dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
+                            organizations = await dbProvider.Fetch(dbContext => dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
                             context.SetCache("organizations", organizations);
                         }
                     });
@@ -46,17 +46,17 @@ namespace GraphQlProject.Type
                 }));
 
             FieldAsync<RoleType>("role", resolve: async context =>
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     IList<Affiliation> affiliations = null;
                     IList<Role> roles;
 
-                    FirstCall(() =>
+                    await FirstCall(async () =>
                     {
                         if (!context.DoesCacheExist("affiliations"))
                         {
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = dbProvider.Fetch(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            affiliations = await dbProvider.Fetch(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                             context.SetCache("affiliations", affiliations);
                         }
 
@@ -64,7 +64,7 @@ namespace GraphQlProject.Type
                         if (!context.DoesCacheExist("roles"))
                         {
                             var roleIds = affiliations.Select(a => a.RoleId).Distinct().ToList();
-                            roles = dbProvider.Fetch(dbContext => dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList());
+                            roles = await dbProvider.Fetch(dbContext => dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList());
                             context.SetCache("roles", roles);
                         }
                     });

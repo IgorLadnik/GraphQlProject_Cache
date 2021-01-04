@@ -17,16 +17,16 @@ namespace GraphQlProject.Type
             Field(o => o.Address);
 
             FieldAsync<OrganizationType>("parent", resolve: async context =>
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     const string cacheName = "parentOrganizations";
                     IList<Organization> organizations;
 
-                    FirstCall(() =>
+                    await FirstCall(async () =>
                     {
                         if (!context.DoesCacheExist(cacheName))
                         {
-                            organizations = dbProvider.Fetch(dbContext => dbContext.Organizations.ToList());
+                            organizations = await dbProvider.Fetch(dbContext => dbContext.Organizations.ToList());
                             context.SetCache(cacheName, organizations);
                         }
                     });

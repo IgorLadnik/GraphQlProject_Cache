@@ -23,20 +23,20 @@ namespace GraphQlProject.Type
             Field(p => p.Address);
 
             FieldAsync<ListGraphType<AffiliationType>>("affiliations",  resolve: async context =>
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     IList<Affiliation> affiliations;
 
                     Console.WriteLine("before 1");
 
-                    FirstCall(() =>
+                    await FirstCall(async () =>
                     {
                         if (!context.DoesCacheExist("affiliations"))
                         {
                             Console.WriteLine("** fetch 1");
 
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = dbProvider.Fetch(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            affiliations = await dbProvider.Fetch(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                             context.SetCache("affiliations", affiliations);
                         }
                     });
@@ -48,20 +48,20 @@ namespace GraphQlProject.Type
                 }));
 
             FieldAsync<ListGraphType<RelationType>>("relations", resolve: async context =>
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     IList<Relation> relations;
 
                     Console.WriteLine("before 2");
 
-                    FirstCall(() =>
+                    await FirstCall(async () =>
                     {
                         if (!context.DoesCacheExist("relations"))
                         {
                             Console.WriteLine("** fetch 2");
 
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            relations = dbProvider.Fetch(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
+                            relations = await dbProvider.Fetch(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
                             context.SetCache("relations", relations);
                         }
                     });

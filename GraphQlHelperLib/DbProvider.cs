@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQlHelperLib
 {
     public class DbProvider<T> where T : DbContext, new()
     {
-        public R Fetch<R>(Func<T, R> func)
-        {
-            using var dbContext = new T();
-            return func(dbContext);
-        }
-
+        public Task<R> Fetch<R>(Func<T, R> func) =>
+            Task.Run(() =>
+            {
+                using var dbContext = new T();
+                return func(dbContext);
+            });
+        
         public MutationResponse Save(Action<T> action)
         {
             MutationResponse mutationResponse = new() { Status = "Success", Message = string.Empty };

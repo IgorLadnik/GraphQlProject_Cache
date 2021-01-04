@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlProject", "GraphQlProject\GraphQlProject.csproj", "{A4E6DA2F-74AC-47F5-A660-985739EDBCE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQlHelperLib", "GraphQlHelperLib\GraphQlHelperLib.csproj", "{C499C456-4046-4583-A09E-C0E4716E9B9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlHelperLib", "GraphQlHelperLib\GraphQlHelperLib.csproj", "{C499C456-4046-4583-A09E-C0E4716E9B9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncLockLib", "AsyncLockLib\AsyncLockLib.csproj", "{B24DF919-8A70-483F-B717-6F1EBDF02EF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C499C456-4046-4583-A09E-C0E4716E9B9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C499C456-4046-4583-A09E-C0E4716E9B9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C499C456-4046-4583-A09E-C0E4716E9B9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B24DF919-8A70-483F-B717-6F1EBDF02EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24DF919-8A70-483F-B717-6F1EBDF02EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24DF919-8A70-483F-B717-6F1EBDF02EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24DF919-8A70-483F-B717-6F1EBDF02EF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
