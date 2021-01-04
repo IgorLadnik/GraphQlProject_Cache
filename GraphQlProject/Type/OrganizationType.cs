@@ -26,7 +26,7 @@ namespace GraphQlProject.Type
                     {
                         if (!context.DoesCacheExist(cacheName))
                         {
-                            organizations = dbProvider.Fetch<IList<Organization>>(dbContext => dbContext.Organizations.ToList());
+                            organizations = dbProvider.Fetch(dbContext => dbContext.Organizations.ToList());
                             context.SetCache(cacheName, organizations);
                         }
                     });

@@ -23,7 +23,13 @@ namespace GraphQlProject.Models
         public string Password { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public string Permissions { get; set; }
+        public UserType Type { get; set; }
+    }
+
+    public enum UserType
+    {
+        Regular = 1,
+        Admin = 2,
+        SuperUser = 3
     }
 }

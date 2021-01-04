@@ -26,7 +26,7 @@ namespace GraphQlProject.Type
                     FirstCall(() =>
                     {
                         var pIds = relations.Select(r => r.P2Id).ToList();
-                        persons = dbProvider.Fetch<IList<Person>>(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
+                        persons = dbProvider.Fetch(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
                         context.SetCache("personsInRelations", persons);
                     });
 

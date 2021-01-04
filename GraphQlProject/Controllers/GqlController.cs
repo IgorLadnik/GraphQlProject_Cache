@@ -5,6 +5,11 @@ using GraphQL;
 using Newtonsoft.Json.Linq;
 using GraphQL.NewtonsoftJson;
 using GraphQL.Types;
+using GraphQlHelperLib;
+using System.Collections.Generic;
+using GraphQL.Validation;
+using Microsoft.AspNetCore.Authorization;
+using GraphQlProject.Models;
 
 namespace GraphQlProject.Controllers
 {
@@ -20,18 +25,22 @@ namespace GraphQlProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] GraphqlQuery query)
+        [AuthorizeRoles(UserType.SuperUser)]
+        public async Task<IActionResult> PostAsync([FromBody] GraphqlQuery query, 
+                           [FromServices] IEnumerable<IValidationRule> validationRules)
         {
             if (query == null) 
                 throw new ArgumentNullException(nameof(query));
-            
+           
             var inputs = query.Variables.ToInputs();
             var executionOptions = new ExecutionOptions
             {
                 Schema = _schema,
                 Query = query.Query,
-                Inputs = inputs
+                Inputs = inputs,
+                ValidationRules = validationRules
             };
+            executionOptions.SetUser(User);
 
             var result = await _documentExecuter.ExecuteAsync(executionOptions);
 

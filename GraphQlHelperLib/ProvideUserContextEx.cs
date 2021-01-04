@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using GraphQL.Execution;
 
 namespace GraphQlHelperLib
@@ -9,6 +10,9 @@ namespace GraphQlHelperLib
 
         public static bool DoesCacheExist(this IProvideUserContext context, string key) =>
             GetCacheDictionary(context).ContainsKey(key);
+
+        
+        // Cache
 
         public static T GetCache<T>(this IProvideUserContext context, string key)
         {
@@ -22,6 +26,24 @@ namespace GraphQlHelperLib
                 return;
             
             GetCacheDictionary(context)[key] = cache;
+        }
+
+
+        // User for authentication
+
+        public static ClaimsPrincipal GetUser(this IProvideUserContext context)
+        {
+            return GetCacheDictionary(context).TryGetValue("_", out object user)
+                        ? (ClaimsPrincipal)user
+                        : null;
+        }
+
+        public static void SetUser(this IProvideUserContext context, ClaimsPrincipal user)
+        {
+            if (user == null)
+                return;
+
+            GetCacheDictionary(context)["_"] = user;
         }
     }
 }

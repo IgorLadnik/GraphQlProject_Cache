@@ -11,7 +11,7 @@ namespace GraphQlProject.Type
             //Field(u => u.StrId);
             Field(u => u.UserName);
             Field(u => u.Password);
-            Field(u => u.Permissions);
+            Field(u => u.Type);
         }
     }
 }

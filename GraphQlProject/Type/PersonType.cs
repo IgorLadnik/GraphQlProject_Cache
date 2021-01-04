@@ -36,7 +36,7 @@ namespace GraphQlProject.Type
                             Console.WriteLine("** fetch 1");
 
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = dbProvider.Fetch<IList<Affiliation>>(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            affiliations = dbProvider.Fetch(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                             context.SetCache("affiliations", affiliations);
                         }
                     });
@@ -61,7 +61,7 @@ namespace GraphQlProject.Type
                             Console.WriteLine("** fetch 2");
 
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            relations = dbProvider.Fetch<IList<Relation>>(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
+                            relations = dbProvider.Fetch(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
                             context.SetCache("relations", relations);
                         }
                     });

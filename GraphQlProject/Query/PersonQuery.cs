@@ -14,7 +14,7 @@ namespace GraphQlProject.Query
         {
             Field<ListGraphType<PersonType>>("persons", resolve: context =>
             {
-                var persons = dbProvider.Fetch<IList<Person>>(dbContext => dbContext.Persons.ToList());
+                var persons = dbProvider.Fetch(dbContext => dbContext.Persons.ToList());
                 context.SetCache("personIds", persons.Select(p => p.Id).ToList());
                 return persons;
             });
