@@ -26,8 +26,8 @@ namespace GraphQlProject.Controllers
 
         [HttpPost]
         [AuthorizeRoles(UserType.SuperUser)]
-        public async Task<IActionResult> PostAsync([FromBody] GraphqlQuery query, 
-                           [FromServices] IEnumerable<IValidationRule> validationRules)
+        public async Task<IActionResult> PostAsync([FromBody] GraphqlQuery query/*, 
+                           [FromServices] IEnumerable<IValidationRule> validationRules*/)
         {
             if (query == null) 
                 throw new ArgumentNullException(nameof(query));
@@ -38,7 +38,7 @@ namespace GraphQlProject.Controllers
                 Schema = _schema,
                 Query = query.Query,
                 Inputs = inputs,
-                ValidationRules = validationRules
+                //ValidationRules = validationRules
             };
             executionOptions.SetUser(User);
 

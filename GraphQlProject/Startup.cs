@@ -13,7 +13,7 @@ using GraphQlProject.Data;
 using Microsoft.EntityFrameworkCore;
 using GraphQlHelperLib;
 using GraphQlProject.Mutation;
-using GraphQlProject.Auth;
+//using GraphQlProject.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
