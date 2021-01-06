@@ -16,7 +16,7 @@ namespace GraphQlProject.Query
             FieldAsync<ListGraphType<OrganizationType>>("organizations", resolve: async context =>
                 await Task.Run(async () =>
                 {
-                    var organizations = await dbProvider.Fetch(dbContext => dbContext.Organizations.ToList());
+                    var organizations = await dbProvider.FetchAsync(dbContext => dbContext.Organizations.ToList());
                     context.SetCache("organizations", organizations.ToList());
                     return organizations;
                 }));

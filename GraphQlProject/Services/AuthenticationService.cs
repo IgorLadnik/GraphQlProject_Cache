@@ -27,7 +27,7 @@ namespace GraphQlProject.Services
 
         public async Task<string> Login(UserDTO userDTO)
         {
-            var user = await _dbProvider.Fetch(dbContext => dbContext.Users
+            var user = await _dbProvider.FetchAsync(dbContext => dbContext.Users
                             .Where(u => u.UserName == userDTO.UserName && u.Password == userDTO.Password)
                             .FirstOrDefault());
             return user != null ? GenerateJwt(user) : null;

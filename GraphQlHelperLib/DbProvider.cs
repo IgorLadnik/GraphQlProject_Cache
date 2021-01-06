@@ -6,7 +6,7 @@ namespace GraphQlHelperLib
 {
     public class DbProvider<T> where T : DbContext, new()
     {
-        public Task<R> Fetch<R>(Func<T, R> func) =>
+        public Task<R> FetchAsync<R>(Func<T, R> func) =>
             Task.Run(() =>
             {
                 using var dbContext = new T();

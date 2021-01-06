@@ -26,7 +26,7 @@ namespace GraphQlProject.Type
                     await FirstCall(async () =>
                     {
                         var pIds = relations.Select(r => r.P2Id).ToList();
-                        persons = await dbProvider.Fetch(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
+                        persons = await dbProvider.FetchAsync(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
                         context.SetCache("personsInRelations", persons);
                     });
 

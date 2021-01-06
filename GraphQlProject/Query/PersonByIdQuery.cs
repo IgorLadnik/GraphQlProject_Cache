@@ -23,7 +23,7 @@ namespace GraphQlProject.Query
                     {
                         var user = context.GetUser();
                         var id = context.GetArgument<int>("id");
-                        var person = await dbProvider.Fetch(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
+                        var person = await dbProvider.FetchAsync(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
                         if (person != null)
                             context.SetCache("personIds", new List<int> { person.Id });
                         return person;
