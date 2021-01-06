@@ -17,12 +17,11 @@ namespace GraphQlProject.Controllers
     [ApiController]
     public class GqlController : Controller
     {
-        private readonly IDocumentExecuter _documentExecuter;
-        private readonly ISchema _schema;
+        private GraphqlProcessor _gql;
+
         public GqlController(ISchema schema, IDocumentExecuter documentExecuter)
         {
-            _schema = schema;
-            _documentExecuter = documentExecuter;
+            _gql = new(schema, documentExecuter);
         }
 
         [HttpPost]
@@ -30,33 +29,11 @@ namespace GraphQlProject.Controllers
         public async Task<IActionResult> PostAsync([FromBody] GraphqlQuery query/*, 
                            [FromServices] IEnumerable<IValidationRule> validationRules*/)
         {
-            if (query == null) 
-                throw new ArgumentNullException(nameof(query));
-           
-            var inputs = query.Variables.ToInputs();
-            var executionOptions = new ExecutionOptions
-            {
-                Schema = _schema,
-                Query = query.Query,
-                Inputs = inputs,
-                //ValidationRules = validationRules
-            };
-            executionOptions.SetUser(User);
-
-            var result = await _documentExecuter.ExecuteAsync(executionOptions);
-
+            var result = await _gql.Process(query, User);
             if (result.Errors?.Count > 0)
                 return BadRequest(result);
 
             return Ok(result.Data);
         }
-    }
-
-    public class GraphqlQuery
-    {
-        public string OperationName { get; set; }
-        public string NamedQuery { get; set; }
-        public string Query { get; set; }
-        public JObject Variables { get; set; }
     }
 }

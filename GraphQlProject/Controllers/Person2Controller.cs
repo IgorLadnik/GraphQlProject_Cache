@@ -3,19 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using Newtonsoft.Json.Linq;
+using GraphQlHelperLib;
+using GraphQL.Types;
+using GraphQL;
 
 namespace GraphQlProject.Controllers
 {
-    [Route("person")]
-    public class PersonController : Controller
+    [Route("[controller]")]
+    [ApiController]
+    public class Person2Controller : Controller
     {
-        [HttpGet("{id}")]
-        public async Task<string> Get(int id)
+        private GraphqlProcessor _gql;
+
+        public Person2Controller(ISchema schema, IDocumentExecuter documentExecuter)
         {
-            using var graphQLClient = new GraphQLHttpClient("https://localhost:5001/graphql", new NewtonsoftJsonSerializer());
-            GraphQL.GraphQLRequest query = new()
-            {
-                Query = @"   
+            _gql = new(schema, documentExecuter);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var query =
+                @"   
                 {
                     personByIdQuery {
                       personById(id: /*id*/) {
@@ -36,10 +45,13 @@ namespace GraphQlProject.Controllers
                         }
                       }
                     }
-                }".Replace("/*id*/", $"{id}")
-            };
+                }".Replace("/*id*/", $"{id}");
 
-            return (await graphQLClient.SendQueryAsync<JObject>(query)).Data.ToString();
+            var result = await _gql.Process(query, User);
+            if (result.Errors?.Count > 0)
+                return BadRequest(result);
+
+            return Ok(result.Data);
         }
     }
 }
