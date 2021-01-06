@@ -16,7 +16,6 @@ namespace GraphQlProject.Type
             Field(a => a.Since);
 
             FieldAsync<OrganizationType>("organization", resolve: async context =>
-                await Task.Run(async () =>
                 {
                     IList<Affiliation> affiliations = null;
                     IList<Organization> organizations;
@@ -43,10 +42,9 @@ namespace GraphQlProject.Type
                     organizations = context.GetCache<IList<Organization>>("organizations");
                     var organizationId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault().OrganizationId;
                     return organizations.Where(o => o.Id == organizationId).FirstOrDefault();
-                }));
+                });
 
             FieldAsync<RoleType>("role", resolve: async context =>
-                await Task.Run(async () =>
                 {
                     IList<Affiliation> affiliations = null;
                     IList<Role> roles;
@@ -73,7 +71,7 @@ namespace GraphQlProject.Type
                     roles = context.GetCache<IList<Role>>("roles");
                     var roleId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault().RoleId;
                     return roles.Where(r => r.Id == roleId).FirstOrDefault();
-                }));
+                });
         }
     }
 }

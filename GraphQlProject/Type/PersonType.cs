@@ -23,7 +23,6 @@ namespace GraphQlProject.Type
             Field(p => p.Address);
 
             FieldAsync<ListGraphType<AffiliationType>>("affiliations",  resolve: async context =>
-                await Task.Run(async () =>
                 {
                     IList<Affiliation> affiliations;
 
@@ -45,10 +44,9 @@ namespace GraphQlProject.Type
 
                     affiliations = context.GetCache<IList<Affiliation>>("affiliations");
                     return affiliations.Where(a => a.PersonId == context.Source.Id);
-                }));
+                });
 
             FieldAsync<ListGraphType<RelationType>>("relations", resolve: async context =>
-                await Task.Run(async () =>
                 {
                     IList<Relation> relations;
 
@@ -70,7 +68,7 @@ namespace GraphQlProject.Type
 
                     relations = context.GetCache<IList<Relation>>("relations");
                     return relations.Where(r => r.P1Id == context.Source.Id);
-                }));
+                });
         }
     }
 }

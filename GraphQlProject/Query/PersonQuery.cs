@@ -14,12 +14,11 @@ namespace GraphQlProject.Query
         public PersonQuery(DbProvider<GraphQLDbContext> dbProvider)
         {
             FieldAsync<ListGraphType<PersonType>>("persons", resolve: async context =>
-                await Task.Run(async () =>
                 {
                     var persons = await dbProvider.FetchAsync(dbContext => dbContext.Persons.ToList());
                     context.SetCache("personIds", persons.Select(p => p.Id).ToList());
                     return persons;
-                }));
+                });
         }
     }
 }

@@ -17,7 +17,6 @@ namespace GraphQlProject.Type
             Field(o => o.Address);
 
             FieldAsync<OrganizationType>("parent", resolve: async context =>
-                await Task.Run(async () =>
                 {
                     const string cacheName = "parentOrganizations";
                     IList<Organization> organizations;
@@ -34,7 +33,7 @@ namespace GraphQlProject.Type
                     organizations = context.GetCache<IList<Organization>>(cacheName);
                     var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
                     return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
-                }));
+                });
         }
     }
 }

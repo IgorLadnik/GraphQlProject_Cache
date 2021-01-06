@@ -12,9 +12,9 @@ namespace GraphQlProject.Mutation
     {
         public PersonMutation(DbProvider<GraphQLDbContext> dbProvider)
         {
-            Field<PersonOutputType>("createPersons",
+            FieldAsync<PersonOutputType>("createPersons",
                 arguments: new QueryArguments(new QueryArgument<ListGraphType<PersonInputType>> { Name = "personsInput" }),
-                resolve: context =>
+                resolve: async context =>
                 {
                     List<Person> persons = new();
                     List<Affiliation> affiliations = new();
@@ -93,7 +93,7 @@ namespace GraphQlProject.Mutation
                         relations.Add(relation);
                     }
 
-                    var mutationResponse = dbProvider.Save(dbContext =>
+                    var mutationResponse = await dbProvider.SaveAsync(dbContext =>
                         {
                             dbContext.Persons.AddRange(persons);
                             dbContext.Affiliations.AddRange(affiliations);

@@ -19,7 +19,6 @@ namespace GraphQlProject.Query
             FieldAsync<PersonType>("personById",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: async context =>
-                    await Task.Run(async () =>
                     {
                         var user = context.GetUser();
                         var id = context.GetArgument<int>("id");
@@ -27,7 +26,7 @@ namespace GraphQlProject.Query
                         if (person != null)
                             context.SetCache("personIds", new List<int> { person.Id });
                         return person;
-                    }));
+                    });
         }
     }
 }

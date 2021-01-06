@@ -18,7 +18,6 @@ namespace GraphQlProject.Type
             Field(r => r.Notes);
 
             FieldAsync<PersonType>("p2", resolve: async context =>
-                await Task.Run(async () =>
                 {
                     var relations = context.GetCache<IList<Relation>>("relations");
                     IList<Person> persons;
@@ -33,7 +32,7 @@ namespace GraphQlProject.Type
                     persons = context.GetCache<IList<Person>>("personsInRelations");
                     var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
                     return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
-                }));
+                });
         }
     }
 }
