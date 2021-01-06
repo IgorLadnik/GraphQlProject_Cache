@@ -14,6 +14,7 @@ using GraphQlProject.Models;
 namespace GraphQlProject.Controllers
 {
     [Route("gql")]
+    [ApiController]
     public class GqlController : Controller
     {
         private readonly IDocumentExecuter _documentExecuter;
