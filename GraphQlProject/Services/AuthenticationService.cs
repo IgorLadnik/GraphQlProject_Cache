@@ -35,7 +35,7 @@ namespace GraphQlProject.Services
 
         private string GenerateJwt(User user)
         {
-            var key = _configuration.GetValue<string>("jwt-signing-key");
+            var key = _configuration.GetValue<string>("JwtSigningKey");
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var tokenOptions = new JwtSecurityToken(
@@ -46,7 +46,7 @@ namespace GraphQlProject.Services
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Role, user.Type.ToString()),
                 },
-                expires: DateTime.Now.AddHours(24),
+                //1 expires: DateTime.Now.AddHours(24),
                 signingCredentials: signinCredentials
             );
 
