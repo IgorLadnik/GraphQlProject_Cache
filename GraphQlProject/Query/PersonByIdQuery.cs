@@ -32,26 +32,25 @@ namespace GraphQlProject.Query
 }
 
 /*
-query
 {
-    personByIdQuery {
-      personById(id: 1) {
-        surname
-        relations {
-          p2 {
-            surname
-          }
-          kind
+  personByIdQuery {
+    personById(id: 1) {
+      surname
+      relations {
+        p2 {
+          surname
         }
-        affiliations {
-          organization {
-            name
-          }
-          role {
-            name
-          }
+        kind
+      }
+      affiliations {
+        organization {
+          name
+        }
+        role {
+          name
         }
       }
     }
+  }
 }
 */

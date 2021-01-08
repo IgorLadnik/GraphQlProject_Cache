@@ -24,32 +24,31 @@ namespace GraphQlProject.Query
 }
 
 /*
-query
 {
-    personQuery {
-        persons {
-            givenName
-            surname
-            affiliations {
-                organization {
-                    name
-                    parent {
-                        name
-                    }
-                }
-                role {
-                    name
-                }
-            }
-            relations {
-                p2 {
-                    givenName
-                    surname
-                }
-                kind
-                notes
-            }
+  personQuery {
+    persons {
+      givenName
+      surname
+      affiliations {
+        organization {
+          name
+          parent {
+            name
+          }
         }
+        role {
+          name
+        }
+      }
+      relations {
+        p2 {
+          givenName
+          surname
+        }
+        kind
+        notes
+      }
     }
+  }
 }
 */
