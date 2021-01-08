@@ -1,12 +1,8 @@
-﻿using GraphQlProject.DTO;
-using GraphQlProject.Models;
-using GraphQlProject.Services;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GraphQlProject.Services;
 
 namespace GraphQlProject.Controllers
 {
@@ -30,8 +26,7 @@ namespace GraphQlProject.Controllers
         {
             try
             {
-                var jwt = await _authService.Login(new UserDTO { UserName = userName, Password = password });
-                return Ok(jwt);
+                return Ok(await _authService.Login(userName, password));
             }
             //catch (UserNotFoundException e)
             //{
