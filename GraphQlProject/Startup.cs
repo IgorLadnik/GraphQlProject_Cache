@@ -14,6 +14,7 @@ using GraphQlProject.Mutation;
 //using GraphQlProject.Auth;
 using JwtHelperLib;
 using PersonModelLib;
+using JwtHelperLib.Data;
 
 namespace GraphQlProject
 {
@@ -29,7 +30,10 @@ namespace GraphQlProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwtAuth(new JwtOptions(Configuration));
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            
+            services.AddJwtAuth(new JwtOptions(Configuration), connectionString);
+            services.AddPersonModelServices(connectionString);
             services.AddScoped<AuthService, AuthService>();
 
             //services.AddAuthorization(options =>
@@ -44,7 +48,6 @@ namespace GraphQlProject
 
             services.AddControllers();
 
-            services.AddPersonModelServices(Configuration.GetConnectionString("DefaultConnection"));
             //services.AddGraphQLAuth();
             services.AddTransient<RootQuery>();
             services.AddTransient<RootMutation>();

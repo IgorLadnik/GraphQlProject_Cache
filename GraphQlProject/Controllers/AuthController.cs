@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using GraphQlHelperLib;
 using JwtHelperLib;
 using PersonModelLib.Data;
+using JwtHelperLib.Data;
 
 namespace GraphQlProject.Controllers
 {
@@ -13,10 +14,10 @@ namespace GraphQlProject.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private DbProvider<GraphQLDbContext> _dbProvider;
+        private DbProvider<UserDbContext> _dbProvider;
         private AuthService _authService;
 
-        public AuthController(DbProvider<GraphQLDbContext> dbProvider, AuthService authService)
+        public AuthController(DbProvider<UserDbContext> dbProvider, AuthService authService)
         {
             _dbProvider = dbProvider;
             _authService = authService;

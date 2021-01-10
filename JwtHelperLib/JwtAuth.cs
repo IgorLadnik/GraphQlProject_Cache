@@ -2,6 +2,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using GraphQlHelperLib;
+using JwtHelperLib.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -29,8 +31,11 @@ namespace JwtHelperLib
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        public static void AddJwtAuth(this IServiceCollection services, JwtOptions jwtOptions)
+        public static void AddJwtAuth(this IServiceCollection services, JwtOptions jwtOptions, string connectionString)
         {
+            UserDbContext.ConnectionString = connectionString;
+            services.AddSingleton<DbProvider<UserDbContext>>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

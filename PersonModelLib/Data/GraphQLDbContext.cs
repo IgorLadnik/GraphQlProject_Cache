@@ -18,7 +18,6 @@ namespace PersonModelLib.Data
         public DbSet<Person> Persons { get; set; }
         public DbSet<Relation> Relations { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
@@ -73,15 +72,6 @@ namespace PersonModelLib.Data
                 new Role { Id = 1, /*StrId = "l_st",*/ Name = "Student",   Description = "Subject to brainwash" },
                 new Role { Id = 2, /*StrId = "l_pr",*/ Name = "Professor", Description = "Brainwasher" },
                 new Role { Id = 3, /*StrId = "l_dr",*/ Name = "Director",  Description = "Main brainwasher" }
-            );
-
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, /*StrId = "u_01",*/ UserName = "Rachel",  Password = "rrr",             Type = UserAuthType.SuperUser },
-                new User { Id = 2, /*StrId = "u_02",*/ UserName = "Sandeep", Password = "sss",             Type = UserAuthType.Admin },
-                new User { Id = 3, /*StrId = "u_03",*/ UserName = "Nick",    Password = "nnn",             Type = UserAuthType.Regular },
-                new User { Id = 4, /*StrId = "u_04",*/ UserName = "Regular", Password = "RegularPassword", Type = UserAuthType.Regular },
-                new User { Id = 5, /*StrId = "u_05",*/ UserName = "Admin",   Password = "AdminPassword",   Type = UserAuthType.Admin },
-                new User { Id = 6, /*StrId = "u_06",*/ UserName = "Super",   Password = "SuperPassword",   Type = UserAuthType.SuperUser }
             );
         }
     }
