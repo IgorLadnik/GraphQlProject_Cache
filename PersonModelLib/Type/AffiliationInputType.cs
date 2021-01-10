@@ -1,7 +1,7 @@
 using System;
 using GraphQL.Types;
 
-namespace GraphQlProject.Type
+namespace PersonModelLib.Type
 {
     public class AffiliationInputType : InputObjectGraphType
     {

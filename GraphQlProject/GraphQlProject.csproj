@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GraphQlHelperLib\GraphQlHelperLib.csproj" />
     <ProjectReference Include="..\JwtHelperLib\JwtHelperLib.csproj" />
+    <ProjectReference Include="..\PersonModelLib\PersonModelLib.csproj" />
   </ItemGroup>
 
 

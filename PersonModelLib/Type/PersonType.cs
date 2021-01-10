@@ -2,12 +2,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using GraphQL.Types;
-using GraphQlProject.Models;
-using GraphQlProject.Data;
-using System.Threading.Tasks;
 using GraphQlHelperLib;
+using PersonModelLib.Models;
+using PersonModelLib.Data;
 
-namespace GraphQlProject.Type
+namespace PersonModelLib.Type
 {
     public class PersonType : ObjectGraphTypeCached<Person>
     {

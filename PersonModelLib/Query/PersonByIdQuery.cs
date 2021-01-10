@@ -1,15 +1,13 @@
 ﻿using System.Linq;
-using GraphQL.Types;
-using GraphQlProject.Type;
-using GraphQlProject.Data;
 using System.Collections.Generic;
-using GraphQL;
-using GraphQlProject.Models;
-using GraphQlHelperLib;
 using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
+using GraphQL;
+using GraphQL.Types;
+using GraphQlHelperLib;
+using PersonModelLib.Data;
+using PersonModelLib.Type;
 
-namespace GraphQlProject.Query
+namespace PersonModelLib.Query
 {
     [Authorize(Policy = "ApiUser")]
     public class PersonByIdQuery : ObjectGraphType

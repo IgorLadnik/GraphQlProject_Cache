@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using GraphQlProject.Models;
-using JwtHelperLib;
+﻿using JwtHelperLib;
+using Microsoft.EntityFrameworkCore;
+using PersonModelLib.Models;
 
-namespace GraphQlProject.Data
+namespace PersonModelLib.Data
 {
     public class GraphQLDbContext : DbContext
     {

@@ -1,7 +1,7 @@
 using GraphQL.Types;
-using GraphQlProject.Models;
+using PersonModelLib.Models;
 
-namespace GraphQlProject.Type
+namespace PersonModelLib.Type
 {
     public class UserType : ObjectGraphType<User>
     {

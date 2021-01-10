@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using PersonModelLib.Query;
 
 namespace GraphQlProject.Query
 {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GraphQlProject.Models
+namespace PersonModelLib.Models
 {
     [Table("Relations")]
     public class Relation

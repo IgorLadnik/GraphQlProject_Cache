@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using JwtHelperLib;
 
-namespace GraphQlProject.Models
+namespace PersonModelLib.Models
 {
     [Table("Users")]
     public class User

@@ -1,7 +1,7 @@
 using GraphQL.Types;
 using GraphQlHelperLib;
 
-namespace GraphQlProject.Type
+namespace PersonModelLib.Type
 {
     public class PersonOutputType : ObjectGraphType<MutationResponse>
     {

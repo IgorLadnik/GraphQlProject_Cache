@@ -1,13 +1,10 @@
 ﻿using System.Linq;
 using GraphQL.Types;
-using GraphQlProject.Type;
-using GraphQlProject.Data;
-using GraphQlProject.Models;
-using System.Collections.Generic;
 using GraphQlHelperLib;
-using System.Threading.Tasks;
+using PersonModelLib.Data;
+using PersonModelLib.Type;
 
-namespace GraphQlProject.Query
+namespace PersonModelLib.Query
 {
     public class PersonQuery : ObjectGraphType
     {

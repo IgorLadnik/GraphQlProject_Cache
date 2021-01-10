@@ -2,11 +2,11 @@
 using GraphQL;
 using GraphQL.Types;
 using GraphQlHelperLib;
-using GraphQlProject.Data;
-using GraphQlProject.Models;
-using GraphQlProject.Type;
+using PersonModelLib.Data;
+using PersonModelLib.Models;
+using PersonModelLib.Type;
 
-namespace GraphQlProject.Mutation
+namespace PersonModelLib.Mutation
 {
     public class PersonMutation : ObjectGraphType
     {

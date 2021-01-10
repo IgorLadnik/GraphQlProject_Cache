@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GraphQlProject.Models
+namespace PersonModelLib.Models
 {
-    [Table("Affiliations")]
-    public class Affiliation
+    [Table("Roles")]
+    public class Role
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -14,11 +14,10 @@ namespace GraphQlProject.Models
         //[StringLength(10)]
         //public string StrId { get; set; }
 
-        public int Since { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string Name { get; set; }
 
-        public int OrganizationId { get; set; }
-        public int RoleId { get; set; }
-
-        public int PersonId { get; set; }
+        public string Description { get; set; }
     }
 }

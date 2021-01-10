@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using GraphQlHelperLib;
-using GraphQlProject.Data;
 using JwtHelperLib;
+using PersonModelLib.Data;
 
 namespace GraphQlProject.Controllers
 {

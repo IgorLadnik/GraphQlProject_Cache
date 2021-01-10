@@ -1,11 +1,10 @@
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using GraphQlProject.Models;
-using GraphQlProject.Data;
 using GraphQlHelperLib;
+using PersonModelLib.Models;
+using PersonModelLib.Data;
 
-namespace GraphQlProject.Type
+namespace PersonModelLib.Type
 {
     public class RelationType : ObjectGraphTypeCached<Relation>
     {
