@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using GraphQlProject.Query;
 using GraphQlProject.Schema;
 using GraphQL.Types;
@@ -14,6 +15,9 @@ using GraphQlProject.Mutation;
 using JwtHelperLib;
 using PersonModelLib;
 using GraphQL.Server.Ui.Playground;
+using System.Reflection;
+using System.IO;
+using System;
 
 namespace GraphQlProject
 {
@@ -57,6 +61,40 @@ namespace GraphQlProject
                 options.EnableMetrics = false;
             })
             .AddSystemTextJson();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "GraphQL API",
+                });
+
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,13 +107,16 @@ namespace GraphQlProject
 
             //dbContext.Database.EnsureCreated();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1"));
+
             app.UseGraphQL<ISchema>("/graphql");
 
             app.UseGraphiQl("/gqli");
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions 
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
             {
                 GraphQLEndPoint = "/graphql",
-                Path = "/playground"
+                Path = "/playground",
             });
 
             app.UseHttpsRedirection();

@@ -8,7 +8,7 @@ namespace GraphQlProject.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class Person1Controller : Controller
+    public class Person1Controller : ControllerBase
     {
         [HttpGet("{id}")]
         public async Task<string> Get(int id)

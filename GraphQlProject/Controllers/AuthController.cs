@@ -12,7 +12,7 @@ namespace GraphQlProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private DbProvider<UserDbContext> _dbProvider;
         private AuthService _authService;
@@ -23,7 +23,7 @@ namespace GraphQlProject.Controllers
             _authService = authService;
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         [Route("login")]
         //[ProducesResponseType(typeof(string), 200)]
         //[ProducesResponseType(401)]

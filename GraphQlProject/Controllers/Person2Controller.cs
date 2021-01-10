@@ -11,7 +11,7 @@ namespace GraphQlProject.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class Person2Controller : Controller
+    public class Person2Controller : ControllerBase
     {
         private GraphqlProcessor _gql;
 
