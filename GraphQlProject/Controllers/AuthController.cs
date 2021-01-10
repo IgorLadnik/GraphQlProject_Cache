@@ -10,9 +10,9 @@ namespace GraphQlProject.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private AuthenticationService _authService;
+        private AuthService _authService;
 
-        public AuthController(AuthenticationService authService)
+        public AuthController(AuthService authService)
         {
             _authService = authService;
         }

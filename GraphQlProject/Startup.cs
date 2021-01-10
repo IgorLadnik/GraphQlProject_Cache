@@ -35,7 +35,7 @@ namespace GraphQlProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddJwtAuth(new JwtOptions(Configuration));
-            services.AddScoped<AuthenticationService, AuthenticationService>();
+            services.AddScoped<AuthService, AuthService>();
 
             //services.AddAuthorization(options =>
             //{

@@ -8,12 +8,12 @@ using JwtHelperLib;
 
 namespace GraphQlProject.Services
 {
-    public class AuthenticationService
+    public class AuthService
     {
         private DbProvider<GraphQLDbContext> _dbProvider;
         private JwtOptions _jwtOptions;
 
-        public AuthenticationService(DbProvider<GraphQLDbContext> dbProvider, IConfiguration configuration)
+        public AuthService(DbProvider<GraphQLDbContext> dbProvider, IConfiguration configuration)
         {
             _dbProvider = dbProvider;
             _jwtOptions = new JwtOptions(configuration);
