@@ -69,7 +69,8 @@ namespace GraphQlProject
 
             //dbContext.Database.EnsureCreated();
 
-            app.UseGraphQL<ISchema>();
+            app.UseGraphQL<ISchema>("/graphql");
+
             app.UseGraphiQl("/gqli");
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions 
             {

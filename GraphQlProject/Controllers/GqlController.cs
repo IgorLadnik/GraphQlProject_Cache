@@ -7,7 +7,7 @@ using JwtHelperLib;
 
 namespace GraphQlProject.Controllers
 {
-    [Route("gql")]
+    [Route("[controller]")]
     [ApiController]
     public class GqlController : Controller
     {
@@ -19,9 +19,17 @@ namespace GraphQlProject.Controllers
         }
 
         [HttpPost]
+        [Route("auth")]
         [AuthorizeRoles(UserAuthType.SuperUser)]
-        public async Task<IActionResult> PostAsync([FromBody] GraphqlQuery query/*, 
-                           [FromServices] IEnumerable<IValidationRule> validationRules*/)
+        public async Task<IActionResult> PostAsyncAuth([FromBody] GraphqlQuery query/*, 
+                           [FromServices] IEnumerable<IValidationRule> validationRules*/) =>
+            await ProcessQuery(query);
+
+        [HttpPost]
+        [Route("free")]
+        public async Task<IActionResult> PostAsyncFree([FromBody] GraphqlQuery query) => await ProcessQuery(query);
+        
+        private async Task<IActionResult> ProcessQuery(GraphqlQuery query) 
         {
             var result = await _gql.Process(query, User);
             if (result.Errors?.Count > 0)
