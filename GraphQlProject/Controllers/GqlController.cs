@@ -1,15 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GraphQL;
-using Newtonsoft.Json.Linq;
-using GraphQL.NewtonsoftJson;
 using GraphQL.Types;
 using GraphQlHelperLib;
-using System.Collections.Generic;
-using GraphQL.Validation;
-using Microsoft.AspNetCore.Authorization;
-using GraphQlProject.Models;
+using JwtHelperLib;
 
 namespace GraphQlProject.Controllers
 {

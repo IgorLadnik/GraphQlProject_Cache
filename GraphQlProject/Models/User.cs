@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using JwtHelperLib;
 
 namespace GraphQlProject.Models
 {
@@ -24,12 +25,5 @@ namespace GraphQlProject.Models
 
         [Required]
         public UserAuthType Type { get; set; }
-    }
-
-    public enum UserAuthType
-    {
-        Regular = 1,
-        Admin = 2,
-        SuperUser = 3
     }
 }

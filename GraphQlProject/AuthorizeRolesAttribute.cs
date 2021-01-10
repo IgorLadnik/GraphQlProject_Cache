@@ -1,5 +1,5 @@
-﻿using GraphQlProject.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using JwtHelperLib;
 
 namespace GraphQlProject
 {

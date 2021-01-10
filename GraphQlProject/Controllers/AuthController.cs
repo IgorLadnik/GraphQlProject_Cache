@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using GraphQlProject.Services;
 using GraphQlHelperLib;
 using GraphQlProject.Data;
+using JwtHelperLib;
 
 namespace GraphQlProject.Controllers
 {
@@ -34,12 +34,10 @@ namespace GraphQlProject.Controllers
                 var user = await _dbProvider.FetchAsync(dbContext => dbContext.Users
                             .Where(u => u.UserName == userName && u.Password == password)
                             .FirstOrDefault());
-                return Ok(await _authService.Login(user.UserName, user.Type));
+                return user == null 
+                        ? StatusCode(500, "User not found.")
+                        : Ok(await _authService.Login(user.UserName, user.Type));
             }
-            //catch (UserNotFoundException e)
-            //{
-            //    return NotFound(e.Message);
-            //}
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);

@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using GraphQlProject.Models;
-using JwtHelperLib;
 
-namespace GraphQlProject.Services
+namespace JwtHelperLib
 {
     public class AuthService
     {
@@ -17,5 +14,12 @@ namespace GraphQlProject.Services
 
         public async Task<string> Login(string userName, UserAuthType userAuthType) =>
               JwtAuth.GenerateJwt(userName, $"{userAuthType}", _jwtOptions);
+    }
+
+    public enum UserAuthType
+    {
+        Regular = 1,
+        Admin = 2,
+        SuperUser = 3
     }
 }

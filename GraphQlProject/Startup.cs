@@ -14,10 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using GraphQlHelperLib;
 using GraphQlProject.Mutation;
 //using GraphQlProject.Auth;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using GraphQlProject.Services;
 using JwtHelperLib;
 
 namespace GraphQlProject

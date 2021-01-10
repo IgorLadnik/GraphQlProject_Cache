@@ -1,5 +1,6 @@
-﻿using GraphQlProject.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using GraphQlProject.Models;
+using JwtHelperLib;
 
 namespace GraphQlProject.Data
 {
