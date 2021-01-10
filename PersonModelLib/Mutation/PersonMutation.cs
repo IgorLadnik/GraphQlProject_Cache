@@ -107,7 +107,7 @@ namespace PersonModelLib.Mutation
 }
 
 /*
-mutation RootMutation {
+mutation PersonMutation {
   personMutation {
     createPersons(
       personsInput: [{

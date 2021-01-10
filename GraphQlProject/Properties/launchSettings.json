@@ -11,26 +11,26 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "gqli",
+      "launchUrl": "playground",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "GraphQlProject": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "gqli",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+        "commandName": "Project",
+        "launchBrowser": true,
+        "launchUrl": "playground",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        },
+        "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
     "Docker": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/gqli",
-      "publishAllPorts": true,
-      "useSSL": true
+        "commandName": "Docker",
+        "launchBrowser": true,
+        "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/playground",
+        "publishAllPorts": true,
+        "useSSL": true
     }
   }
 }

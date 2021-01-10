@@ -30,7 +30,7 @@ namespace PersonModelLib.Query
 }
 
 /*
-{
+query PersonById {
   personByIdQuery {
     personById(id: 1) {
       surname

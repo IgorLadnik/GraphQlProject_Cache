@@ -21,7 +21,7 @@ namespace PersonModelLib.Query
 }
 
 /*
-{
+query Persons {
   personQuery {
     persons {
       givenName

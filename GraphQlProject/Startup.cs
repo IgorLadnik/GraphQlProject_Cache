@@ -3,18 +3,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using GraphQlProject.Query;
 using GraphQlProject.Schema;
 using GraphQL.Types;
 using GraphQL.Server;
 using GraphiQl;
-using Microsoft.EntityFrameworkCore;
-using GraphQlHelperLib;
 using GraphQlProject.Mutation;
 //using GraphQlProject.Auth;
 using JwtHelperLib;
 using PersonModelLib;
-using JwtHelperLib.Data;
+using GraphQL.Server.Ui.Playground;
 
 namespace GraphQlProject
 {
@@ -70,8 +69,13 @@ namespace GraphQlProject
 
             //dbContext.Database.EnsureCreated();
 
-            app.UseGraphiQl("/gqli");
             app.UseGraphQL<ISchema>();
+            app.UseGraphiQl("/gqli");
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions 
+            {
+                GraphQLEndPoint = "/graphql",
+                Path = "/playground"
+            });
 
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -84,21 +88,5 @@ namespace GraphQlProject
                 endpoints.MapControllers();
             });
         }
-
-        //public static class Constants
-        //{
-        //    public static class Strings
-        //    {
-        //        public static class JwtClaimIdentifiers
-        //        {
-        //            public const string Rol = "rol", Id = "id";
-        //        }
-
-        //        public static class JwtClaims
-        //        {
-        //            public const string ApiAccess = "api_access";
-        //        }
-        //    }
-        //}
     }
 }

@@ -21,7 +21,7 @@ namespace PersonModelLib.Query
 }
 
 /*
-query {
+query Organizations {
   organizationQuery {
     organizations {
       name
