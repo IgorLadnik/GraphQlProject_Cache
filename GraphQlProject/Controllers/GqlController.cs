@@ -25,7 +25,7 @@ namespace GraphQlProject.Controllers
         }
 
         [HttpPost]
-        [AuthorizeRoles(UserType.SuperUser)]
+        [AuthorizeRoles(UserAuthType.SuperUser)]
         public async Task<IActionResult> PostAsync([FromBody] GraphqlQuery query/*, 
                            [FromServices] IEnumerable<IValidationRule> validationRules*/)
         {

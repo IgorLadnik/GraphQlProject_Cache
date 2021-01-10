@@ -5,7 +5,7 @@ namespace GraphQlProject
 {
     public class AuthorizeRolesAttribute : AuthorizeAttribute
     {
-        public AuthorizeRolesAttribute(params UserType[] roles) : base()
+        public AuthorizeRolesAttribute(params UserAuthType[] roles) : base()
         {
             Roles = string.Join(",", roles);
         }

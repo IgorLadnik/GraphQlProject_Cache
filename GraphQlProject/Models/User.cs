@@ -23,10 +23,10 @@ namespace GraphQlProject.Models
         public string Password { get; set; }
 
         [Required]
-        public UserType Type { get; set; }
+        public UserAuthType Type { get; set; }
     }
 
-    public enum UserType
+    public enum UserAuthType
     {
         Regular = 1,
         Admin = 2,
