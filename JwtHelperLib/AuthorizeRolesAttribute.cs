@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using JwtHelperLib;
 
-namespace GraphQlProject
+namespace JwtHelperLib
 {
     public class AuthorizeRolesAttribute : AuthorizeAttribute
     {
