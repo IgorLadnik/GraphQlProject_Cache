@@ -1,7 +1,7 @@
 ﻿using GraphQL.Types;
 using PersonModelLib.Query;
 
-namespace GraphQlProject.Query
+namespace PersonModelLib.Query
 {
     public class RootQuery : ObjectGraphType
     {

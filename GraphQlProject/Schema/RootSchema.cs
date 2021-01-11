@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using GraphQlProject.Query;
-using GraphQlProject.Mutation;
+using PersonModelLib.Query;
+using PersonModelLib.Mutation;
 
 namespace GraphQlProject.Schema
 {

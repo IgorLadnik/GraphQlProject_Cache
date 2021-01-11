@@ -5,19 +5,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using GraphQlProject.Query;
 using GraphQlProject.Schema;
 using GraphQL.Types;
 using GraphQL.Server;
 using GraphiQl;
-using GraphQlProject.Mutation;
-//using GraphQlProject.Auth;
 using JwtHelperLib;
 using PersonModelLib;
 using GraphQL.Server.Ui.Playground;
-using System.Reflection;
-using System.IO;
-using System;
+using PersonModelLib.Query;
+using PersonModelLib.Mutation;
 
 namespace GraphQlProject
 {

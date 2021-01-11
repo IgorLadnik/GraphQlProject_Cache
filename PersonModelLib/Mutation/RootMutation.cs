@@ -1,7 +1,7 @@
 ﻿using GraphQL.Types;
 using PersonModelLib.Mutation;
 
-namespace GraphQlProject.Mutation
+namespace PersonModelLib.Mutation
 {
     public class RootMutation : ObjectGraphType
     {
