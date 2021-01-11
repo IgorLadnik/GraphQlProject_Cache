@@ -6,10 +6,10 @@ using GraphQL.Types;
 using GraphQlHelperLib;
 using PersonModelLib.Data;
 using PersonModelLib.Type;
+using JwtHelperLib;
 
 namespace PersonModelLib.Query
 {
-    [Authorize(Policy = "ApiUser")]
     public class PersonByIdQuery : ObjectGraphType
     {      
         public PersonByIdQuery(DbProvider<GraphQLDbContext> dbProvider)
@@ -18,7 +18,11 @@ namespace PersonModelLib.Query
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: async context =>
                     {
+                        // Auth. filter example
                         var user = context.GetUser();
+                        var claims = user?.Claims;
+                        var isSuperUser = user?.IsInRole($"{UserAuthType.SuperUser}");
+
                         var id = context.GetArgument<int>("id");
                         var person = await dbProvider.FetchAsync(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
                         if (person != null)
