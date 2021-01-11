@@ -35,6 +35,7 @@ namespace JwtHelperLib
         {
             UserDbContext.ConnectionString = connectionString;
             services.AddSingleton<DbProvider<UserDbContext>>();
+            services.AddScoped<AuthService, AuthService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

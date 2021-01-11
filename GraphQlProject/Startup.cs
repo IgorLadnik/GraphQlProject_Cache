@@ -37,21 +37,9 @@ namespace GraphQlProject
             
             services.AddJwtAuth(new JwtOptions(Configuration), connectionString);
             services.AddPersonModelServices(connectionString);
-            services.AddScoped<AuthService, AuthService>();
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-            //});
-
-            //services.AddDbContext<GraphQLDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //var dbContext = services.BuildServiceProvider(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))).GetService<GraphQLDbContext>();
 
             services.AddControllers();
 
-            //services.AddGraphQLAuth();
             services.AddTransient<RootQuery>();
             services.AddTransient<RootMutation>();
             services.AddSingleton<ISchema, RootSchema>();
@@ -70,14 +58,15 @@ namespace GraphQlProject
                     Title = "GraphQL API",
                 });
 
-                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer",
-                    BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme."
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'"
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -89,7 +78,10 @@ namespace GraphQlProject
                                 {
                                     Type = ReferenceType.SecurityScheme,
                                     Id = "Bearer"
-                                }
+                                },
+                                Scheme = "oauth2",
+                                Name = "Bearer",
+                                In = ParameterLocation.Header,
                             },
                             new string[] {}
                     }

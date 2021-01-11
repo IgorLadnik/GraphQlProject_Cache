@@ -21,9 +21,7 @@ namespace GraphQlProject.Controllers
         [HttpPost]
         [Route("auth")]
         [AuthorizeRoles(UserAuthType.SuperUser)]
-        public async Task<IActionResult> PostAsyncAuth([FromBody] GraphqlQuery query/*, 
-                           [FromServices] IEnumerable<IValidationRule> validationRules*/) =>
-            await ProcessQuery(query);
+        public async Task<IActionResult> PostAsyncAuth([FromBody] GraphqlQuery query) => await ProcessQuery(query);
 
         [HttpPost]
         [Route("free")]
