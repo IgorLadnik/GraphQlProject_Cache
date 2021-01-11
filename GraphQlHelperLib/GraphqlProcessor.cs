@@ -29,6 +29,11 @@ namespace GraphQlHelperLib
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
+            //TEST
+            if (!query.IsIntrospection)
+            {
+            }
+
             var inputs = query.Variables.ToInputs();
             var executionOptions = new ExecutionOptions
             {
@@ -66,5 +71,10 @@ namespace GraphQlHelperLib
         public string NamedQuery { get; set; }
         public string Query { get; set; }
         public JObject Variables { get; set; }
+
+        public bool IsIntrospection 
+        {
+            get => this.OperationName == "IntrospectionQuery";
+        }
     }
 }
