@@ -8,12 +8,10 @@ using Microsoft.OpenApi.Models;
 using GraphQlProject.Schema;
 using GraphQL.Types;
 using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
 using GraphiQl;
 using JwtHelperLib;
 using PersonModelLib;
-using GraphQL.Server.Ui.Playground;
-using PersonModelLib.Query;
-using PersonModelLib.Mutation;
 
 namespace GraphQlProject
 {
@@ -33,12 +31,9 @@ namespace GraphQlProject
             
             services.AddJwtAuth(new JwtOptions(Configuration), connectionString);
             services.AddPersonModelServices(connectionString);
+            services.AddSingleton<ISchema, RootSchema>();
 
             services.AddControllers();
-
-            services.AddTransient<RootQuery>();
-            services.AddTransient<RootMutation>();
-            services.AddSingleton<ISchema, RootSchema>();
 
             services.AddGraphQL(options => 
             {

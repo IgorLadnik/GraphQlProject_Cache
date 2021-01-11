@@ -27,6 +27,8 @@ namespace PersonModelLib
             services.AddTransient<RelationInputType>();
             services.AddTransient<RoleInputType>();
             services.AddTransient<PersonMutation>();
+            services.AddTransient<RootQuery>();
+            services.AddTransient<RootMutation>();
         }
     }
 }

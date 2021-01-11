@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using GraphQlHelperLib;
 using JwtHelperLib;
-using PersonModelLib.Data;
 using JwtHelperLib.Data;
 
 namespace GraphQlProject.Controllers
