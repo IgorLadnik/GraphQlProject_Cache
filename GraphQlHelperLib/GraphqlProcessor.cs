@@ -45,7 +45,7 @@ namespace GraphQlHelperLib
 
         public async Task<ExecutionResult> Process(string query, ClaimsPrincipal user)
         {
-            if (query == null)
+            if (string.IsNullOrEmpty(query))
                 throw new ArgumentNullException(nameof(query));
 
             var executionOptions = new ExecutionOptions
