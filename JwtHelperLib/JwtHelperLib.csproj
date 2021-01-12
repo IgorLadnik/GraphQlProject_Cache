@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\RepoInterfaceLib\RepoInterfaceLib.csproj" />
     <ProjectReference Include="..\RepoLib\RepoLib.csproj" />
   </ItemGroup>
 

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\RepoInterfaceLib\RepoInterfaceLib.csproj" />
+    <ProjectReference Include="..\RepoInterfaceLib\RepoInterfaceLib.csproj" />
   </ItemGroup>
 
 </Project>
