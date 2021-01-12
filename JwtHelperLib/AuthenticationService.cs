@@ -3,11 +3,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace JwtHelperLib
 {
-    public class AuthService
+    public class AuthenticationService
     {
         private JwtOptions _jwtOptions;
 
-        public AuthService(IConfiguration configuration)
+        public AuthenticationService(IConfiguration configuration)
         {
             _jwtOptions = new JwtOptions(configuration);
         }

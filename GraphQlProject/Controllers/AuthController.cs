@@ -13,13 +13,11 @@ namespace GraphQlProject.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IRepo<UserDbContext> _repo;
-        private AuthService _authService;
+        private Authenticator _authenticator;
 
-        public AuthController(IRepo<UserDbContext> repo, AuthService authService)
+        public AuthController(IRepo<UserDbContext> repo, AuthenticationService authService)
         {
-            _repo = repo;
-            _authService = authService;
+            _authenticator = new Authenticator(repo, authService);
         }
 
         [HttpPost]
@@ -27,21 +25,10 @@ namespace GraphQlProject.Controllers
         //[ProducesResponseType(typeof(string), 200)]
         //[ProducesResponseType(401)]
         [AllowAnonymous]
-        public async Task<IActionResult> PostAsync(string userName, string password)
+        public async Task<IActionResult> LoginAsync(string userName, string password)
         {
-            try
-            {
-                var user = await _repo.FetchAsync(dbContext => dbContext.Users
-                            .Where(u => u.UserName == userName && u.Password == password)
-                            .FirstOrDefault());
-                return user == null 
-                        ? StatusCode(500, "User not found.")
-                        : Ok(await _authService.Login(user.UserName, user.Type));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
+            var result = await _authenticator.LoginAsync(userName, password);
+            return _authenticator.IsOK ? Ok(result) : StatusCode(500, result);
         }
     }
 }
