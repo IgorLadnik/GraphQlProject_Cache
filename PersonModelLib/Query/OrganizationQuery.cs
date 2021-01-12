@@ -3,16 +3,17 @@ using GraphQL.Types;
 using GraphQlHelperLib;
 using PersonModelLib.Data;
 using PersonModelLib.Type;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Query
 {
     public class OrganizationQuery : ObjectGraphType
     {
-        public OrganizationQuery(DbProvider<GraphQLDbContext> dbProvider)
+        public OrganizationQuery(IRepo<GraphQLDbContext> repo)
         {
             FieldAsync<ListGraphType<OrganizationType>>("organizations", resolve: async context =>
                 {
-                    var organizations = await dbProvider.FetchAsync(dbContext => dbContext.Organizations.ToList());
+                    var organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
                     context.SetCache("organizations", organizations.ToList());
                     return organizations;
                 });

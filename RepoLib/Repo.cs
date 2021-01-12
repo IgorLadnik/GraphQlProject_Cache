@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using RepoInterfaceLib;
 
-namespace GraphQlHelperLib
+namespace RepoLib
 {
-    public class DbProvider<T> where T : DbContext, new()
+    public class Repo<T> : IRepo<T> where T : DbContext, new()
     {
         public Task<R> FetchAsync<R>(Func<T, R> func) =>
             Task.Run(() =>
@@ -13,10 +14,10 @@ namespace GraphQlHelperLib
                 return func(dbContext);
             });
         
-        public Task<MutationResponse> SaveAsync(Action<T> action) =>
+        public Task<RepoResponse> SaveAsync(Action<T> action) =>
             Task.Run(() =>
             {
-                MutationResponse mutationResponse = new() { Status = "Success", Message = string.Empty };
+                RepoResponse repoResponse = new() { Status = "Success", Message = string.Empty };
                 using var dbContext = new T();
                 using var transaction = dbContext.Database.BeginTransaction();
                 try
@@ -27,11 +28,11 @@ namespace GraphQlHelperLib
                 }
                 catch (Exception e) 
                 {
-                    mutationResponse.Status = "Failure";
-                    mutationResponse.Message = e.Message;
+                    repoResponse.Status = "Failure";
+                    repoResponse.Message = e.Message;
                 }
 
-                return mutationResponse;
+                return repoResponse;
             });
     }
 }

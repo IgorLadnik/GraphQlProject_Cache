@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using GraphQlHelperLib;
 using PersonModelLib.Models;
 using PersonModelLib.Data;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Type
 {
     public class OrganizationType : ObjectGraphTypeCached<Organization>
     {
-        public OrganizationType(DbProvider<GraphQLDbContext> dbProvider)
+        public OrganizationType(IRepo<GraphQLDbContext> repo)
         {
             Field(o => o.Id);
             //Field(o => o.StrId);
@@ -25,7 +26,7 @@ namespace PersonModelLib.Type
                     {
                         if (!context.DoesCacheExist(cacheName))
                         {
-                            organizations = await dbProvider.FetchAsync(dbContext => dbContext.Organizations.ToList());
+                            organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
                             context.SetCache(cacheName, organizations);
                         }
                     });

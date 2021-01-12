@@ -14,7 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphQlHelperLib\GraphQlHelperLib.csproj" />
+    <ProjectReference Include="..\..\RepoInterfaceLib\RepoInterfaceLib.csproj" />
+    <ProjectReference Include="..\RepoLib\RepoLib.csproj" />
   </ItemGroup>
 
 </Project>

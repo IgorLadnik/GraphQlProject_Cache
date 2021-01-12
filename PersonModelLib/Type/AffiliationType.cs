@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using GraphQlHelperLib;
 using PersonModelLib.Models;
 using PersonModelLib.Data;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Type
 {
     public class AffiliationType : ObjectGraphTypeCached<Affiliation>
     {               
-        public AffiliationType(DbProvider<GraphQLDbContext> dbProvider)
+        public AffiliationType(IRepo<GraphQLDbContext> repo)
         {
             Field(a => a.Id);
             //Field(a => a.StrId);
@@ -24,7 +25,7 @@ namespace PersonModelLib.Type
                         if (!context.DoesCacheExist("affiliations"))
                         {
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = await dbProvider.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                             context.SetCache("affiliations", affiliations);
                         }
 
@@ -32,7 +33,7 @@ namespace PersonModelLib.Type
                         if (!context.DoesCacheExist("organizations"))
                         {
                             var organizationIds = affiliations.Select(a => a.OrganizationId).Distinct().ToList();
-                            organizations = await dbProvider.FetchAsync(dbContext => dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
+                            organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
                             context.SetCache("organizations", organizations);
                         }
                     });
@@ -53,7 +54,7 @@ namespace PersonModelLib.Type
                         if (!context.DoesCacheExist("affiliations"))
                         {
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = await dbProvider.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                             context.SetCache("affiliations", affiliations);
                         }
 
@@ -61,7 +62,7 @@ namespace PersonModelLib.Type
                         if (!context.DoesCacheExist("roles"))
                         {
                             var roleIds = affiliations.Select(a => a.RoleId).Distinct().ToList();
-                            roles = await dbProvider.FetchAsync(dbContext => dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList());
+                            roles = await repo.FetchAsync(dbContext => dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList());
                             context.SetCache("roles", roles);
                         }
                     });

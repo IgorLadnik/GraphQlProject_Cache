@@ -1,9 +1,10 @@
-﻿using GraphQlHelperLib;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using PersonModelLib.Data;
 using PersonModelLib.Mutation;
 using PersonModelLib.Query;
 using PersonModelLib.Type;
+using RepoInterfaceLib;
+using RepoLib;
 
 namespace PersonModelLib
 {
@@ -12,7 +13,9 @@ namespace PersonModelLib
         public static void AddPersonModelServices(this IServiceCollection services, string connectionString) 
         {
             GraphQLDbContext.ConnectionString = connectionString;
-            services.AddSingleton<DbProvider<GraphQLDbContext>>();
+
+            services.AddSingleton<IRepo<GraphQLDbContext>, Repo<GraphQLDbContext>>();
+
             services.AddTransient<AffiliationType>();
             services.AddTransient<OrganizationType>();
             services.AddTransient<RelationType>();

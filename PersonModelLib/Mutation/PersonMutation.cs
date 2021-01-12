@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using GraphQL;
 using GraphQL.Types;
-using GraphQlHelperLib;
 using PersonModelLib.Data;
 using PersonModelLib.Models;
 using PersonModelLib.Type;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Mutation
 {
     public class PersonMutation : ObjectGraphType
     {
-        public PersonMutation(DbProvider<GraphQLDbContext> dbProvider)
+        public PersonMutation(IRepo<GraphQLDbContext> repo)
         {
             FieldAsync<PersonOutputType>("createPersons",
                 arguments: new QueryArguments(new QueryArgument<ListGraphType<PersonInputType>> { Name = "personsInput" }),
@@ -93,7 +93,7 @@ namespace PersonModelLib.Mutation
                         relations.Add(relation);
                     }
 
-                    var mutationResponse = await dbProvider.SaveAsync(dbContext =>
+                    var mutationResponse = await repo.SaveAsync(dbContext =>
                         {
                             dbContext.Persons.AddRange(persons);
                             dbContext.Affiliations.AddRange(affiliations);

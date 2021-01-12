@@ -1,18 +1,18 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using GraphQL;
 using GraphQL.Types;
 using GraphQlHelperLib;
 using PersonModelLib.Data;
 using PersonModelLib.Type;
 using JwtHelperLib;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Query
 {
     public class PersonByIdQuery : ObjectGraphType
     {      
-        public PersonByIdQuery(DbProvider<GraphQLDbContext> dbProvider)
+        public PersonByIdQuery(IRepo<GraphQLDbContext> repo)
         {
             FieldAsync<PersonType>("personById",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
@@ -24,7 +24,7 @@ namespace PersonModelLib.Query
                         var isSuperUser = user?.IsInRole($"{UserAuthType.SuperUser}");
 
                         var id = context.GetArgument<int>("id");
-                        var person = await dbProvider.FetchAsync(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
+                        var person = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
                         if (person != null)
                             context.SetCache("personIds", new List<int> { person.Id });
                         return person;

@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncLockLib", "AsyncLockLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtHelperLib", "JwtHelperLib\JwtHelperLib.csproj", "{339821A0-0BD1-4805-95F4-380C52DC53B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonModelLib", "PersonModelLib\PersonModelLib.csproj", "{13812D92-C02E-41FD-B4C9-599DECC813C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonModelLib", "PersonModelLib\PersonModelLib.csproj", "{13812D92-C02E-41FD-B4C9-599DECC813C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoLib", "RepoLib\RepoLib.csproj", "{59413593-FDA8-4B9C-8089-AB3C1FF7ADE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoInterfaceLib", "..\RepoInterfaceLib\RepoInterfaceLib.csproj", "{8ED60EB5-4D95-43A0-9BD7-35E50F1CADB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{13812D92-C02E-41FD-B4C9-599DECC813C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13812D92-C02E-41FD-B4C9-599DECC813C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13812D92-C02E-41FD-B4C9-599DECC813C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59413593-FDA8-4B9C-8089-AB3C1FF7ADE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59413593-FDA8-4B9C-8089-AB3C1FF7ADE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59413593-FDA8-4B9C-8089-AB3C1FF7ADE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59413593-FDA8-4B9C-8089-AB3C1FF7ADE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ED60EB5-4D95-43A0-9BD7-35E50F1CADB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ED60EB5-4D95-43A0-9BD7-35E50F1CADB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ED60EB5-4D95-43A0-9BD7-35E50F1CADB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ED60EB5-4D95-43A0-9BD7-35E50F1CADB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

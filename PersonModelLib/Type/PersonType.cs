@@ -5,12 +5,13 @@ using GraphQL.Types;
 using GraphQlHelperLib;
 using PersonModelLib.Models;
 using PersonModelLib.Data;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Type
 {
     public class PersonType : ObjectGraphTypeCached<Person>
     {
-        public PersonType(DbProvider<GraphQLDbContext> dbProvider)
+        public PersonType(IRepo<GraphQLDbContext> repo)
         {       
             Field(p => p.Id);
             //Field(p => p.StrId);
@@ -34,7 +35,7 @@ namespace PersonModelLib.Type
                             Console.WriteLine("** fetch 1");
 
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = await dbProvider.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                            affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                             context.SetCache("affiliations", affiliations);
                         }
                     });
@@ -58,7 +59,7 @@ namespace PersonModelLib.Type
                             Console.WriteLine("** fetch 2");
 
                             var personIds = context.GetCache<IList<int>>("personIds");
-                            relations = await dbProvider.FetchAsync(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
+                            relations = await repo.FetchAsync(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
                             context.SetCache("relations", relations);
                         }
                     });

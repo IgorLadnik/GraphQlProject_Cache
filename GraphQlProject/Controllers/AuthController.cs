@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using GraphQlHelperLib;
 using JwtHelperLib;
 using JwtHelperLib.Data;
+using RepoInterfaceLib;
 
 namespace GraphQlProject.Controllers
 {
@@ -13,12 +13,12 @@ namespace GraphQlProject.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private DbProvider<UserDbContext> _dbProvider;
+        private IRepo<UserDbContext> _repo;
         private AuthService _authService;
 
-        public AuthController(DbProvider<UserDbContext> dbProvider, AuthService authService)
+        public AuthController(IRepo<UserDbContext> repo, AuthService authService)
         {
-            _dbProvider = dbProvider;
+            _repo = repo;
             _authService = authService;
         }
 
@@ -31,7 +31,7 @@ namespace GraphQlProject.Controllers
         {
             try
             {
-                var user = await _dbProvider.FetchAsync(dbContext => dbContext.Users
+                var user = await _repo.FetchAsync(dbContext => dbContext.Users
                             .Where(u => u.UserName == userName && u.Password == password)
                             .FirstOrDefault());
                 return user == null 

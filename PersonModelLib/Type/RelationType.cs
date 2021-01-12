@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using GraphQlHelperLib;
 using PersonModelLib.Models;
 using PersonModelLib.Data;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Type
 {
     public class RelationType : ObjectGraphTypeCached<Relation>
     {
-        public RelationType(DbProvider<GraphQLDbContext> dbProvider)
+        public RelationType(IRepo<GraphQLDbContext> repo)
         {
             Field(r => r.Id);
             //Field(r => r.StrId);
@@ -24,7 +25,7 @@ namespace PersonModelLib.Type
                     await FirstCall(async () =>
                     {
                         var pIds = relations.Select(r => r.P2Id).ToList();
-                        persons = await dbProvider.FetchAsync(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
+                        persons = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
                         context.SetCache("personsInRelations", persons);
                     });
 

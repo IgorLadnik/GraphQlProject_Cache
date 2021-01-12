@@ -1,9 +1,9 @@
 using GraphQL.Types;
-using GraphQlHelperLib;
+using RepoInterfaceLib;
 
 namespace PersonModelLib.Type
 {
-    public class PersonOutputType : ObjectGraphType<MutationResponse>
+    public class PersonOutputType : ObjectGraphType<RepoResponse>
     {
         public PersonOutputType()
         {

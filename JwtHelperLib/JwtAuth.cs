@@ -2,11 +2,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using GraphQlHelperLib;
-using JwtHelperLib.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using RepoInterfaceLib;
+using RepoLib;
+using JwtHelperLib.Data;
 
 namespace JwtHelperLib
 {
@@ -34,7 +35,7 @@ namespace JwtHelperLib
         public static void AddJwtAuth(this IServiceCollection services, JwtOptions jwtOptions, string connectionString)
         {
             UserDbContext.ConnectionString = connectionString;
-            services.AddSingleton<DbProvider<UserDbContext>>();
+            services.AddSingleton<IRepo<UserDbContext>, Repo<UserDbContext>>();
             services.AddScoped<AuthService, AuthService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
