@@ -10,6 +10,8 @@ WORKDIR /src
 COPY ["GraphQlProject/GraphQlProject.csproj", "GraphQlProject/"]
 COPY ["PersonModelLib/PersonModelLib.csproj", "PersonModelLib/"]
 COPY ["JwtHelperLib/JwtHelperLib.csproj", "JwtHelperLib/"]
+COPY ["RepoLib/RepoLib.csproj", "RepoLib/"]
+COPY ["RepoInterfaceLib/RepoInterfaceLib.csproj", "RepoInterfaceLib/"]
 COPY ["GraphQlHelperLib/GraphQlHelperLib.csproj", "GraphQlHelperLib/"]
 COPY ["AsyncLockLib/AsyncLockLib.csproj", "AsyncLockLib/"]
 RUN dotnet restore "GraphQlProject/GraphQlProject.csproj"
