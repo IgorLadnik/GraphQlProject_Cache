@@ -7,7 +7,7 @@ using RepoInterfaceLib;
 
 namespace LoginService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -19,7 +19,6 @@ namespace LoginService.Controllers
         }
 
         [HttpPost]
-        //[Route("login")]
         //[ProducesResponseType(typeof(string), 200)]
         //[ProducesResponseType(401)]
         [AllowAnonymous]

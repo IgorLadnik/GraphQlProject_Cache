@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JwtHelperLib\JwtHelperLib.csproj" />
-    <ProjectReference Include="..\RepoInterfaceLib\RepoInterfaceLib.csproj" />
   </ItemGroup>
 
 </Project>

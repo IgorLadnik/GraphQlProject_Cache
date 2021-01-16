@@ -23,9 +23,7 @@ namespace LoginService
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddJwtAuth(new JwtOptions(Configuration), connectionString);
-            //services.AddPersonModelServices(connectionString);
-            //services.AddSingleton<ISchema, RootSchema>();
-
+  
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
