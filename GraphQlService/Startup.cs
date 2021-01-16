@@ -29,7 +29,6 @@ namespace GraphQlService
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             
-            services.AddJwtAuth(new JwtOptions(Configuration), connectionString);
             services.AddPersonModelServices(connectionString);
             services.AddSingleton<ISchema, RootSchema>();
 

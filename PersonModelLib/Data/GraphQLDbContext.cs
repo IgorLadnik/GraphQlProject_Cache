@@ -74,12 +74,6 @@ namespace PersonModelLib.Data
                 new Role { Id = 2, /*StrId = "l_pr",*/ Name = "Professor", Description = "Brainwasher" },
                 new Role { Id = 3, /*StrId = "l_dr",*/ Name = "Director",  Description = "Main brainwasher" }
             );
-
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, /*StrId = "u_04",*/ UserName = "Regular", Password = "RegularPassword", Type = UserAuthType.Regular },
-                new User { Id = 2, /*StrId = "u_05",*/ UserName = "Admin", Password = "AdminPassword", Type = UserAuthType.Admin },
-                new User { Id = 3, /*StrId = "u_06",*/ UserName = "Super", Password = "SuperPassword", Type = UserAuthType.SuperUser }
-            );
         }
     }
 }
