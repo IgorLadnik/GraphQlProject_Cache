@@ -12,7 +12,7 @@ namespace JwtHelperLib
             _jwtOptions = new JwtOptions(configuration);
         }
 
-        public async Task<string> Login(string userName, UserAuthType userAuthType) =>
+        public async Task<string> LoginAsync(string userName, UserAuthType userAuthType) =>
               JwtAuth.GenerateJwt(userName, $"{userAuthType}", _jwtOptions);
     }
 

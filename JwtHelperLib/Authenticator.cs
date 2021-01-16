@@ -31,7 +31,7 @@ namespace JwtHelperLib
                             .FirstOrDefault());
                 if (user != null)
                 {
-                    result = await _authService.Login(user.UserName, user.Type);
+                    result = await _authService.LoginAsync(user.UserName, user.Type);
                     IsOK = true;
                 }
             }

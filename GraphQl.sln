@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoInterfaceLib", "RepoInt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQlService", "GraphQlService\GraphQlService.csproj", "{FBF20C69-F806-4752-91B6-D5A10E738FF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginService", "LoginService\LoginService.csproj", "{610D4019-48C1-405D-BD2B-ED2B863CF2E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{FBF20C69-F806-4752-91B6-D5A10E738FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBF20C69-F806-4752-91B6-D5A10E738FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBF20C69-F806-4752-91B6-D5A10E738FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{610D4019-48C1-405D-BD2B-ED2B863CF2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{610D4019-48C1-405D-BD2B-ED2B863CF2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{610D4019-48C1-405D-BD2B-ED2B863CF2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{610D4019-48C1-405D-BD2B-ED2B863CF2E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
