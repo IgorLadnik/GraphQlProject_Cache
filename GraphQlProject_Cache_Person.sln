@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtHelperLib", "JwtHelperLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonModelLib", "PersonModelLib\PersonModelLib.csproj", "{13812D92-C02E-41FD-B4C9-599DECC813C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoLib", "RepoLib\RepoLib.csproj", "{59413593-FDA8-4B9C-8089-AB3C1FF7ADE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoLib", "RepoLib\RepoLib.csproj", "{59413593-FDA8-4B9C-8089-AB3C1FF7ADE6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoInterfaceLib", "RepoInterfaceLib\RepoInterfaceLib.csproj", "{29D59320-CCB0-4C7B-A6CD-09BC476B4764}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F9849CDD-B4B6-4054-9C47-3168FC79CDDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{29D59320-CCB0-4C7B-A6CD-09BC476B4764}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29D59320-CCB0-4C7B-A6CD-09BC476B4764}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29D59320-CCB0-4C7B-A6CD-09BC476B4764}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9849CDD-B4B6-4054-9C47-3168FC79CDDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9849CDD-B4B6-4054-9C47-3168FC79CDDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9849CDD-B4B6-4054-9C47-3168FC79CDDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9849CDD-B4B6-4054-9C47-3168FC79CDDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

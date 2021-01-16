@@ -3,9 +3,9 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>f23bd635-3187-4db4-a7ea-c8ede947e7c3</ProjectGuid>
+    <ProjectGuid>f9849cdd-b4b6-4054-9c47-3168fc79cddd</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/gqli</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/playground</DockerServiceUrl>
     <DockerServiceName>graphqlproject</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
