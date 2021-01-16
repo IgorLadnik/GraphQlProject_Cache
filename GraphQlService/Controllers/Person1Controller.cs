@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 
-namespace GraphQlProject.Controllers
+namespace GraphQlService.Controllers
 {
     [Route("[controller]")]
     [ApiController]

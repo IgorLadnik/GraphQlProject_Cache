@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PersonModelLib.Query;
 using PersonModelLib.Mutation;
 
-namespace GraphQlProject.Schema
+namespace GraphQlService.Schema
 {
     public class RootSchema : GraphQL.Types.Schema
     {

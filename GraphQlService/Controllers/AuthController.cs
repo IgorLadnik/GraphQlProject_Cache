@@ -5,7 +5,7 @@ using JwtHelperLib;
 using JwtHelperLib.Data;
 using RepoInterfaceLib;
 
-namespace GraphQlProject.Controllers
+namespace GraphQlService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using GraphQlProject.Schema;
+using GraphQlService.Schema;
 using GraphQL.Types;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
@@ -13,7 +13,7 @@ using GraphiQl;
 using JwtHelperLib;
 using PersonModelLib;
 
-namespace GraphQlProject
+namespace GraphQlService
 {
     public class Startup
     {

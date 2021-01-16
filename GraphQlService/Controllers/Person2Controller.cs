@@ -4,7 +4,7 @@ using GraphQlHelperLib;
 using GraphQL.Types;
 using GraphQL;
 
-namespace GraphQlProject.Controllers
+namespace GraphQlService.Controllers
 {
     [Route("[controller]")]
     [ApiController]
