@@ -5,11 +5,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using RepoInterfaceLib;
-using RepoLib;
-using JwtHelperLib.Data;
 
-namespace JwtHelperLib
+namespace JwtAuthLib
 {
     public static class JwtAuth
     {
@@ -30,15 +27,6 @@ namespace JwtHelperLib
             );
 
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-        }
-
-        public static void AddJwtLogin(this IServiceCollection services, JwtOptions jwtOptions, string connectionString)
-        {
-            UserDbContext.ConnectionString = connectionString;
-            services.AddSingleton<IRepo<UserDbContext>, Repo<UserDbContext>>();
-            services.AddScoped<AuthenticationService, AuthenticationService>();
-
-            AddJwtAuth(services, jwtOptions);
         }
 
         public static void AddJwtAuth(this IServiceCollection services, JwtOptions jwtOptions) =>

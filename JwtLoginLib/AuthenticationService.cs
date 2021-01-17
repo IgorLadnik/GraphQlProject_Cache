@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using JwtAuthLib;
 
-namespace JwtHelperLib
+namespace JwtLoginLib
 {
     public class AuthenticationService
     {
@@ -13,13 +14,6 @@ namespace JwtHelperLib
         }
 
         public async Task<string> LoginAsync(string userName, UserAuthType userAuthType) =>
-              JwtAuth.GenerateJwt(userName, $"{userAuthType}", _jwtOptions);
-    }
-
-    public enum UserAuthType
-    {
-        Regular = 1,
-        Admin = 2,
-        SuperUser = 3
+              JwtLogin.GenerateJwt(userName, $"{userAuthType}", _jwtOptions);
     }
 }

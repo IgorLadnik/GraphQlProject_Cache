@@ -10,8 +10,8 @@ using GraphQL.Types;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using GraphiQl;
-using JwtHelperLib;
 using PersonModelLib;
+using JwtAuthLib;
 
 namespace GraphQlService
 {
@@ -94,7 +94,8 @@ namespace GraphQlService
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1"));
 
-            app.UseGraphQL<ISchema>("/graphql");
+            //app.UseGraphQL<ISchema>("/graphql");
+            app.UseGraphQL<ISchema>("/gql/free");
 
             app.UseGraphiQl("/gqli");
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions

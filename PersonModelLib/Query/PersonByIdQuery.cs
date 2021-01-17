@@ -5,8 +5,8 @@ using GraphQL.Types;
 using GraphQlHelperLib;
 using PersonModelLib.Data;
 using PersonModelLib.Type;
-using JwtHelperLib;
 using RepoInterfaceLib;
+using JwtAuthLib;
 
 namespace PersonModelLib.Query
 {

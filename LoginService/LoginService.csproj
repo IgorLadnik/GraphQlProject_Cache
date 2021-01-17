@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JwtHelperLib\JwtHelperLib.csproj" />
+    <ProjectReference Include="..\JwtLoginLib\JwtLoginLib.csproj" />
   </ItemGroup>
 
 </Project>

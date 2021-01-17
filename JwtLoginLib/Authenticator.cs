@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc;
-using JwtHelperLib.Data;
+using JwtLoginLib.Data;
 using RepoInterfaceLib;
-using RepoLib;
 
-namespace JwtHelperLib
+namespace JwtLoginLib
 {
     public class Authenticator
     {

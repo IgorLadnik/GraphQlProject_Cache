@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PersonModelLib.Models;
+using JwtLoginLib.Models;
+using JwtAuthLib;
 
-namespace JwtHelperLib.Data
+namespace JwtLoginLib.Data
 {
     public class UserDbContext : DbContext
     {

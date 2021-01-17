@@ -1,5 +1,4 @@
-﻿using JwtHelperLib;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PersonModelLib.Models;
 
 namespace PersonModelLib.Data
@@ -18,7 +17,6 @@ namespace PersonModelLib.Data
         public DbSet<Person> Persons { get; set; }
         public DbSet<Relation> Relations { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {

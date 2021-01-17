@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace JwtHelperLib
+namespace JwtAuthLib
 {
     public class JwtOptions
     {

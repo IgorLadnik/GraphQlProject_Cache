@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using GraphQL;
 using GraphQL.Types;
 using GraphQlHelperLib;
-using JwtHelperLib;
+using JwtAuthLib;
 
 namespace GraphQlService.Controllers
 {

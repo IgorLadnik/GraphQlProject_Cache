@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using JwtHelperLib;
+using JwtAuthLib;
 
-namespace PersonModelLib.Models
+namespace JwtLoginLib.Models
 {
     [Table("Users")]
     public class User

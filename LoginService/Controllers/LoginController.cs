@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using JwtHelperLib;
-using JwtHelperLib.Data;
 using RepoInterfaceLib;
+using JwtLoginLib;
+using JwtLoginLib.Data;
 
 namespace LoginService.Controllers
 {

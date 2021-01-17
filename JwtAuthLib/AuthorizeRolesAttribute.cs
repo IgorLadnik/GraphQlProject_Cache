@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace JwtHelperLib
+namespace JwtAuthLib
 {
     public class AuthorizeRolesAttribute : AuthorizeAttribute
     {

@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GraphQlHelperLib\GraphQlHelperLib.csproj" />
+    <ProjectReference Include="..\JwtAuthLib\JwtAuthLib.csproj" />
     <ProjectReference Include="..\PersonModelLib\PersonModelLib.csproj" />
   </ItemGroup>
 
