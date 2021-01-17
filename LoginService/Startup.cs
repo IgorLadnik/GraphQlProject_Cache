@@ -22,7 +22,7 @@ namespace LoginService
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddJwtAuth(new JwtOptions(Configuration), connectionString);
+            services.AddJwtLogin(new JwtOptions(Configuration), connectionString);
   
             services.AddControllers();
             services.AddSwaggerGen(c =>

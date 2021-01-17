@@ -32,6 +32,8 @@ namespace GraphQlService
             services.AddPersonModelServices(connectionString);
             services.AddSingleton<ISchema, RootSchema>();
 
+            services.AddJwtAuth(new JwtOptions(Configuration));
+
             services.AddControllers();
 
             services.AddGraphQL(options => 

@@ -32,12 +32,16 @@ namespace JwtHelperLib
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        public static void AddJwtAuth(this IServiceCollection services, JwtOptions jwtOptions, string connectionString)
+        public static void AddJwtLogin(this IServiceCollection services, JwtOptions jwtOptions, string connectionString)
         {
             UserDbContext.ConnectionString = connectionString;
             services.AddSingleton<IRepo<UserDbContext>, Repo<UserDbContext>>();
             services.AddScoped<AuthenticationService, AuthenticationService>();
 
+            AddJwtAuth(services, jwtOptions);
+        }
+
+        public static void AddJwtAuth(this IServiceCollection services, JwtOptions jwtOptions) =>
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -51,6 +55,5 @@ namespace JwtHelperLib
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SigningKey))
                 };
             });
-        }
     }
 }
