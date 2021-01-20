@@ -11,9 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphQlHelperLib\GraphQlHelperLib.csproj" />
-    <ProjectReference Include="..\JwtAuthLib\JwtAuthLib.csproj" />
-    <ProjectReference Include="..\RepoLib\RepoLib.csproj" />
+    <ProjectReference Include="..\..\..\Libs\GraphQlHelperLib\GraphQlHelperLib.csproj" />
+    <ProjectReference Include="..\..\..\Libs\JwtAuthLib\JwtAuthLib.csproj" />
   </ItemGroup>
 
 </Project>

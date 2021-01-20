@@ -11,7 +11,7 @@ namespace GraphQlService.Controllers
     [ApiController]
     public class GqlController : ControllerBase
     {
-        private GraphqlProcessor _gql;
+        private readonly GraphqlProcessor _gql;
 
         public GqlController(ISchema schema, IDocumentExecuter documentExecuter)
         {
