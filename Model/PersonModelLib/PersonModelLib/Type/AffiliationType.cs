@@ -26,7 +26,7 @@ namespace PersonModelLib.Type
                         {
                             var personIds = context.GetCache<IList<int>>("personIds");
                             affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
-                            context.SetCache("affiliations", affiliations);
+                            context.SetCache<GqlCache>("affiliations", affiliations);
                         }
 
                         affiliations = context.GetCache<IList<Affiliation>>("affiliations");
@@ -34,7 +34,7 @@ namespace PersonModelLib.Type
                         {
                             var organizationIds = affiliations.Select(a => a.OrganizationId).Distinct().ToList();
                             organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
-                            context.SetCache("organizations", organizations);
+                            context.SetCache<GqlCache>("organizations", organizations);
                         }
                     });
 
@@ -55,7 +55,7 @@ namespace PersonModelLib.Type
                         {
                             var personIds = context.GetCache<IList<int>>("personIds");
                             affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
-                            context.SetCache("affiliations", affiliations);
+                            context.SetCache<GqlCache>("affiliations", affiliations);
                         }
 
                         affiliations = context.GetCache<IList<Affiliation>>("affiliations");
@@ -63,7 +63,7 @@ namespace PersonModelLib.Type
                         {
                             var roleIds = affiliations.Select(a => a.RoleId).Distinct().ToList();
                             roles = await repo.FetchAsync(dbContext => dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList());
-                            context.SetCache("roles", roles);
+                            context.SetCache<GqlCache>("roles", roles);
                         }
                     });
 

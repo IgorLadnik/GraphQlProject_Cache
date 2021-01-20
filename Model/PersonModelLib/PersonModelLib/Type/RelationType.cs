@@ -26,7 +26,7 @@ namespace PersonModelLib.Type
                     {
                         var pIds = relations.Select(r => r.P2Id).ToList();
                         persons = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
-                        context.SetCache("personsInRelations", persons);
+                        context.SetCache<GqlCache>("personsInRelations", persons);
                     });
 
                     persons = context.GetCache<IList<Person>>("personsInRelations");

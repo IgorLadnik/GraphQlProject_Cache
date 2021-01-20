@@ -26,7 +26,7 @@ namespace PersonModelLib.Query
                         var id = context.GetArgument<int>("id");
                         var person = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());
                         if (person != null)
-                            context.SetCache("personIds", new List<int> { person.Id });
+                            context.SetCache<GqlCache>("personIds", new List<int> { person.Id });
                         return person;
                     });
         }

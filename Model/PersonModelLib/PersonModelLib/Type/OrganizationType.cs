@@ -27,7 +27,7 @@ namespace PersonModelLib.Type
                         if (!context.DoesCacheExist(cacheName))
                         {
                             organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
-                            context.SetCache(cacheName, organizations);
+                            context.SetCache<GqlCache>(cacheName, organizations);
                         }
                     });
 

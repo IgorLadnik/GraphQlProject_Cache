@@ -4,6 +4,11 @@ using GraphQL.Execution;
 
 namespace GraphQlHelperLib
 {
+    public interface IGqlCache 
+    {
+        object Value { get; set; }
+    }
+
     public static class ProvideUserContextEx 
     {
         private static IDictionary<string, object> GetCacheDictionary(this IProvideUserContext context) => context.UserContext;
@@ -16,16 +21,20 @@ namespace GraphQlHelperLib
 
         public static T GetCache<T>(this IProvideUserContext context, string key)
         {
-            GetCacheDictionary(context).TryGetValue(key, out object cache);
-            return (T)cache;
+            if (!GetCacheDictionary(context).TryGetValue(key, out object cacheObj))
+                return default;
+
+            return (T)(cacheObj as IGqlCache).Value;
         }
 
-        public static void SetCache(this IProvideUserContext context, string key, object cache)
+        public static void SetCache<T>(this IProvideUserContext context, string key, object value) where T : IGqlCache, new()
         {
-            if (cache == null)
+            if (value == null)
                 return;
-            
-            GetCacheDictionary(context)[key] = cache;
+
+            T cacheObj = new();
+            cacheObj.Value = value;
+            GetCacheDictionary(context)[key] = cacheObj;
         }
 
 

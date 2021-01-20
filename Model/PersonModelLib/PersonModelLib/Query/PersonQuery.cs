@@ -14,7 +14,7 @@ namespace PersonModelLib.Query
             FieldAsync<ListGraphType<PersonType>>("persons", resolve: async context =>
                 {
                     var persons = await repo.FetchAsync(dbContext => dbContext.Persons.ToList());
-                    context.SetCache("personIds", persons.Select(p => p.Id).ToList());
+                    context.SetCache<GqlCache>("personIds", persons.Select(p => p.Id).ToList());
                     return persons;
                 });
         }

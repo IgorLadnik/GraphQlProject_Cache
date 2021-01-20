@@ -36,7 +36,7 @@ namespace PersonModelLib.Type
 
                             var personIds = context.GetCache<IList<int>>("personIds");
                             affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
-                            context.SetCache("affiliations", affiliations);
+                            context.SetCache<GqlCache>("affiliations", affiliations);
                         }
                     });
 
@@ -60,7 +60,7 @@ namespace PersonModelLib.Type
 
                             var personIds = context.GetCache<IList<int>>("personIds");
                             relations = await repo.FetchAsync(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
-                            context.SetCache("relations", relations);
+                            context.SetCache<GqlCache>("relations", relations);
                         }
                     });
 
