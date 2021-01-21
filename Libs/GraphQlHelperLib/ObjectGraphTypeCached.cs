@@ -9,7 +9,7 @@ namespace GraphQlHelperLib
     {
         private readonly AsyncLock _lock = new();
 
-        protected Task FirstCall(Func<Task> func) =>
+        protected Task CacheDataFromRepo(Func<Task> func) =>
             Task.Run(async () =>
             {
                 using (await _lock.LockAsync())

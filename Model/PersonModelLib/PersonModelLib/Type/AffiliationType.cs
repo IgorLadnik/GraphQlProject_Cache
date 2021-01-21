@@ -20,7 +20,7 @@ namespace PersonModelLib.Type
                     IList<Affiliation> affiliations = null;
                     IList<Organization> organizations;
 
-                    await FirstCall(async () =>
+                    await CacheDataFromRepo(async () =>
                     {
                         if (!context.DoesCacheExist("affiliations"))
                         {
@@ -49,7 +49,7 @@ namespace PersonModelLib.Type
                     IList<Affiliation> affiliations = null;
                     IList<Role> roles;
 
-                    await FirstCall(async () =>
+                    await CacheDataFromRepo(async () =>
                     {
                         if (!context.DoesCacheExist("affiliations"))
                         {

@@ -22,7 +22,7 @@ namespace PersonModelLib.Type
                     const string cacheName = "parentOrganizations";
                     IList<Organization> organizations;
 
-                    await FirstCall(async () =>
+                    await CacheDataFromRepo(async () =>
                     {
                         if (!context.DoesCacheExist(cacheName))
                         {

@@ -22,7 +22,7 @@ namespace PersonModelLib.Type
                     var relations = context.GetCache<IList<Relation>>("relations");
                     IList<Person> persons;
 
-                    await FirstCall(async () =>
+                    await CacheDataFromRepo(async () =>
                     {
                         var pIds = relations.Select(r => r.P2Id).ToList();
                         persons = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());

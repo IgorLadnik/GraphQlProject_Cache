@@ -28,16 +28,16 @@ namespace PersonModelLib.Type
 
                     Console.WriteLine("before 1");
 
-                    await FirstCall(async () =>
+                    await CacheDataFromRepo(async () =>
                     {
-                        if (!context.DoesCacheExist("affiliations"))
-                        {
-                            Console.WriteLine("** fetch 1");
+                        if (context.DoesCacheExist("affiliations"))
+                            return;
+                        
+                        Console.WriteLine("** fetch 1");
 
-                            var personIds = context.GetCache<IList<int>>("personIds");
-                            affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
-                            context.SetCache<GqlCache>("affiliations", affiliations);
-                        }
+                        var personIds = context.GetCache<IList<int>>("personIds");
+                        affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
+                        context.SetCache<GqlCache>("affiliations", affiliations);                       
                     });
 
                     Console.WriteLine("after 1");
@@ -52,7 +52,7 @@ namespace PersonModelLib.Type
 
                     Console.WriteLine("before 2");
 
-                    await FirstCall(async () =>
+                    await CacheDataFromRepo(async () =>
                     {
                         if (!context.DoesCacheExist("relations"))
                         {
