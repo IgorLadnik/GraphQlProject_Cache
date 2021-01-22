@@ -94,8 +94,8 @@ namespace GraphQlService
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1"));
 
-            //app.UseGraphQL<ISchema>("/graphql");
-            app.UseGraphQL<ISchema>("/gql/free");
+            app.UseGraphQL<ISchema>("/graphql");
+            //app.UseGraphQL<ISchema>("/gql/free");
 
             app.UseGraphiQl("/gqli");
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions

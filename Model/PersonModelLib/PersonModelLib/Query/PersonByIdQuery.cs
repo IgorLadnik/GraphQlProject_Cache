@@ -11,17 +11,15 @@ using JwtAuthLib;
 namespace PersonModelLib.Query
 {
     public class PersonByIdQuery : ObjectGraphType
-    {      
+    {
         public PersonByIdQuery(IRepo<GraphQLDbContext> repo)
         {
             FieldAsync<PersonType>("personById",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: async context =>
                     {
-                        // Auth. filter example
-                        var user = context.GetUser();
-                        var claims = user?.Claims;
-                        var isSuperUser = user?.IsInRole($"{UserAuthType.SuperUser}");
+                        // Auth. filter
+                        context.ValidateRole(UserAuthType.SuperUser, UserAuthType.Admin); //TEST
 
                         var id = context.GetArgument<int>("id");
                         var person = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());

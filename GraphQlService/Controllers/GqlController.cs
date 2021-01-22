@@ -30,10 +30,28 @@ namespace GraphQlService.Controllers
         private async Task<IActionResult> ProcessQuery(GraphqlQuery query) 
         {
             var result = await _gql.Process(query, User);
-            if (result.Errors?.Count > 0)
-                return BadRequest(result);
+            var errActionResult = TransformResult(result);
+            return errActionResult == null ? Ok(result.Data) : errActionResult;
+        }
 
-            return Ok(result.Data);
+        private IActionResult TransformResult(ExecutionResult er) 
+        {
+            if (er.Errors?.Count > 0)
+            {
+                var res = BadRequest(er);
+                var firstErr = er.Errors[0];
+                switch (firstErr.Code) 
+                {
+                    case "UNAUTHORIZED_ACCESS":
+                        res.StatusCode = 401;
+                        res.Value = firstErr.InnerException.Message;
+                        break;
+                }
+
+                return res;
+            }
+
+            return null;
         }
     }
 }

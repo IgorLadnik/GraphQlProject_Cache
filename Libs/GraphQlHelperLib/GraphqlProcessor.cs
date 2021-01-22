@@ -43,9 +43,7 @@ namespace GraphQlHelperLib
                 //ValidationRules = validationRules
             };
 
-            executionOptions.SetUser(user);
-
-            return await _documentExecuter.ExecuteAsync(executionOptions);
+            return await SetUserAndExecute(user, executionOptions);
         }
 
         public async Task<ExecutionResult> Process(string query, ClaimsPrincipal user)
@@ -59,8 +57,12 @@ namespace GraphQlHelperLib
                 Query = query,
             };
 
-            executionOptions.SetUser(user);
+            return await SetUserAndExecute(user, executionOptions);
+        }
 
+        private async Task<ExecutionResult> SetUserAndExecute(ClaimsPrincipal user, ExecutionOptions executionOptions)
+        {
+            executionOptions.SetUser(user);
             return await _documentExecuter.ExecuteAsync(executionOptions);
         }
     }

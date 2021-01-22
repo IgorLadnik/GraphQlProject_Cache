@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using GraphQL.Execution;
+using JwtAuthLib;
 
 namespace GraphQlHelperLib
 {
@@ -53,6 +55,24 @@ namespace GraphQlHelperLib
                 return;
 
             GetCacheDictionary(context)["_"] = user;
+        }
+
+        public static bool IsInRole(this IProvideUserContext context, params UserAuthType[] userAuthTypes)
+        {
+            var user = context.GetUser();
+            //var claims = user?.Claims;
+            if (user != null)
+                foreach (var userAuthType in userAuthTypes)
+                    if (user.IsInRole($"{userAuthType}"))
+                        return true;
+
+            return false;
+        }
+
+        public static void ValidateRole(this IProvideUserContext context, params UserAuthType[] userAuthTypes)
+        {
+            if (!context.IsInRole(userAuthTypes))
+                throw new UnauthorizedAccessException();
         }
     }
 }
