@@ -26,13 +26,12 @@ namespace GraphQlService
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            
-            services.AddPersonModelServices(connectionString);
+        {           
+            services.AddPersonModelServices(Configuration.GetConnectionString("DefaultConnection"));
             services.AddSingleton<ISchema, RootSchema>();
 
-            services.AddJwtAuth(new JwtOptions(Configuration));
+            if (Configuration.GetValue<bool>("General:IsAuthJwt"))
+                services.AddJwtAuth(new JwtOptions(Configuration));
 
             services.AddControllers();
 
@@ -42,43 +41,44 @@ namespace GraphQlService
             })
             .AddSystemTextJson();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
+            if (Configuration.GetValue<bool>("General:IsOpenApiSwagger"))
+                services.AddSwaggerGen(c =>
                 {
-                    Version = "v1",
-                    Title = "GraphQL API",
-                });
-
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    In = ParameterLocation.Header,
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'"
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    c.SwaggerDoc("v1", new OpenApiInfo
                     {
-                          new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
+                        Version = "v1",
+                        Title = "GraphQL API",
+                    });
+
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer",
+                        In = ParameterLocation.Header,
+                        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                          Enter 'Bearer' [space] and then your token in the text input below.
+                          \r\n\r\nExample: 'Bearer 12345abcdef'"
+                    });
+
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                              new OpenApiSecurityScheme
                                 {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
+                                    Reference = new OpenApiReference
+                                    {
+                                        Type = ReferenceType.SecurityScheme,
+                                        Id = "Bearer"
+                                    },
+                                    Scheme = "oauth2",
+                                    Name = "Bearer",
+                                    In = ParameterLocation.Header,
                                 },
-                                Scheme = "oauth2",
-                                Name = "Bearer",
-                                In = ParameterLocation.Header,
-                            },
-                            new string[] {}
-                    }
+                                new string[] {}
+                        }
+                    });
                 });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,24 +91,34 @@ namespace GraphQlService
 
             //dbContext.Database.EnsureCreated();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1"));
-
-            app.UseGraphQL<ISchema>("/graphql");
-            //app.UseGraphQL<ISchema>("/gql/free");
-
-            app.UseGraphiQl("/gqli");
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
+            if (Configuration.GetValue<bool>("General:IsOpenApiSwagger"))
             {
-                GraphQLEndPoint = "/graphql",
-                Path = "/playground",
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1"));
+            }
+
+            if (Configuration.GetValue<bool>("General:IsGraphQLSchema"))
+                app.UseGraphQL<ISchema>("/graphql");
+                //app.UseGraphQL<ISchema>("/gql/free");
+
+            if (Configuration.GetValue<bool>("General:IsGraphIql"))
+                app.UseGraphiQl("/gqli");
+
+            if (Configuration.GetValue<bool>("General:IsGraphQLPlayground"))
+                app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
+                {
+                    GraphQLEndPoint = "/graphql",
+                    Path = "/playground",
+                });
 
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            if (Configuration.GetValue<bool>("General:IsAuthJwt"))
+            {
+                app.UseAuthentication();
+                app.UseAuthorization();
+            }
 
             app.UseEndpoints(endpoints =>
             {

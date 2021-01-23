@@ -18,7 +18,6 @@ namespace PersonModelLib.Query
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: async context =>
                     {
-                        // Auth. filter
                         context.ValidateRole(UserAuthType.SuperUser, UserAuthType.Admin); //TEST
 
                         var id = context.GetArgument<int>("id");

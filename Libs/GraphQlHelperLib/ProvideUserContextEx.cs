@@ -44,7 +44,7 @@ namespace GraphQlHelperLib
 
         public static ClaimsPrincipal GetUser(this IProvideUserContext context)
         {
-            return GetCacheDictionary(context).TryGetValue("_", out object user)
+            return GetCacheDictionary(context).TryGetValue("_User", out object user)
                         ? (ClaimsPrincipal)user
                         : null;
         }
@@ -54,7 +54,19 @@ namespace GraphQlHelperLib
             if (user == null)
                 return;
 
-            GetCacheDictionary(context)["_"] = user;
+            GetCacheDictionary(context)["_User"] = user;
+        }
+
+        public static bool GetIsAuthJwt(this IProvideUserContext context)
+        {
+            return GetCacheDictionary(context).TryGetValue("_IsAuthJwt", out object isAuthJwt)
+                        ? (bool)isAuthJwt
+                        : false;
+        }
+
+        public static void SetIsAuthJwt(this IProvideUserContext context, bool isAuthJwt)
+        {
+            GetCacheDictionary(context)["_IsAuthJwt"] = isAuthJwt;
         }
 
         public static bool IsInRole(this IProvideUserContext context, params UserAuthType[] userAuthTypes)
@@ -71,7 +83,7 @@ namespace GraphQlHelperLib
 
         public static void ValidateRole(this IProvideUserContext context, params UserAuthType[] userAuthTypes)
         {
-            if (!context.IsInRole(userAuthTypes))
+           if (context.GetIsAuthJwt() && !context.IsInRole(userAuthTypes))
                 throw new UnauthorizedAccessException();
         }
     }

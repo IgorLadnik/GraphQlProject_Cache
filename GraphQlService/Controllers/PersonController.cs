@@ -1,20 +1,22 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using GraphQlHelperLib;
 using GraphQL.Types;
 using GraphQL;
+using JwtAuthLib;
 
 namespace GraphQlService.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class Person2Controller : ControllerBase
+    public class PersonController : GqlControllerBase
     {
         private GraphqlProcessor _gql;
 
-        public Person2Controller(ISchema schema, IDocumentExecuter documentExecuter)
+        public PersonController(ISchema schema, IDocumentExecuter documentExecuter, IConfiguration configuration)
+            : base(schema, documentExecuter, configuration)
         {
-            _gql = new(schema, documentExecuter);
         }
 
         [HttpGet("{id}")]
@@ -44,11 +46,7 @@ namespace GraphQlService.Controllers
                     }
                 }".Replace("/*id*/", $"{id}");
 
-            var result = await _gql.Process(query, User);
-            if (result.Errors?.Count > 0)
-                return BadRequest(result);
-
-            return Ok(result.Data);
+            return await ProcessQuery(query, UserAuthType.SuperUser, UserAuthType.Admin);
         }
     }
 }
