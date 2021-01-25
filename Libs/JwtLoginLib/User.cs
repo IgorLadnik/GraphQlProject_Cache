@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace JwtLoginLib.Models
 {
@@ -24,6 +24,6 @@ namespace JwtLoginLib.Models
         public string Password { get; set; }
 
         [Required]
-        public UserAuthType Type { get; set; }
+        public UserAuthRole Role { get; set; }
     }
 }

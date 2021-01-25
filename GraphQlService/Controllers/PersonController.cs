@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using GraphQlHelperLib;
 using GraphQL.Types;
 using GraphQL;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace GraphQlService.Controllers
 {
@@ -46,7 +46,7 @@ namespace GraphQlService.Controllers
                     }
                 }".Replace("/*id*/", $"{id}");
 
-            return await ProcessQuery(query, UserAuthType.SuperUser, UserAuthType.Admin);
+            return await ProcessQuery(query, UserAuthRole.SuperUser, UserAuthRole.Admin);
         }
     }
 }

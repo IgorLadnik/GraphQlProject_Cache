@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using GraphQL.Execution;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace GraphQlHelperLib
 {
@@ -69,7 +69,7 @@ namespace GraphQlHelperLib
             GetCacheDictionary(context)["_IsAuthJwt"] = isAuthJwt;
         }
 
-        public static bool IsInRole(this IProvideUserContext context, params UserAuthType[] userAuthTypes)
+        public static bool IsInRole(this IProvideUserContext context, params UserAuthRole[] userAuthTypes)
         {
             var user = context.GetUser();
             //var claims = user?.Claims;
@@ -81,7 +81,7 @@ namespace GraphQlHelperLib
             return false;
         }
 
-        public static void ValidateRole(this IProvideUserContext context, params UserAuthType[] userAuthTypes)
+        public static void ValidateRole(this IProvideUserContext context, params UserAuthRole[] userAuthTypes)
         {
            if (context.GetIsAuthJwt() && !context.IsInRole(userAuthTypes))
                 throw new UnauthorizedAccessException();

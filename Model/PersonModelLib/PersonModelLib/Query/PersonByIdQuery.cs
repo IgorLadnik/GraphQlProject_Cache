@@ -6,7 +6,7 @@ using GraphQlHelperLib;
 using PersonModelLib.Data;
 using PersonModelLib.Type;
 using RepoInterfaceLib;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace PersonModelLib.Query
 {
@@ -18,7 +18,7 @@ namespace PersonModelLib.Query
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: async context =>
                     {
-                        context.ValidateRole(UserAuthType.SuperUser, UserAuthType.Admin); //TEST
+                        context.ValidateRole(UserAuthRole.SuperUser, UserAuthRole.Admin); //TEST
 
                         var id = context.GetArgument<int>("id");
                         var person = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => p.Id == id).FirstOrDefault());

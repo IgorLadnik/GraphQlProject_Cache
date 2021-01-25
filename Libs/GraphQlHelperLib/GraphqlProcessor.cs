@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using GraphQL;
 using GraphQL.NewtonsoftJson;
 using GraphQL.Types;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace GraphQlHelperLib
 {
@@ -23,7 +23,7 @@ namespace GraphQlHelperLib
             _isAuthJwt = configuration.GetValue<bool>("General:IsAuthJwt");
         }
 
-        public async Task<ExecutionResult> Process(GraphqlQuery query, ClaimsPrincipal user, params UserAuthType[] roles
+        public async Task<ExecutionResult> Process(GraphqlQuery query, ClaimsPrincipal user, params UserAuthRole[] roles
             /*, [FromServices] IEnumerable<IValidationRule> validationRules*/)
         {
             if (query == null)
@@ -44,7 +44,7 @@ namespace GraphQlHelperLib
             return await SetParamsAndExecute(executionOptions, user, roles);
         }
 
-        public async Task<ExecutionResult> Process(string query, ClaimsPrincipal user, params UserAuthType[] roles)
+        public async Task<ExecutionResult> Process(string query, ClaimsPrincipal user, params UserAuthRole[] roles)
         {
             if (string.IsNullOrEmpty(query))
                 throw new ArgumentNullException(nameof(query));
@@ -57,7 +57,7 @@ namespace GraphQlHelperLib
             return await SetParamsAndExecute(executionOptions, user, roles);
         }
 
-        private async Task<ExecutionResult> SetParamsAndExecute(ExecutionOptions executionOptions, ClaimsPrincipal user, params UserAuthType[] roles)
+        private async Task<ExecutionResult> SetParamsAndExecute(ExecutionOptions executionOptions, ClaimsPrincipal user, params UserAuthRole[] roles)
         {
             executionOptions.Schema = _schema;
             executionOptions.SetIsAuthJwt(_isAuthJwt);
@@ -65,7 +65,7 @@ namespace GraphQlHelperLib
             return Validate(executionOptions, roles) ?? await _documentExecuter.ExecuteAsync(executionOptions);
         }
 
-        private static ExecutionResult Validate(ExecutionOptions executionOptions, params UserAuthType[] roles) 
+        private static ExecutionResult Validate(ExecutionOptions executionOptions, params UserAuthRole[] roles) 
         {
             try
             {

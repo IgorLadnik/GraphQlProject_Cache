@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AsyncLockLib\AsyncLockLib.csproj" />
-    <ProjectReference Include="..\JwtAuthLib\JwtAuthLib.csproj" />
+    <ProjectReference Include="..\AuthRolesLib\AuthRolesLib.csproj" />
   </ItemGroup>
 
 </Project>

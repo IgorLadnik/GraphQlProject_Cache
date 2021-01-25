@@ -29,7 +29,7 @@ namespace JwtLoginLib
                             .FirstOrDefault());
                 if (user != null)
                 {
-                    result = await _authService.LoginAsync(user.UserName, user.Type);
+                    result = await _authService.LoginAsync(user.UserName, user.Role);
                     IsOK = true;
                 }
             }

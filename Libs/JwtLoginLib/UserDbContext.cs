@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using JwtLoginLib.Models;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace JwtLoginLib.Data
 {
@@ -23,9 +23,9 @@ namespace JwtLoginLib.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, /*StrId = "u_04",*/ UserName = "Regular", Password = "RegularPassword", Type = UserAuthType.Regular },
-                new User { Id = 2, /*StrId = "u_05",*/ UserName = "Admin", Password = "AdminPassword", Type = UserAuthType.Admin },
-                new User { Id = 3, /*StrId = "u_06",*/ UserName = "Super", Password = "SuperPassword", Type = UserAuthType.SuperUser }
+                new User { Id = 1, /*StrId = "u_04",*/ UserName = "Regular", Password = "RegularPassword", Role = UserAuthRole.Regular },
+                new User { Id = 2, /*StrId = "u_05",*/ UserName = "Admin", Password = "AdminPassword", Role = UserAuthRole.Admin },
+                new User { Id = 3, /*StrId = "u_06",*/ UserName = "Super", Password = "SuperPassword", Role = UserAuthRole.SuperUser }
             );
         }
     }

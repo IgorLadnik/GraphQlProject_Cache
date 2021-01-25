@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using GraphQL;
 using GraphQL.Types;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace GraphQlHelperLib
 {
@@ -16,13 +16,13 @@ namespace GraphQlHelperLib
             Gql = new(schema, documentExecuter, configuration);
         }
 
-        protected async Task<IActionResult> ProcessQuery(GraphqlQuery query, params UserAuthType[] roles)
+        protected async Task<IActionResult> ProcessQuery(GraphqlQuery query, params UserAuthRole[] roles)
         {
             var result = await Gql.Process(query, User, roles);
             return TransformResult(result) ?? Ok(result.Data);
         }
 
-        protected async Task<IActionResult> ProcessQuery(string query, params UserAuthType[] roles)
+        protected async Task<IActionResult> ProcessQuery(string query, params UserAuthRole[] roles)
         {
             var result = await Gql.Process(query, User, roles);
             return TransformResult(result) ?? Ok(result.Data);

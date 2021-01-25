@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using JwtAuthLib;
+using AuthRolesLib;
 
 namespace JwtLoginLib
 {
@@ -13,7 +14,7 @@ namespace JwtLoginLib
             _jwtOptions = new JwtOptions(configuration);
         }
 
-        public async Task<string> LoginAsync(string userName, UserAuthType userAuthType) =>
-              JwtLogin.GenerateJwt(userName, $"{userAuthType}", _jwtOptions);
+        public async Task<string> LoginAsync(string userName, UserAuthRole userAuthRole) =>
+              JwtLogin.GenerateJwt(userName, $"{userAuthRole}", _jwtOptions);
     }
 }

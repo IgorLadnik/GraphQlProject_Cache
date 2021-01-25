@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using GraphQL;
 using GraphQL.Types;
 using GraphQlHelperLib;
-using JwtAuthLib;
+using AuthRolesLib;
 
 namespace GraphQlService.Controllers
 {
@@ -21,6 +21,6 @@ namespace GraphQlService.Controllers
         //[Route("auth")]
         //[AuthorizeRoles(UserAuthType.SuperUser)]
         public async Task<IActionResult> PostAsyncAuth([FromBody] GraphqlQuery query) => 
-            await ProcessQuery(query, UserAuthType.SuperUser, UserAuthType.Admin);      
+            await ProcessQuery(query, UserAuthRole.SuperUser, UserAuthRole.Admin);      
     }
 }

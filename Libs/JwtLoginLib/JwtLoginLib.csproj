@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AuthRolesLib\AuthRolesLib.csproj" />
     <ProjectReference Include="..\JwtAuthLib\JwtAuthLib.csproj" />
     <ProjectReference Include="..\RepoLib\RepoLib.csproj" />
   </ItemGroup>
