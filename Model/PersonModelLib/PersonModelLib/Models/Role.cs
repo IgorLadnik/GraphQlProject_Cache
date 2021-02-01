@@ -7,12 +7,8 @@ namespace PersonModelLib.Models
     public class Role
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        //[Required]
-        //[StringLength(10)]
-        //public string StrId { get; set; }
 
         [Required]
         [StringLength(30)]

@@ -7,12 +7,8 @@ namespace PersonModelLib.Models
     public class Person
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        //[Required]
-        //[StringLength(10)]
-        //public string StrId { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -26,6 +22,7 @@ namespace PersonModelLib.Models
 
         public string Phone { get; set; }
 
+        [Required]
         public string Email { get; set; }
 
         public string Address { get; set; }
