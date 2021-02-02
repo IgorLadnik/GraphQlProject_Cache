@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\GraphQlService\GraphQlService.csproj" />
     <ProjectReference Include="..\..\Libs\HttpClientLib\HttpClientLib.csproj" />
+    <ProjectReference Include="..\..\LoginService\LoginService.csproj" />
   </ItemGroup>
 
 </Project>
