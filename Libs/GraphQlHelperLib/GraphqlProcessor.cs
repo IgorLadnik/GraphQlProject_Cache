@@ -49,10 +49,7 @@ namespace GraphQlHelperLib
             if (string.IsNullOrEmpty(query))
                 throw new ArgumentNullException(nameof(query));
 
-            var executionOptions = new ExecutionOptions
-            {
-                Query = query,
-            };
+            var executionOptions = new ExecutionOptions { Query = query };
 
             return await SetParamsAndExecute(executionOptions, user, roles);
         }

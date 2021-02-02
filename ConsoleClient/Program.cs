@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using HttpClientLib;
 using Newtonsoft.Json;
 
 namespace ConsoleClient
@@ -13,7 +14,7 @@ namespace ConsoleClient
         {
             Console.WriteLine("Hello World!");
 
-            var id = 2;
+            var id = -1;
             var query = @"   
             {
                 personByIdQuery {
@@ -37,42 +38,23 @@ namespace ConsoleClient
                 }
             }".Replace("/*id*/", $"{id}");
 
-            Task.Run(async () => 
+            var loginUri = "https://localhost:5011/login";
+            var gqlUri = "https://localhost:5001/gql";
+            var userName = "Super";
+            var password = "SuperPassword";
+
+            HttpClientWrapper client = new();
+
+            Task.Run(async () =>
             {
-                var loginUri = "https://localhost:5011/login/fromCode";
-                var gqlUri = "https://localhost:5001/gql";
-                var userName = "Super";
-                var password = "SuperPassword";
-                var token = await Login(loginUri, userName, password);
-                var result = await QueryGraphQL(gqlUri, token, query);
-                Console.WriteLine(result);
+                string result = null;
+                if (await client.LoginAsync(loginUri, userName, password) != null)
+                    result = await client.PostAsync(gqlUri, query);
+                Console.WriteLine(client.IsOK ? result : client.ErrorMessage);
             });
 
             Console.WriteLine("Press any key to quite...");
             Console.ReadKey();
-        }
-
-        private static async Task<string> Login(string uri, string userName, string password)
-        {
-            HttpClient httpClient = new();
-            StringContent stringContent = new(JsonConvert.SerializeObject($"?UserName={userName}&Password={password}"), Encoding.UTF8, "application/json");
-            var res = await httpClient.PostAsync(uri, stringContent);
-            return res.IsSuccessStatusCode
-                ? await res.Content.ReadAsStringAsync()
-                : $"Error occurred... Status code:{res.StatusCode}";
-        }
-
-        private static async Task<string> QueryGraphQL(string uri, string token, string query)
-        {
-            HttpClient httpClient = new();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var postData = new { Query = query };
-            StringContent stringContent = new(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json");
-            var res = await httpClient.PostAsync(uri, stringContent);
-            return res.IsSuccessStatusCode
-                ? await res.Content.ReadAsStringAsync()
-                : $"Error occurred... Status code:{res.StatusCode}";
         }
     }
 }
