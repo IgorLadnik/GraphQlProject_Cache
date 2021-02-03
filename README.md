@@ -1,2 +1,2 @@
-# GraphQlProject_Cache
+# GraphQL_DotNet
 ASP.NET with GraphQL 

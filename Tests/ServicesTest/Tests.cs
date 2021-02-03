@@ -7,7 +7,7 @@ using HttpClientLib;
 namespace GraphQlServiceTest
 {
     [TestClass]
-    public class GqlControllerTests
+    public class Tests
     {
         const string query =
             @"query Persons {
@@ -86,7 +86,7 @@ namespace GraphQlServiceTest
         private HttpClientWrapper _clientLogin;
         private HttpClientWrapper _clientGql;
 
-        public GqlControllerTests()
+        public Tests()
         {
             _clientLogin = new(new WebApplicationFactory<LoginService.Startup>().CreateClient());
             _clientGql = new(new WebApplicationFactory<GraphQlService.Startup>().CreateClient(), token);

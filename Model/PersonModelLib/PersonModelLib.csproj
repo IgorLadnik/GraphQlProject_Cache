@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libs\AuthRolesLib\AuthRolesLib.csproj" />
-    <ProjectReference Include="..\..\..\Libs\GraphQlHelperLib\GraphQlHelperLib.csproj" />
-    <ProjectReference Include="..\..\..\Libs\RepoLib\RepoLib.csproj" />
+    <ProjectReference Include="..\..\Libs\AuthRolesLib\AuthRolesLib.csproj" />
+    <ProjectReference Include="..\..\Libs\GraphQlHelperLib\GraphQlHelperLib.csproj" />
+    <ProjectReference Include="..\..\Libs\RepoLib\RepoLib.csproj" />
   </ItemGroup>
 
 </Project>
