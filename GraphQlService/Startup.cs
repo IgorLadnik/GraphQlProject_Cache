@@ -102,7 +102,7 @@ namespace GraphQlService
                 app.UseGraphQL<ISchema>("/graphql");
 
             if (Configuration.GetValue<bool>("FeatureToggles:IsGraphIql"))
-                app.UseGraphiQl("/gqli");
+                app.UseGraphiQl("/graphIql", "/graphql");
 
             if (Configuration.GetValue<bool>("FeatureToggles:IsGraphQLPlayground"))
                 app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
