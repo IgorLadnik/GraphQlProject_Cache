@@ -11,10 +11,6 @@ namespace JwtLoginLib.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        //[Required]
-        //[StringLength(10)]
-        //public string StrId { get; set; }
-
         [Required]
         [StringLength(20)]
         public string UserName { get; set; }

@@ -20,16 +20,3 @@ namespace PersonModelLib.Query
         }
     }
 }
-
-/*
-query Organizations {
-  organizationQuery {
-    organizations {
-      name
-      parent {
-        name
-      }
-    }
-  }
-}
-*/

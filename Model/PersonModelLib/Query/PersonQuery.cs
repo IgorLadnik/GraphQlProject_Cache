@@ -20,33 +20,3 @@ namespace PersonModelLib.Query
         }
     }
 }
-
-/*
-query Persons {
-  personQuery {
-    persons {
-      givenName
-      surname
-      affiliations {
-        organization {
-          name
-          parent {
-            name
-          }
-        }
-        role {
-          name
-        }
-      }
-      relations {
-        p2 {
-          givenName
-          surname
-        }
-        kind
-        notes
-      }
-    }
-  }
-}
-*/

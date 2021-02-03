@@ -12,7 +12,6 @@ namespace PersonModelLib.Type
         public AffiliationType(IRepo<GraphQLDbContext> repo)
         {
             Field(a => a.Id);
-            //Field(a => a.StrId);
             Field(a => a.Since);
 
             FieldAsync<OrganizationType>("organization", resolve: async context =>

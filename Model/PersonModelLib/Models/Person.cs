@@ -11,6 +11,9 @@ namespace PersonModelLib.Models
         public int Id { get; set; }
 
         [Required]
+        public string Email { get; set; }
+
+        [Required]
         [StringLength(20)]
         public string GivenName { get; set; }
 
@@ -21,9 +24,6 @@ namespace PersonModelLib.Models
         public int Born { get; set; }
 
         public string Phone { get; set; }
-
-        [Required]
-        public string Email { get; set; }
 
         public string Address { get; set; }
     }

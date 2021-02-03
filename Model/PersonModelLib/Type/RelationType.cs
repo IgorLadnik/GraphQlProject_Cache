@@ -12,7 +12,6 @@ namespace PersonModelLib.Type
         public RelationType(IRepo<GraphQLDbContext> repo)
         {
             Field(r => r.Id);
-            //Field(r => r.StrId);
             Field(r => r.Since);
             Field(r => r.Kind);
             Field(r => r.Notes);

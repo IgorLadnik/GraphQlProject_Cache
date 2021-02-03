@@ -8,7 +8,6 @@ namespace PersonModelLib.Type
         public AffiliationInputType()
         {
             Field<IntGraphType>("Id");
-            //Field<StringGraphType>("StrId");
             Field<IntGraphType>("Since");
             Field<IntGraphType>("OrganizationId");
             Field<IntGraphType>("RoleId");

@@ -14,7 +14,6 @@ namespace PersonModelLib.Type
         public PersonType(IRepo<GraphQLDbContext> repo)
         {       
             Field(p => p.Id);
-            //Field(p => p.StrId);
             Field(p => p.GivenName);
             Field(p => p.Surname);
             Field(p => p.Born);

@@ -15,7 +15,7 @@ namespace GraphQlService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                              .UseDefaultServiceProvider(options => options.ValidateScopes = false); //??
+                              .UseDefaultServiceProvider(options => options.ValidateScopes = false);
                 });
     }
 }

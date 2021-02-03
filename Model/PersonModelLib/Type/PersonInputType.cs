@@ -7,7 +7,6 @@ namespace PersonModelLib.Type
         public PersonInputType()
         {
             Field<IntGraphType>("Id");
-            //Field<StringGraphType>("StrId");
             Field<StringGraphType>("GivenName");
             Field<StringGraphType>("Surname");
             Field<IntGraphType>("Born");

@@ -23,22 +23,15 @@ namespace GraphQlHelperLib
             _isAuthJwt = configuration.GetValue<bool>("FeatureToggles:IsAuthJwt");
         }
 
-        public async Task<ExecutionResult> Process(GraphqlQuery query, ClaimsPrincipal user, params UserAuthRole[] roles
-            /*, [FromServices] IEnumerable<IValidationRule> validationRules*/)
+        public async Task<ExecutionResult> Process(GraphqlQuery query, ClaimsPrincipal user, params UserAuthRole[] roles)
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            //TEST
-            if (!query.IsIntrospection)
-            {
-            }
-
             var executionOptions = new ExecutionOptions
             {
                 Query = query.Query,
-                Inputs = query.Variables.ToInputs(),
-                //ValidationRules = validationRules
+                Inputs = query.Variables.ToInputs(),               
             };
 
             return await SetParamsAndExecute(executionOptions, user, roles);
@@ -86,9 +79,6 @@ namespace GraphQlHelperLib
         public string Query { get; set; }
         public JObject Variables { get; set; }
 
-        public bool IsIntrospection 
-        {
-            get => this.OperationName == "IntrospectionQuery";
-        }
+        public bool IsIntrospection => OperationName == "IntrospectionQuery";
     }
 }

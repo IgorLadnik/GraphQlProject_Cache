@@ -18,8 +18,8 @@ namespace GraphQlHelperLib
         public static bool DoesCacheExist(this IProvideUserContext context, string key) =>
             GetCacheDictionary(context).ContainsKey(key);
 
-        
-        // Cache
+
+        #region Cache
 
         public static T GetCache<T>(this IProvideUserContext context, string key)
         {
@@ -39,8 +39,9 @@ namespace GraphQlHelperLib
             GetCacheDictionary(context)[key] = cacheObj;
         }
 
+        #endregion // Cache
 
-        // User for authentication
+        #region User for authentication
 
         public static ClaimsPrincipal GetUser(this IProvideUserContext context)
         {
@@ -57,6 +58,8 @@ namespace GraphQlHelperLib
             GetCacheDictionary(context)["_User"] = user;
         }
 
+        #endregion // User for authentication
+
         public static bool GetIsAuthJwt(this IProvideUserContext context)
         {
             return GetCacheDictionary(context).TryGetValue("_IsAuthJwt", out object isAuthJwt)
@@ -72,7 +75,6 @@ namespace GraphQlHelperLib
         public static bool IsInRole(this IProvideUserContext context, params UserAuthRole[] userAuthTypes)
         {
             var user = context.GetUser();
-            //var claims = user?.Claims;
             if (user != null)
                 foreach (var userAuthType in userAuthTypes)
                     if (user.IsInRole($"{userAuthType}"))

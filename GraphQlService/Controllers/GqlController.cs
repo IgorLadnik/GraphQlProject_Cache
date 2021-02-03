@@ -18,8 +18,6 @@ namespace GraphQlService.Controllers
         }
 
         [HttpPost]
-        //[Route("auth")]
-        //[AuthorizeRoles(UserAuthType.SuperUser)]
         public async Task<IActionResult> PostAsyncAuth([FromBody] GraphqlQuery query) => 
             await ProcessQuery(query, UserAuthRole.SuperUser, UserAuthRole.Admin);      
     }

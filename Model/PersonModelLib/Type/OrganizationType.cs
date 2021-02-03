@@ -13,7 +13,6 @@ namespace PersonModelLib.Type
         public OrganizationType(IRepo<GraphQLDbContext> repo)
         {
             Field(o => o.Id);
-            //Field(o => o.StrId);
             Field(o => o.Name);
             Field(o => o.Address);
 

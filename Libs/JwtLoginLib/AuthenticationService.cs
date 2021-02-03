@@ -9,12 +9,10 @@ namespace JwtLoginLib
     {
         private JwtOptions _jwtOptions;
 
-        public AuthenticationService(IConfiguration configuration)
-        {
+        public AuthenticationService(IConfiguration configuration) =>
             _jwtOptions = new JwtOptions(configuration);
-        }
 
-        public async Task<string> LoginAsync(string userName, UserAuthRole userAuthRole) =>
-              JwtLogin.GenerateJwt(userName, $"{userAuthRole}", _jwtOptions);
+        public Task<string> LoginAsync(string userName, UserAuthRole userAuthRole) =>
+               Task.FromResult(JwtAuth.GenerateJwt(userName, $"{userAuthRole}", _jwtOptions));
     }
 }

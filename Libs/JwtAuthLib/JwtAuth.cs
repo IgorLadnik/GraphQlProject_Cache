@@ -22,7 +22,6 @@ namespace JwtAuthLib
                     new Claim(ClaimTypes.NameIdentifier, userId),
                     new Claim(ClaimTypes.Role, userType),
                 },
-                //1 expires: DateTime.Now.AddHours(24),
                 signingCredentials: signinCredentials
             );
 
@@ -37,7 +36,7 @@ namespace JwtAuthLib
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
-                    ValidateLifetime = false, //1 - by default - true
+                    ValidateLifetime = false, // by default - true
                     ValidIssuer = jwtOptions.Issuer,
                     ValidAudience = jwtOptions.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SigningKey))

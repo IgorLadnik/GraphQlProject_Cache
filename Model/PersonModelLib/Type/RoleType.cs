@@ -8,7 +8,6 @@ namespace PersonModelLib.Type
         public RoleType()
         {
             Field(r => r.Id);
-            //Field(r => r.StrId);
             Field(r => r.Name);
             Field(r => r.Description);
         }

@@ -7,7 +7,6 @@ namespace PersonModelLib.Type
         public RoleInputType()
         {
             Field<IntGraphType>("Id");
-            //Field<StringGraphType>("StrId");
             Field<StringGraphType>("Name");
             Field<StringGraphType>("Description");
         }

@@ -29,27 +29,3 @@ namespace PersonModelLib.Query
         }
     }
 }
-
-/*
-query PersonById {
-  personByIdQuery {
-    personById(id: 1) {
-      surname
-      relations {
-        p2 {
-          surname
-        }
-        kind
-      }
-      affiliations {
-        organization {
-          name
-        }
-        role {
-          name
-        }
-      }
-    }
-  }
-}
-*/
