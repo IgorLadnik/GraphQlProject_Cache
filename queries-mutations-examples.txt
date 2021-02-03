@@ -1,8 +1,10 @@
 query Persons {
   personQuery {
     persons {
+	  id
       givenName
       surname
+	  email
       affiliations {
         organization {
           name

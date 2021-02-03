@@ -20,7 +20,7 @@ namespace GraphQlHelperLib
         {
             _schema = schema;
             _documentExecuter = documentExecuter;
-            _isAuthJwt = configuration.GetValue<bool>("General:IsAuthJwt");
+            _isAuthJwt = configuration.GetValue<bool>("FeatureToggles:IsAuthJwt");
         }
 
         public async Task<ExecutionResult> Process(GraphqlQuery query, ClaimsPrincipal user, params UserAuthRole[] roles

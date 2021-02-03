@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ namespace GraphQlService
             services.AddPersonModelServices(Configuration.GetConnectionString("DefaultConnection"));
             services.AddSingleton<ISchema, RootSchema>();
 
-            if (Configuration.GetValue<bool>("General:IsAuthJwt"))
+            if (Configuration.GetValue<bool>("FeatureToggles:IsAuthJwt"))
                 services.AddJwtAuth(new JwtOptions(Configuration));
 
             services.AddControllers();
@@ -41,7 +42,7 @@ namespace GraphQlService
             })
             .AddSystemTextJson();
 
-            if (Configuration.GetValue<bool>("General:IsOpenApiSwagger"))
+            if (Configuration.GetValue<bool>("FeatureToggles:IsOpenApiSwagger"))
                 services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo
@@ -64,18 +65,18 @@ namespace GraphQlService
                     c.AddSecurityRequirement(new OpenApiSecurityRequirement
                     {
                         {
-                              new OpenApiSecurityScheme
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
                                 {
-                                    Reference = new OpenApiReference
-                                    {
-                                        Type = ReferenceType.SecurityScheme,
-                                        Id = "Bearer"
-                                    },
-                                    Scheme = "oauth2",
-                                    Name = "Bearer",
-                                    In = ParameterLocation.Header,
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
                                 },
-                                new string[] {}
+                                Scheme = "oauth2",
+                                Name = "Bearer",
+                                In = ParameterLocation.Header,
+                            },
+                            Array.Empty<string>()
                         }
                     });
                 });
@@ -91,20 +92,19 @@ namespace GraphQlService
 
             //dbContext.Database.EnsureCreated();
 
-            if (Configuration.GetValue<bool>("General:IsOpenApiSwagger"))
+            if (Configuration.GetValue<bool>("FeatureToggles:IsOpenApiSwagger"))
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1"));
             }
 
-            if (Configuration.GetValue<bool>("General:IsGraphQLSchema"))
+            if (Configuration.GetValue<bool>("FeatureToggles:IsGraphQLSchema"))
                 app.UseGraphQL<ISchema>("/graphql");
-                //app.UseGraphQL<ISchema>("/gql/free");
 
-            if (Configuration.GetValue<bool>("General:IsGraphIql"))
+            if (Configuration.GetValue<bool>("FeatureToggles:IsGraphIql"))
                 app.UseGraphiQl("/gqli");
 
-            if (Configuration.GetValue<bool>("General:IsGraphQLPlayground"))
+            if (Configuration.GetValue<bool>("FeatureToggles:IsGraphQLPlayground"))
                 app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
                 {
                     GraphQLEndPoint = "/graphql",
@@ -114,7 +114,7 @@ namespace GraphQlService
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            if (Configuration.GetValue<bool>("General:IsAuthJwt"))
+            if (Configuration.GetValue<bool>("FeatureToggles:IsAuthJwt"))
             {
                 app.UseAuthentication();
                 app.UseAuthorization();
