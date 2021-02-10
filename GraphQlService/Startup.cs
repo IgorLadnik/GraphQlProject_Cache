@@ -95,7 +95,11 @@ namespace GraphQlService
             if (Configuration.GetValue<bool>("FeatureToggles:IsOpenApiSwagger"))
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1"));
+                app.UseSwaggerUI(options =>
+                    {
+                        options.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL API v1");
+                        options.DefaultModelsExpandDepth(-1);
+                    });
             }
 
             if (Configuration.GetValue<bool>("FeatureToggles:IsGraphQLSchema"))
