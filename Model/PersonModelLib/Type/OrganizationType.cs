@@ -17,23 +17,26 @@ namespace PersonModelLib.Type
             Field(o => o.Address);
 
             FieldAsync<OrganizationType>("parent", resolve: async context =>
+            {
+                const string cacheName = "parentOrganizations";
+                IList<Organization> organizations;
+
+                if (await CacheDataFromRepo(async () =>
                 {
-                    const string cacheName = "parentOrganizations";
-                    IList<Organization> organizations;
-
-                    await CacheDataFromRepo(async () =>
-                    {
-                        if (!context.DoesCacheExist(cacheName))
-                        {
-                            organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
-                            context.SetCache<GqlCache>(cacheName, organizations);
-                        }
-                    });
-
+                    if (context.DoesCacheExist(cacheName))
+                        return;
+                        
+                    organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
+                    context.SetCache<GqlCache>(cacheName, organizations);                        
+                }))
+                {
                     organizations = context.GetCache<IList<Organization>>(cacheName);
                     var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
                     return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
-                });
+                }
+
+                return Ex.Message;
+            });
         }
     }
 }
