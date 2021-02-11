@@ -1,21 +1,17 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using GraphQL.Types;
 using GraphQlHelperLib;
 using PersonModelLib.Models;
 using PersonModelLib.Data;
 using RepoInterfaceLib;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace PersonModelLib.Type
 {
     public class PersonType : ObjectGraphTypeCached<Person>
     {
-        static int instance = 0;
-
         public PersonType(IRepo<GraphQLDbContext> repo, ILogger<ControllerBase> logger)
         {       
             Field(p => p.Id);
@@ -29,7 +25,7 @@ namespace PersonModelLib.Type
             FieldAsync<ListGraphType<AffiliationType>>("affiliations", resolve: async context =>
             {
                 const string fieldName = "affiliations";
-                var thisInstance = ++instance;
+                var thisInstance = ++TraceHelper.instance;
 
                 IList<Affiliation> affiliations;
 
@@ -61,7 +57,7 @@ namespace PersonModelLib.Type
             FieldAsync<ListGraphType<RelationType>>("relations", resolve: async context =>
             {
                 const string fieldName = "relations";
-                var thisInstance = ++instance;
+                var thisInstance = ++TraceHelper.instance;
 
                 IList<Relation> relations;
 

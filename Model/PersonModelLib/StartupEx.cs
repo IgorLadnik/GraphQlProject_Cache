@@ -38,6 +38,8 @@ namespace PersonModelLib
 
     public static class TraceHelper 
     {
+        public static int instance = 0;
+
         public static string Out(string fieldName, int instance) =>
             $"{fieldName}  instance = {instance},  thread = {Thread.CurrentThread.ManagedThreadId}  ";
     }
