@@ -30,7 +30,7 @@ namespace ConsoleClient
                         name
                         }
                     }
-                    }
+                  }
                 }
             }".Replace("/*id*/", $"{id}");
 

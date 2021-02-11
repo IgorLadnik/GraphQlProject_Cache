@@ -7,6 +7,8 @@ using GraphQlHelperLib;
 using PersonModelLib.Models;
 using PersonModelLib.Data;
 using RepoInterfaceLib;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace PersonModelLib.Type
 {
@@ -14,7 +16,7 @@ namespace PersonModelLib.Type
     {
         static int instance = 0;
 
-        public PersonType(IRepo<GraphQLDbContext> repo)
+        public PersonType(IRepo<GraphQLDbContext> repo, ILogger<ControllerBase> logger)
         {       
             Field(p => p.Id);
             Field(p => p.GivenName);
@@ -31,23 +33,23 @@ namespace PersonModelLib.Type
 
                 IList<Affiliation> affiliations;
 
-                Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}before CacheDataFromRepo()");
+                logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}before CacheDataFromRepo()");
 
                 if (await CacheDataFromRepo(async () =>
                 {
-                    Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), before check");
+                    logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), before check");
 
                     if (context.DoesCacheExist(fieldName))
                         return;
 
-                    Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), the 1st, fetch");
+                    logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), the 1st, fetch");
 
                     var personIds = context.GetCache<IList<int>>("personIds");
                     affiliations = await repo.FetchAsync(dbContext => dbContext.Affiliations.Where(a => personIds.Contains(a.PersonId)).ToList());
                     context.SetCache<GqlCache>(fieldName, affiliations);
                 }))
                 {
-                    Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}after CacheDataFromRepo()");
+                    logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}after CacheDataFromRepo()");
 
                     affiliations = context.GetCache<IList<Affiliation>>(fieldName);
                     return affiliations.Where(a => a.PersonId == context.Source.Id);
@@ -63,23 +65,23 @@ namespace PersonModelLib.Type
 
                 IList<Relation> relations;
 
-                Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}before CacheDataFromRepo()");
+                logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}before CacheDataFromRepo()");
 
                 if (await CacheDataFromRepo(async () =>
                 {
-                    Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), before check");
+                    logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), before check");
 
                     if (context.DoesCacheExist(fieldName))
                         return;
 
-                    Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), the 1st, fetch");
+                    logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}inside CacheDataFromRepo(), the 1st, fetch");
 
                     var personIds = context.GetCache<IList<int>>("personIds");
                     relations = await repo.FetchAsync(dbContext => dbContext.Relations.Where(r => personIds.Contains(r.P1Id)).ToList());
                     context.SetCache<GqlCache>(fieldName, relations);
                 }))
                 {
-                    Console.WriteLine($"{TraceHelper.Out(fieldName, thisInstance)}after CacheDataFromRepo()");
+                    logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}after CacheDataFromRepo()");
 
                     relations = context.GetCache<IList<Relation>>(fieldName);
                     return relations.Where(r => r.P1Id == context.Source.Id);
