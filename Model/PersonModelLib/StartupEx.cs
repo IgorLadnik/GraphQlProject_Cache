@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 using PersonModelLib.Data;
 using PersonModelLib.Mutation;
 using PersonModelLib.Query;
@@ -33,5 +34,11 @@ namespace PersonModelLib
             services.AddTransient<RootQuery>();
             services.AddTransient<RootMutation>();
         }
+    }
+
+    public static class TraceHelper 
+    {
+        public static string Out(string fieldName, int instance) =>
+            $"{fieldName}  instance = {instance},  thread = {Thread.CurrentThread.ManagedThreadId}  ";
     }
 }
