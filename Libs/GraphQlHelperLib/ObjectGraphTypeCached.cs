@@ -32,7 +32,7 @@ namespace GraphQlHelperLib
                 return result;
             });
 
-        //protected Task<object> CacheDataFromRepo(string sourceForDiagnostic, Func<Task> fetchAsync, Func<object> func, ILogger logger) =>
+        //protected Task<object> CacheDataFromRepo(Func<Task> fetchAsync, Func<object> func, ILogger logger, string sourceForDiagnostic = null) =>
         //    Task.Run(async () =>
         //    {
         //        using (await _lock.LockAsync())
