@@ -9,8 +9,8 @@ namespace GraphQlHelperLib
     public class ObjectGraphTypeCached<T> : ObjectGraphType<T>
     {
         private AsyncLock _lock = new();
-        private static int countInsideLock = 0;
-        private static int countOutsideLock = 0;
+        private int countInsideLock = 0;
+        private int countOutsideLock = 0;
 
         protected Task<object> CacheDataFromRepo(Func<Task> fetchAsync, Func<object> func, ILogger logger, string sourceForDiagnostic = null) =>
             Task.Run(async () =>

@@ -14,6 +14,7 @@ namespace GraphQlHelperLib
     public static class ProvideUserContextEx 
     {
         private static IDictionary<string, object> GetCacheDictionary(this IProvideUserContext context) => context.UserContext;
+        private static object _locker = new();
 
         public static bool DoesCacheExist(this IProvideUserContext context, string key) =>
             GetCacheDictionary(context).ContainsKey(key);
@@ -23,20 +24,26 @@ namespace GraphQlHelperLib
 
         public static T GetCache<T>(this IProvideUserContext context, string key)
         {
-            if (!GetCacheDictionary(context).TryGetValue(key, out object cacheObj))
-                return default;
+            lock (_locker)
+            {
+                if (!GetCacheDictionary(context).TryGetValue(key, out object cacheObj))
+                    return default;
 
-            return (T)(cacheObj as IGqlCache).Value;
+                return (T)(cacheObj as IGqlCache).Value;
+            }
         }
 
         public static void SetCache<T>(this IProvideUserContext context, string key, object value) where T : IGqlCache, new()
         {
-            if (value == null)
-                return;
+            lock (_locker)
+            {
+                if (value == null)
+                    return;
 
-            T cacheObj = new();
-            cacheObj.Value = value;
-            GetCacheDictionary(context)[key] = cacheObj;
+                T cacheObj = new();
+                cacheObj.Value = value;
+                GetCacheDictionary(context)[key] = cacheObj;
+            }
         }
 
         #endregion // Cache
@@ -45,17 +52,23 @@ namespace GraphQlHelperLib
 
         public static ClaimsPrincipal GetUser(this IProvideUserContext context)
         {
-            return GetCacheDictionary(context).TryGetValue("_User", out object user)
+            lock (_locker)
+            {
+                return GetCacheDictionary(context).TryGetValue("_User", out object user)
                         ? (ClaimsPrincipal)user
                         : null;
+            }
         }
 
         public static void SetUser(this IProvideUserContext context, ClaimsPrincipal user)
         {
-            if (user == null)
-                return;
+            lock (_locker)
+            {
+                if (user == null)
+                    return;
 
-            GetCacheDictionary(context)["_User"] = user;
+                GetCacheDictionary(context)["_User"] = user;
+            }
         }
 
         #endregion // User for authentication
