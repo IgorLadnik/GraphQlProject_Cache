@@ -23,19 +23,20 @@ namespace PersonModelLib.Type
                 var relations = context.GetCache<IList<Relation>>("relations");
                 IList<Person> persons;
 
-                if (await CacheDataFromRepo(async () =>
-                {
-                    var pIds = relations.Select(r => r.P2Id).ToList();
-                    persons = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
-                    context.SetCache<GqlCache>("personsInRelations", persons);
-                }, logger))
-                {
-                    persons = context.GetCache<IList<Person>>("personsInRelations");
-                    var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
-                    return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
-                }
-
-                return ErrorMessage;
+                return await CacheDataFromRepo(
+                    async () =>
+                    {
+                        var pIds = relations.Select(r => r.P2Id).ToList();
+                        persons = await repo.FetchAsync(dbContext => dbContext.Persons.Where(p => pIds.Contains(p.Id)).ToList());
+                        context.SetCache<GqlCache>("personsInRelations", persons);
+                    },
+                    () =>
+                    {
+                        persons = context.GetCache<IList<Person>>("personsInRelations");
+                        var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
+                        return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
+                    },
+                    logger);
             });
         }
     }

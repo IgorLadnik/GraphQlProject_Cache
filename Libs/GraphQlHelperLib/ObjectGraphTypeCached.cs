@@ -8,46 +8,51 @@ namespace GraphQlHelperLib
 {
     public class ObjectGraphTypeCached<T> : ObjectGraphType<T>
     {
-        protected Exception Ex { get; private set; }
         private AsyncLock _lock = new();
         private static int countInsideLock = 0;
         private static int countOutsideLock = 0;
 
-        protected Task<bool> CacheDataFromRepo(Func<Task> funcAsync, ILogger logger) =>
-            Task.Run<bool>(async () =>
+        protected Task<object> CacheDataFromRepo(Func<Task> fetchAsync, Func<object> func, ILogger logger) =>
+            Task.Run(async () =>
             {
-                Ex = null;
-                bool isOk;
+                object result;
                 if (_lock == null)
                 {
                     logger.LogTrace($"countOutsideLock = {++countOutsideLock}");
-                    isOk = await WrapperFuncAsync(funcAsync);
+                    result = await WrapperFuncAsync(fetchAsync, func, logger);
                 }
                 else
                     using (await _lock.LockAsync())
                     {
                         logger.LogTrace($"countInsideLock = {++countInsideLock}");
-                        isOk = await WrapperFuncAsync(funcAsync);
+                        result = await WrapperFuncAsync(fetchAsync, func, logger);
                         _lock = null;
                     }
 
-                return isOk;
+                return result;
             });
 
-        private async Task<bool> WrapperFuncAsync(Func<Task> funcAsync)
+        private static async Task<object> WrapperFuncAsync(Func<Task> fetchAsync, Func<object> func, ILogger logger)
         {
             try
             {
-                await funcAsync();
-                return true;
+                await fetchAsync();
             }
             catch (Exception e)
             {
-                Ex = e;
-                return false;
+                logger.LogError(e, "Error in ObjectGraphTypeCached, fetch operation.");
+                return $"{e.Message}, Inner: {e.InnerException?.Message}";
+            }
+
+            try
+            {
+                return func();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Error in ObjectGraphTypeCached, taking data from cache.");
+                return $"{e.Message}, Inner: {e.InnerException?.Message}";
             }
         }
-
-        protected string ErrorMessage => $"{Ex.Message}, Inner: {Ex.InnerException.Message}";
     }
 }

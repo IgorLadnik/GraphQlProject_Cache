@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
@@ -23,21 +22,22 @@ namespace PersonModelLib.Type
                 const string cacheName = "parentOrganizations";
                 IList<Organization> organizations;
 
-                if (await CacheDataFromRepo(async () =>
-                {
-                    if (context.DoesCacheExist(cacheName))
-                        return;
-                        
-                    organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
-                    context.SetCache<GqlCache>(cacheName, organizations);                        
-                }, logger))
-                {
-                    organizations = context.GetCache<IList<Organization>>(cacheName);
-                    var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
-                    return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
-                }
+                return await CacheDataFromRepo(
+                    async () =>
+                    {
+                        if (context.DoesCacheExist(cacheName))
+                            return;
 
-                return ErrorMessage;
+                        organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
+                        context.SetCache<GqlCache>(cacheName, organizations);
+                    },
+                    () =>
+                    {
+                        organizations = context.GetCache<IList<Organization>>(cacheName);
+                        var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
+                        return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
+                    },
+                    logger);
             });
         }
     }
