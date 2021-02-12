@@ -19,13 +19,13 @@ namespace GraphQlHelperLib
                 if (_lock == null)
                 {
                     logger.LogTrace($"countOutsideLock = {++countOutsideLock}");
-                    result = await WrapperFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
+                    result = await SafeFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
                 }
                 else
                     using (await _lock.LockAsync())
                     {
                         logger.LogTrace($"countInsideLock = {++countInsideLock}");
-                        result = await WrapperFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
+                        result = await SafeFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
                         _lock = null;
                     }
 
@@ -36,10 +36,10 @@ namespace GraphQlHelperLib
         //    Task.Run(async () =>
         //    {
         //        using (await _lock.LockAsync())
-        //            return await WrapperFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
+        //            return await SafeFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
         //    });
 
-        private static async Task<object> WrapperFuncAsync(Func<Task> fetchAsync, Func<object> func, ILogger logger, string sourceForDiagnostic)
+        private static async Task<object> SafeFuncAsync(Func<Task> fetchAsync, Func<object> func, ILogger logger, string sourceForDiagnostic)
         {
             try
             {
