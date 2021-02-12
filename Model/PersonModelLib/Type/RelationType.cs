@@ -34,9 +34,9 @@ namespace PersonModelLib.Type
                     {
                         persons = context.GetCache<IList<Person>>("personsInRelations");
                         var relation = relations.Where(r => r.Id == context.Source.Id).FirstOrDefault();
-                        return persons.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
+                        return persons?.Where(p => p.Id == relation?.P2Id).FirstOrDefault();
                     },
-                    logger);
+                    logger, "Type: RelationType, Field: p2");
             });
         }
     }

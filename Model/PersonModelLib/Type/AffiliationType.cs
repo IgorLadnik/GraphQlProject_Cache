@@ -56,10 +56,10 @@ namespace PersonModelLib.Type
 
                         affiliations = context.GetCache<IList<Affiliation>>("affiliations");
                         organizations = context.GetCache<IList<Organization>>("organizations");
-                        var organizationId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault().OrganizationId;
-                        return organizations.Where(o => o.Id == organizationId).FirstOrDefault();
+                        var organizationId = affiliations?.Where(a => a.Id == context.Source.Id).FirstOrDefault().OrganizationId;
+                        return organizations?.Where(o => o.Id == organizationId).FirstOrDefault();
                     },
-                    logger);
+                    logger, $"Type: AffiliationType, Field: {fieldName}");
             });
 
             FieldAsync<RoleType>("role", resolve: async context =>
@@ -102,10 +102,10 @@ namespace PersonModelLib.Type
 
                         affiliations = context.GetCache<IList<Affiliation>>("affiliations");
                         roles = context.GetCache<IList<Role>>("roles");
-                        var roleId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault().RoleId;
-                        return roles.Where(r => r.Id == roleId).FirstOrDefault();
+                        var roleId = affiliations.Where(a => a.Id == context.Source.Id).FirstOrDefault()?.RoleId;
+                        return roles?.Where(r => r.Id == roleId).FirstOrDefault();
                     },
-                    logger);
+                    logger, "Type: AffiliationType, Field: role");
             });
         }
     }

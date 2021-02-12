@@ -35,9 +35,9 @@ namespace PersonModelLib.Type
                     {
                         organizations = context.GetCache<IList<Organization>>(cacheName);
                         var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
-                        return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
+                        return organizations?.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
                     },
-                    logger);
+                    logger, "Type: OrganizationType, Field: parent");
             });
         }
     }

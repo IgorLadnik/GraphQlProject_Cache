@@ -12,27 +12,34 @@ namespace GraphQlHelperLib
         private static int countInsideLock = 0;
         private static int countOutsideLock = 0;
 
-        protected Task<object> CacheDataFromRepo(Func<Task> fetchAsync, Func<object> func, ILogger logger) =>
+        protected Task<object> CacheDataFromRepo(Func<Task> fetchAsync, Func<object> func, ILogger logger, string sourceForDiagnostic = null) =>
             Task.Run(async () =>
             {
                 object result;
                 if (_lock == null)
                 {
                     logger.LogTrace($"countOutsideLock = {++countOutsideLock}");
-                    result = await WrapperFuncAsync(fetchAsync, func, logger);
+                    result = await WrapperFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
                 }
                 else
                     using (await _lock.LockAsync())
                     {
                         logger.LogTrace($"countInsideLock = {++countInsideLock}");
-                        result = await WrapperFuncAsync(fetchAsync, func, logger);
+                        result = await WrapperFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
                         _lock = null;
                     }
 
                 return result;
             });
 
-        private static async Task<object> WrapperFuncAsync(Func<Task> fetchAsync, Func<object> func, ILogger logger)
+        //protected Task<object> CacheDataFromRepo(string sourceForDiagnostic, Func<Task> fetchAsync, Func<object> func, ILogger logger) =>
+        //    Task.Run(async () =>
+        //    {
+        //        using (await _lock.LockAsync())
+        //            return await WrapperFuncAsync(fetchAsync, func, logger, sourceForDiagnostic);
+        //    });
+
+        private static async Task<object> WrapperFuncAsync(Func<Task> fetchAsync, Func<object> func, ILogger logger, string sourceForDiagnostic)
         {
             try
             {
@@ -40,7 +47,7 @@ namespace GraphQlHelperLib
             }
             catch (Exception e)
             {
-                logger.LogError(e, "Error in ObjectGraphTypeCached, fetch operation.");
+                logger.LogError(e, $"ERROR in {sourceForDiagnostic}, ObjectGraphTypeCached, fetch operation.");
                 return $"{e.Message}, Inner: {e.InnerException?.Message}";
             }
 
@@ -50,7 +57,7 @@ namespace GraphQlHelperLib
             }
             catch (Exception e)
             {
-                logger.LogError(e, "Error in ObjectGraphTypeCached, taking data from cache.");
+                logger.LogError(e, $"ERROR in {sourceForDiagnostic}, ObjectGraphTypeCached, taking data from cache.");
                 return $"{e.Message}, Inner: {e.InnerException?.Message}";
             }
         }

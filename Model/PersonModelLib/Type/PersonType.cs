@@ -52,7 +52,7 @@ namespace PersonModelLib.Type
                         affiliations = context.GetCache<IList<Affiliation>>(fieldName);
                         return affiliations.Where(a => a.PersonId == context.Source.Id);
                     },
-                    logger);
+                    logger, $"Type: PersonType, Field: {fieldName}");
             });
 
             FieldAsync<ListGraphType<RelationType>>("relations", resolve: async context =>
@@ -83,9 +83,9 @@ namespace PersonModelLib.Type
                         logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}after CacheDataFromRepo()");
 
                         relations = context.GetCache<IList<Relation>>(fieldName);
-                        return relations.Where(r => r.P1Id == context.Source.Id);
+                        return relations?.Where(r => r.P1Id == context?.Source?.Id);
                     },
-                    logger);
+                    logger, $"Type: PersonType, Field: {fieldName}");
             });
         }
     }
