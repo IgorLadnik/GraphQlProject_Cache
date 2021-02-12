@@ -13,7 +13,7 @@ namespace GraphQlHelperLib
         private static int countInsideLock = 0;
         private static int countOutsideLock = 0;
 
-        protected Task<bool> CacheDataFromRepo(Func<Task> func, ILogger logger) =>
+        protected Task<bool> CacheDataFromRepo(Func<Task> funcAsync, ILogger logger) =>
             Task.Run<bool>(async () =>
             {
                 Ex = null;
@@ -21,24 +21,24 @@ namespace GraphQlHelperLib
                 if (_lock == null)
                 {
                     logger.LogTrace($"countOutsideLock = {++countOutsideLock}");
-                    isOk = await WrapperFuncAsync(func);
+                    isOk = await WrapperFuncAsync(funcAsync);
                 }
                 else
                     using (await _lock.LockAsync())
                     {
                         logger.LogTrace($"countInsideLock = {++countInsideLock}");
-                        isOk = await WrapperFuncAsync(func);
+                        isOk = await WrapperFuncAsync(funcAsync);
                         _lock = null;
                     }
 
                 return isOk;
             });
 
-        private async Task<bool> WrapperFuncAsync(Func<Task> func)
+        private async Task<bool> WrapperFuncAsync(Func<Task> funcAsync)
         {
             try
             {
-                await func();
+                await funcAsync();
                 return true;
             }
             catch (Exception e)
