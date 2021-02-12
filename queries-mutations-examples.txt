@@ -30,9 +30,13 @@ query Persons {
 query PersonById {
   personByIdQuery {
     personById(id: 1) {
+	  id
+	  givenName
       surname
       relations {
         p2 {
+          id
+	      givenName
           surname
         }
         kind

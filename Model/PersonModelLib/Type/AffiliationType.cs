@@ -48,7 +48,7 @@ namespace PersonModelLib.Type
                         organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.Where(o => organizationIds.Contains(o.Id)).ToList());
                         context.SetCache<GqlCache>("organizations", organizations);
                     }
-                }))
+                }, logger))
                 {
                     logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}after CacheDataFromRepo()");
 
@@ -58,7 +58,7 @@ namespace PersonModelLib.Type
                     return organizations.Where(o => o.Id == organizationId).FirstOrDefault();
                 }
 
-                return Ex.Message;
+                return ErrorMessage;
             });
 
             FieldAsync<RoleType>("role", resolve: async context =>
@@ -93,7 +93,7 @@ namespace PersonModelLib.Type
                         roles = await repo.FetchAsync(dbContext => dbContext.Roles.Where(r => roleIds.Contains(r.Id)).ToList());
                         context.SetCache<GqlCache>("roles", roles);
                     }
-                }))
+                }, logger))
                 {
                     logger.LogTrace($"{TraceHelper.Out(fieldName, thisInstance)}after CacheDataFromRepo()");
 
@@ -103,7 +103,7 @@ namespace PersonModelLib.Type
                     return roles.Where(r => r.Id == roleId).FirstOrDefault();
                 }
 
-                return Ex;
+                return ErrorMessage;
             });
         }
     }

@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 using GraphQlHelperLib;
 using PersonModelLib.Models;
 using PersonModelLib.Data;
@@ -10,7 +12,7 @@ namespace PersonModelLib.Type
 {
     public class OrganizationType : ObjectGraphTypeCached<Organization>
     {
-        public OrganizationType(IRepo<GraphQLDbContext> repo)
+        public OrganizationType(IRepo<GraphQLDbContext> repo, ILogger<ControllerBase> logger)
         {
             Field(o => o.Id);
             Field(o => o.Name);
@@ -28,14 +30,14 @@ namespace PersonModelLib.Type
                         
                     organizations = await repo.FetchAsync(dbContext => dbContext.Organizations.ToList());
                     context.SetCache<GqlCache>(cacheName, organizations);                        
-                }))
+                }, logger))
                 {
                     organizations = context.GetCache<IList<Organization>>(cacheName);
                     var thisOrganizationParentId = organizations.Where(o => o.Id == context.Source.Id).First().ParentId;
                     return organizations.Where(o => o.Id == thisOrganizationParentId).FirstOrDefault();
                 }
 
-                return Ex.Message;
+                return ErrorMessage;
             });
         }
     }
